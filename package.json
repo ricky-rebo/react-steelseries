@@ -74,5 +74,9 @@
   "dependencies": {
     "steelseries": "^1.0.7",
     "steelseries-rose-gauge": "^1.1.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ricky-rebo/react-steelseries.git"
   }
 }
