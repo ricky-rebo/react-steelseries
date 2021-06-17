@@ -1,5 +1,6 @@
 import React from "react";
 import { Lightbulb as ssLightbulb, LightbulbParams } from "steelseries";
+import { definedAndChanged } from "../tools";
 
 
 interface Props extends Partial<LightbulbParams> {
@@ -10,7 +11,7 @@ interface Props extends Partial<LightbulbParams> {
 }
 
 
-export class Lightbulb extends React.Component<Props, {}> {
+export class Lightbulb extends React.Component<Props> {
 	canvasRef: React.RefObject<HTMLCanvasElement>;
 	gauge: ssLightbulb;
 
@@ -21,7 +22,22 @@ export class Lightbulb extends React.Component<Props, {}> {
 
 	componentDidMount() {
 		if(this.canvasRef.current) {
-			this.gauge = init_gauge(this.canvasRef.current, this.props);
+			this.gauge = new ssLightbulb(this.canvasRef.current, {
+				width: this.props.width,
+				height: this.props.height,
+		
+				// Should be optional, but it's not...
+				// Default value taken from 'steelseries' original library source
+				glowColor: this.props.glowColor === undefined ? '#ffff00' : this.props.glowColor
+			});
+			
+			if(this.props.on !== undefined) {
+				this.gauge.setOn(this.props.on);
+			}
+		
+			if(this.props.alpha !== undefined) {
+				this.gauge.setAlpha(this.props.alpha);
+			}
 		}
 	}
 
@@ -30,42 +46,25 @@ export class Lightbulb extends React.Component<Props, {}> {
 			const { props } = this;
 
 			if(props.width !== prev.width || props.height !== prev.height) {
-				this.gauge = init_gauge(this.canvasRef.current, props);
+				this.componentDidMount();
+				return;
 			}
-			else {
-				if(props.on !== undefined && props.on !== prev.on)
-					this.gauge.setOn(props.on);
 
-				if(props.alpha && props.alpha !== prev.alpha)
-					this.gauge.setAlpha(props.alpha);
+			if(definedAndChanged(props.on, prev.on)) {
+				this.gauge.setOn(props.on);
+			}
 
-				if(props.glowColor && props.glowColor !== prev.glowColor)
-					this.gauge.setGlowColor(props.glowColor);
+			if(definedAndChanged(props.alpha, prev.alpha)) {
+				this.gauge.setAlpha(props.alpha);
+			}
+
+			if(definedAndChanged(props.glowColor, prev.glowColor)) {
+				this.gauge.setGlowColor(props.glowColor);
 			}
 		}
 	}
 
 	render() {
-		return <canvas ref={this.canvasRef} width={this.props.width} height={this.props.height}></canvas>
+		return <canvas ref={this.canvasRef}></canvas>
 	}
-}
-
-
-function init_gauge(canvas: HTMLCanvasElement, params: Props) {
-	const gauge = new ssLightbulb(canvas, {
-		width: params.width,
-		height: params.height,
-
-		// Should be optional, but it's not...
-		// Default value taken from 'steelseries' original library source
-		glowColor: params.glowColor === undefined ? '#ffff00' : params.glowColor
-	});
-	
-	if(params.on)
-		gauge.setOn(params.on);
-
-	if(params.alpha)
-		gauge.setAlpha(params.alpha);
-
-	return gauge;
 }

@@ -1,5 +1,6 @@
 import React from "react";
 import { Horizon as ssHorizon, HorizonParams } from "steelseries";
+import { definedAndChanged } from "../tools";
 
 interface Props extends HorizonParams {
 	size: number;
@@ -11,7 +12,7 @@ interface Props extends HorizonParams {
 	pitchAnimationCallback?: () => void;
 }
 
-export class Horizon extends React.Component<Props, {}> {
+export class Horizon extends React.Component<Props> {
 	canvasRef: React.RefObject<HTMLCanvasElement>;
 	gauge: ssHorizon;
 
@@ -23,7 +24,29 @@ export class Horizon extends React.Component<Props, {}> {
 
 	componentDidMount() {
 		if(this.canvasRef.current) {
-			this.gauge = init_gauge(this.canvasRef.current, this.props);
+			this.gauge = new ssHorizon(this.canvasRef.current, {
+				size: this.props.size,
+				pointerColor: this.props.pointerColor,
+				frameDesign: this.props.frameDesign,
+				frameVisible: this.props.frameVisible,
+				foregroundType: this.props.foregroundType,
+				foregroundVisible: this.props.foregroundVisible
+			});
+		
+			if(this.props.pitchOffset !== undefined)
+				this.gauge.setPitchOffset(this.props.pitchOffset);
+		
+			if(this.props.roll !== undefined) {
+				this.props.animate
+					? this.gauge.setRollAnimated(this.props.roll, this.props.rollAnimationCallback)
+					: this.gauge.setRoll(this.props.roll);
+			}
+		
+			if(this.props.pitch !== undefined) {
+				this.props.animate
+					? this.gauge.setPitchAnimated(this.props.pitch, this.props.pitchAnimationCallback)
+					: this.gauge.setPitch(this.props.pitch);
+			}
 		}
 	}
 
@@ -31,66 +54,38 @@ export class Horizon extends React.Component<Props, {}> {
 		if(this.canvasRef.current) {
 			const { props } = this;
 
-			if(props.size !== prev.size)
-				this.gauge = init_gauge(this.canvasRef.current, this.props);
-			else {
-				if(props.frameDesign && props.frameDesign !== prev.frameDesign)
-					this.gauge.setFrameDesign(props.frameDesign);
+			if(props.size !== prev.size) {
+				this.componentDidMount();
+				return;
+			}
 
-				if(props.foregroundType && props.foregroundType !== prev.foregroundType)
-					this.gauge.setForegroundType(props.foregroundType);
+			if(definedAndChanged(props.frameDesign, prev.frameDesign)) {
+				this.gauge.setFrameDesign(props.frameDesign);
+			}
 
-				if(props.pitchOffset !== undefined && props.pitchOffset !== prev.pitchOffset)
-					this.gauge.setPitchOffset(props.pitchOffset);
+			if(definedAndChanged(props.foregroundType, prev.foregroundType)) {
+				this.gauge.setForegroundType(props.foregroundType);
+			}
 
-				if(props.pitch !== undefined && props.pitch !== prev.pitch) {
-					if(props.animate)
-						this.gauge.setPitchAnimated(props.pitch, props.pitchAnimationCallback);
-					else
-						this.gauge.setPitch(props.pitch);
-				}
+			if(definedAndChanged(props.pitchOffset, prev.pitchOffset)) {
+				this.gauge.setPitchOffset(props.pitchOffset);
+			}
 
-				if(props.roll !== undefined && props.roll !== prev.roll) {
-					if(props.animate)
-						this.gauge.setRollAnimated(props.roll, props.rollAnimationCallback);
-					else
-						this.gauge.setRoll(props.roll);
-				}
+			if(definedAndChanged(props.pitch, prev.pitch)) {
+				this.props.animate
+					? this.gauge.setPitchAnimated(this.props.pitch, this.props.pitchAnimationCallback)
+					: this.gauge.setPitch(this.props.pitch);
+			}
+
+			if(definedAndChanged(props.roll, prev.roll)) {
+				this.props.animate
+					? this.gauge.setRollAnimated(this.props.roll, this.props.rollAnimationCallback)
+					: this.gauge.setRoll(this.props.roll);
 			}
 		}
 	}
 
 	render() {
-		return <canvas ref={this.canvasRef} width={this.props.size} height={this.props.size}></canvas>
+		return <canvas ref={this.canvasRef}></canvas>
 	}
-}
-
-function init_gauge(canvas: HTMLCanvasElement, params: Props) {
-	const gauge = new ssHorizon(canvas, {
-		size: params.size,
-		pointerColor: params.pointerColor,
-		frameDesign: params.frameDesign,
-		frameVisible: params.frameVisible,
-		foregroundType: params.foregroundType,
-		foregroundVisible: params.foregroundVisible
-	});
-
-	if(params.pitchOffset !== undefined)
-		gauge.setPitchOffset(params.pitchOffset);
-
-	if(params.roll !== undefined) {
-		if(params.animate)
-			gauge.setRollAnimated(params.roll, params.rollAnimationCallback);
-		else
-			gauge.setRoll(params.roll);
-	}
-
-	if(params.pitch !== undefined) {
-		if(params.animate)
-			gauge.setPitchAnimated(params.pitch, params.pitchAnimationCallback);
-		else
-			gauge.setPitch(params.pitch);
-	}
-
-	return gauge;
 }

@@ -1,5 +1,6 @@
 import React from "react";
 import { Compass as ssCompass, CompassParams } from "steelseries";
+import { definedAndChanged } from "../tools";
 
 
 interface Props extends CompassParams {
@@ -10,7 +11,7 @@ interface Props extends CompassParams {
 }
 
 
-export class Compass extends React.Component<Props, {}> {
+export class Compass extends React.Component<Props> {
 	canvasRef: React.RefObject<HTMLCanvasElement>;
 	gauge: ssCompass;
 
@@ -22,77 +23,76 @@ export class Compass extends React.Component<Props, {}> {
 
 	componentDidMount() {
 		if(this.canvasRef.current) {
-			this.gauge = init_gauge(this.canvasRef.current, this.props);
+			this.gauge = new ssCompass(this.canvasRef.current, {
+				frameDesign: this.props.frameDesign,
+				frameVisible: this.props.frameVisible,
+				backgroundColor: this.props.backgroundColor,
+				backgroundVisible: this.props.backgroundVisible,
+				foregroundType: this.props.foregroundType,
+				foregroundVisible: this.props.foregroundVisible,
+				knobType: this.props.knobType,
+				knobStyle: this.props.knobStyle,
+				pointerType: this.props.pointerType,
+				pointerColor: this.props.pointerColor,
+				size: this.props.size,
+				pointSymbols: this.props.pointSymbols,
+				pointSymbolsVisible: this.props.pointSymbolsVisible,
+				degreeScale: this.props.degreeScale,
+				roseVisible: this.props.roseVisible,
+				rotateFace: this.props.rotateFace,
+				customLayer: this.props.customLayer
+			});
+		
+			if(this.props.value) {
+				this.props.animate
+					? this.gauge.setValueAnimated(this.props.value, this.props.animationCallback)
+					: this.gauge.setValue(this.props.value);
+			}
 		}
 	}
 
 	componentDidUpdate(prev: Props) {
 		if(this.canvasRef.current) {
-			const {props} = this;
-			if(props.size !== prev.size)
-				this.gauge = init_gauge(this.canvasRef.current, props);
-			else {
-				if(props.frameDesign && props.frameDesign !== prev.frameDesign)
-					this.gauge.setFrameDesign(props.frameDesign);
+			if(this.props.size !== prev.size) {
+				this.componentDidMount();
+				return;
+			}
+			
+			const { props } = this;
+			
+			if(definedAndChanged(props.frameDesign, prev.frameDesign)) {
+				this.gauge.setFrameDesign(props.frameDesign);
+			}
 
-				if(props.backgroundColor && props.backgroundColor !== prev.backgroundColor)
-					this.gauge.setBackgroundColor(props.backgroundColor);
+			if(definedAndChanged(props.backgroundColor, prev.backgroundColor)) {
+				this.gauge.setBackgroundColor(props.backgroundColor);
+			}
 
-				if(props.foregroundType && props.foregroundType !== prev.foregroundType)
-					this.gauge.setForegroundType(props.foregroundType);
+			if(definedAndChanged(props.foregroundType, prev.foregroundType)) {
+				this.gauge.setForegroundType(props.foregroundType);
+			}
 
-				if(props.pointerColor && props.pointerColor !== prev.pointerColor)
-					this.gauge.setPointerColor(props.pointerColor);
+			if(definedAndChanged(props.pointerColor, prev.pointerColor)) {
+				this.gauge.setPointerColor(props.pointerColor);
+			}
 
-				if(props.pointerType && props.pointerType !== prev.pointerType)
-					this.gauge.setPointerType(props.pointerType);
+			if(definedAndChanged(props.pointerType, prev.pointerType)) {
+				this.gauge.setPointerType(props.pointerType);
+			}
 
-				if(props.pointSymbols !== undefined && props.pointSymbols !== prev.pointSymbols)
-					this.gauge.setPointSymbols(props.pointSymbols);
-				
-				if(props.value && props.value !== prev.value) {
-					if(props.animate)
-						this.gauge.setValueAnimated(props.value, props.animationCallback);
-					else
-						this.gauge.setValue(props.value);
-				}
+			if(definedAndChanged(props.pointSymbols, prev.pointSymbols)) {
+				this.gauge.setPointSymbols(props.pointSymbols);
+			}
+			
+			if(definedAndChanged(props.value, prev.value)) {
+				this.props.animate
+					? this.gauge.setValueAnimated(this.props.value, this.props.animationCallback)
+					: this.gauge.setValue(this.props.value);
 			}
 		}
 	}
 
 	render() {
-		return <canvas ref={this.canvasRef} width={this.props.size} height={this.props.size}></canvas>
+		return <canvas ref={this.canvasRef}></canvas>
 	}
-}
-
-
-function init_gauge(canvas: HTMLCanvasElement, params: Props) {
-	const gauge = new ssCompass(canvas, {
-		frameDesign: params.frameDesign,
-		frameVisible: params.frameVisible,
-		backgroundColor: params.backgroundColor,
-		backgroundVisible: params.backgroundVisible,
-		foregroundType: params.foregroundType,
-		foregroundVisible: params.foregroundVisible,
-		knobType: params.knobType,
-		knobStyle: params.knobStyle,
-		pointerType: params.pointerType,
-		pointerColor: params.pointerColor,
-		size: params.size,
-		pointSymbols: params.pointSymbols,
-		pointSymbolsVisible: params.pointSymbolsVisible,
-		degreeScale: params.degreeScale,
-		roseVisible: params.roseVisible,
-		rotateFace: params.rotateFace,
-		customLayer: params.customLayer
-	});
-
-	if(params.value) {
-		if(params.animate)
-			gauge.setValueAnimated(params.value, params.animationCallback);
-		else
-			gauge.setValue(params.value);
-	}
-
-	return gauge;
 }

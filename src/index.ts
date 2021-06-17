@@ -26,7 +26,9 @@ import { DisplaySingle } from "./gauges/display-single";
 import { Horizon } from "./gauges/horizon";
 import { Led } from "./gauges/led";
 import { Level } from "./gauges/level";
-// import { Lightbulb } from "./gauges/light-bulb"; // TypeError: steelseries__WEBPACK_IMPORTED_MODULE_0__.Lightbulb is not a constructor
+
+// FIXME(Riccardo Rebottini) TypeError: steelseries__WEBPACK_IMPORTED_MODULE_0__.Lightbulb is not a constructor
+// import { Lightbulb } from "./gauges/light-bulb"; 
 
 export {
   /* Steelseries tools & constants */

@@ -1,5 +1,6 @@
 import React from "react";
 import { Led as ssLed, LedParams } from "steelseries";
+import { definedAndChanged } from "../tools";
 
 
 interface Props extends LedParams {
@@ -9,7 +10,7 @@ interface Props extends LedParams {
 }
 
 
-export class Led extends React.Component<Props, {}> {
+export class Led extends React.Component<Props> {
 	canvasRef: React.RefObject<HTMLCanvasElement>;
 	gauge: ssLed;
 
@@ -20,7 +21,18 @@ export class Led extends React.Component<Props, {}> {
 
 	componentDidMount() {
 		if(this.canvasRef.current) {
-			this.gauge = init_gauge(this.canvasRef.current, this.props);
+			this.gauge = new ssLed(this.canvasRef.current, {
+				size: this.props.size,
+				ledColor: this.props.ledColor
+			});
+		
+			if(this.props.on !== undefined) {
+				this.gauge.setLedOnOff(this.props.on);
+			}
+		
+			if(this.props.blink !== undefined) {
+				this.gauge.blink(this.props.blink);
+			}
 		}
 	}
 
@@ -29,41 +41,25 @@ export class Led extends React.Component<Props, {}> {
 			const { props } = this;
 
 			if(props.size !== prev.size) {
-				this.gauge = init_gauge(this.canvasRef.current, this.props);
+				this.componentDidMount();
+				return;
 			}
-			else {
-				if(props.ledColor && props.ledColor !== prev.ledColor) {
-					this.gauge.setLedColor(props.ledColor);
-				}
 
-				if(props.on !== undefined && props.on !== prev.on) {
-					this.gauge.setLedOnOff(props.on);
-				}
+			if(definedAndChanged(props.ledColor, prev.ledColor)) {
+				this.gauge.setLedColor(props.ledColor);
+			}
 
-				if(props.blink !== undefined && props.blink !== prev.blink) {
-					this.gauge.blink(props.blink);
-				}
+			if(definedAndChanged(props.on, prev.on)) {
+				this.gauge.setLedOnOff(props.on);
+			}
+
+			if(definedAndChanged(props.blink, prev.blink)) {
+				this.gauge.blink(props.blink);
 			}
 		}
 	}
 
 	render() {
-		return <canvas ref={this.canvasRef} width={this.props.size} height={this.props.size}></canvas>
+		return <canvas ref={this.canvasRef}></canvas>
 	}
-}
-
-
-function init_gauge(canvas: HTMLCanvasElement, params: Props) {
-	const gauge = new ssLed(canvas, {
-		size: params.size,
-		ledColor: params.ledColor
-	});
-
-	if(params.on)
-		gauge.setLedOnOff(params.on);
-
-	if(params.blink)
-		gauge.blink(params.blink ? params.blink : false);
-
-	return gauge;
 }

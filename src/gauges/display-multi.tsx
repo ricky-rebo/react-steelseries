@@ -1,5 +1,6 @@
 import React from "react";
 import { DisplayMulti as ssDisplayMulti, DisplayMultiParams } from "steelseries";
+import { definedAndChanged } from "../tools";
 
 
 interface Props extends Omit<DisplayMultiParams, "headerStringVisible"|"detailStringVisible"|"unitStringVisible"> {
@@ -8,7 +9,7 @@ interface Props extends Omit<DisplayMultiParams, "headerStringVisible"|"detailSt
 }
 
 
-export class DisplayMulti extends React.Component<Props, {}> {
+export class DisplayMulti extends React.Component<Props> {
 	canvasRef: React.RefObject<HTMLCanvasElement>;
 	gauge: ssDisplayMulti;
 
@@ -20,46 +21,41 @@ export class DisplayMulti extends React.Component<Props, {}> {
 
 	componentDidMount() {
 		if(this.canvasRef.current) {
-			this.gauge = init_gauge(this.canvasRef.current, this.props);
+			this.gauge = new ssDisplayMulti(this.canvasRef.current, {
+				...this.props,
+				headerStringVisible: (this.props.headerString !== undefined),
+				detailStringVisible: (this.props.detailString !== undefined),
+				unitStringVisible: (this.props.unitString !== undefined),
+				linkAltValue: (this.props.linkAltValue === undefined) ? false : this.props.linkAltValue
+			});
+			
+			if(this.props.value)
+				this.gauge.setValue(this.props.value)
 		}
 	}
 
 	componentDidUpdate(prev: Props) {
 		if(this.canvasRef.current) {
+			if(this.props.width !== prev.width || this.props.height !== prev.height) {
+				this.componentDidMount();
+				return;
+			}
+
 			const { props } = this;
-			if(props.width !== prev.width || props.height !== prev.height) {
-				this.gauge = init_gauge(this.canvasRef.current, this.props);
-			}
-			else {
-				if(props.lcdColor && props.lcdColor !== prev.lcdColor)
-					this.gauge.setLcdColor(props.lcdColor);
 
-				if(props.value !== undefined && props.value !== prev.value)
-					this.gauge.setValue(props.value);
+			if(definedAndChanged(props.lcdColor, prev.lcdColor))
+				this.gauge.setLcdColor(props.lcdColor);
 
-				if(props.altValue !== undefined && props.altValue !== prev.altValue)
-					this.gauge.setAltValue(props.altValue);
-			}
+			if(definedAndChanged(props.value, prev.value))
+				this.gauge.setValue(props.value);
+
+			if(definedAndChanged(props.altValue, prev.altValue))
+				this.gauge.setAltValue(props.altValue);
 		}
+
 	}
 
 	render() {
-		return <canvas ref={this.canvasRef} width={this.props.width} height={this.props.height}></canvas>
+		return <canvas ref={this.canvasRef}></canvas>
 	}
-}
-
-
-function init_gauge(canvas: HTMLCanvasElement, params: Props) {
-	const gauge = new ssDisplayMulti(canvas, {
-		...params,
-		headerStringVisible: (params.headerString !== undefined),
-		detailStringVisible: (params.detailString !== undefined),
-		unitStringVisible: (params.unitString !== undefined),
-		linkAltValue: (params.linkAltValue === undefined) ? false : params.linkAltValue
-	});
-	
-	if(params.value)
-		gauge.setValue(params.value)
-	
-	return gauge;
 }
