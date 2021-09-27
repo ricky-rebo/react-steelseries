@@ -1,7 +1,7 @@
 - Controllare comportamento se backgroundColor cambia e backgroundVisible = false
 - same per frameDesign, foregroundType
 
-- aggiungere funzione gaugeShouldRedraw() per controllare il cambiamento di props che comportano la ricreazione totale del gauge (size, etc...)
+- aggiungere funzione gaugeShouldRepaint() per controllare il cambiamento di props che comportano la ricreazione totale del gauge (size, etc...)
 - impostare value come prop obbligatoria
 
-- aggiungere prop time: Date a clock per raggruppare i valori del time
+- aggiungere prop { time: Date } a clock per raggruppare i valori del time
