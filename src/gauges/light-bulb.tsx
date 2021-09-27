@@ -28,6 +28,7 @@ export class Lightbulb extends React.Component<Props> {
 		
 				// Should be optional, but it's not...
 				// Default value taken from 'steelseries' original library source
+				// BUG fix in @types/steelseries
 				glowColor: this.props.glowColor === undefined ? '#ffff00' : this.props.glowColor
 			});
 			

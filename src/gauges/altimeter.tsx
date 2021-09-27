@@ -11,6 +11,7 @@ interface Props extends AltimeterParams {
 	animationCallback?: ()=> void;
 
 	// Missing in AltimeterParams!
+	// BUG fix in @types/steelseries
 	titleString?: string;
 	unitString?: string;
 
