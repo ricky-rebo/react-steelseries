@@ -1,11 +1,10 @@
 import React from "react";
 import { Battery as ssBattery, BatteryParams } from "steelseries";
-import { definedAndChanged } from "../tools";
+import { updateIfChanged } from "../tools";
 
 
 interface Props extends BatteryParams {
 	size: number;
-	// value?: number;
 }
 
 
@@ -23,8 +22,7 @@ export class Battery extends React.Component<Props> {
 		if(this.canvasRef.current) {
 			this.gauge = new ssBattery(this.canvasRef.current, { size: this.props.size });
 	
-			if(this.props.value)
-				this.gauge.setValue(this.props.value)
+			if(this.props.value) { this.gauge.setValue(this.props.value); }
 		}
 	}
 
@@ -34,12 +32,8 @@ export class Battery extends React.Component<Props> {
 				this.componentDidMount();
 				return
 			}
-
-			const { props } = this;
 			
-			if(definedAndChanged(props.value, prev.value)) {
-				this.gauge.setValue(this.props.value);
-			}
+			updateIfChanged(this.props.value, prev.value, this.gauge.setValue.bind(this.gauge));
 		}
 	}
 

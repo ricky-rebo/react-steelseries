@@ -62,54 +62,16 @@ export class Clock extends React.Component<Props> {
 
 			const { props } = this;
 
-			// if(definedAndChanged(props.frameDesign, prev.frameDesign)) {
-			// 	this.gauge.setFrameDesign(props.frameDesign);
-			// }
 			updateIfChanged(props.frameDesign, prev.frameDesign, this.gauge.setFrameDesign.bind(this.gauge));
-
-			// if(definedAndChanged(props.backgroundColor, prev.backgroundColor)) {
-			// 	this.gauge.setBackgroundColor(props.backgroundColor);
-			// }
 			updateIfChanged(props.backgroundColor, prev.backgroundColor, this.gauge.setBackgroundColor.bind(this.gauge));
-
-			// if(definedAndChanged(props.foregroundType, prev.foregroundType)) {
-			// 	this.gauge.setForegroundType(props.foregroundType);
-			// }
 			updateIfChanged(props.foregroundType, prev.foregroundType, this.gauge.setForegroundType.bind(this.gauge));
-
-			// if(definedAndChanged(props.pointerType, prev.pointerType)) {
-			// 	this.gauge.setPointerType(props.pointerType);
-			// }
 			updateIfChanged(props.pointerType, prev.pointerType, this.gauge.setPointerType.bind(this.gauge));
-
-			// if(definedAndChanged(props.pointerColor, prev.pointerColor)) {
-			// 	this.gauge.setPointerColor(props.pointerColor);
-			// }
 			updateIfChanged(props.pointerColor, prev.pointerColor, this.gauge.setPointerColor.bind(this.gauge));
 
-			// if(definedAndChanged(props.isAutomatic, prev.isAutomatic)) {
-			// 	this.gauge.setAutomatic(props.isAutomatic);
-			// }
 			updateIfChanged(props.isAutomatic, prev.isAutomatic, this.gauge.setAutomatic.bind(this.gauge));
-
-			// if(definedAndChanged(props.timeZoneOffsetHour, prev.timeZoneOffsetHour)) {
-			// 	this.gauge.setTimeZoneOffsetHour(props.timeZoneOffsetHour);
-			// }
 			updateIfChanged(props.timeZoneOffsetHour, prev.timeZoneOffsetHour, this.gauge.setTimeZoneOffsetHour.bind(this.gauge));
-
-			// if(definedAndChanged(props.timeZoneOffsetMinute, prev.timeZoneOffsetMinute)) {
-			// 	this.gauge.setTimeZoneOffsetMinute(props.timeZoneOffsetMinute);
-			// }
 			updateIfChanged(props.timeZoneOffsetMinute, prev.timeZoneOffsetMinute, this.gauge.setTimeZoneOffsetMinute.bind(this.gauge));
-
-			// if(definedAndChanged(props.secondPointerVisible, prev.secondPointerVisible)) {
-			// 	this.gauge.setSecondPointerVisible(props.secondPointerVisible);
-			// }
 			updateIfChanged(props.secondPointerVisible, prev.secondPointerVisible, this.gauge.setSecondPointerVisible.bind(this.gauge));
-
-			// if(definedAndChanged(props.secondMovesContinuous, prev.secondMovesContinuous)) {
-			// 	this.gauge.setSecondMovesContinuous(props.secondMovesContinuous);
-			// }
 			updateIfChanged(props.secondMovesContinuous, prev.secondMovesContinuous, this.gauge.setSecondMovesContinuous.bind(this.gauge));
 			
 			if(props.hour !== prev.hour) {

@@ -32,13 +32,9 @@ export class Lightbulb extends React.Component<Props> {
 				glowColor: this.props.glowColor === undefined ? '#ffff00' : this.props.glowColor
 			});
 			
-			if(this.props.on !== undefined) {
-				this.gauge.setOn(this.props.on);
-			}
+			if(this.props.on !== undefined) { this.gauge.setOn(this.props.on); }
 		
-			if(this.props.alpha !== undefined) {
-				this.gauge.setAlpha(this.props.alpha);
-			}
+			if(this.props.alpha !== undefined) { this.gauge.setAlpha(this.props.alpha); }
 		}
 	}
 
@@ -51,20 +47,10 @@ export class Lightbulb extends React.Component<Props> {
 				return;
 			}
 
-			// if(definedAndChanged(props.on, prev.on)) {
-			// 	this.gauge.setOn(props.on);
-			// }
-			updateIfChanged(props.on, prev.on, this.gauge.setOn.bind(this.gauge));
-
-			// if(definedAndChanged(props.alpha, prev.alpha)) {
-			// 	this.gauge.setAlpha(props.alpha);
-			// }
-			updateIfChanged(props.alpha, prev.alpha, this.gauge.setAlpha.bind(this.gauge));
-
-			// if(definedAndChanged(props.glowColor, prev.glowColor)) {
-			// 	this.gauge.setGlowColor(props.glowColor);
-			// }
 			updateIfChanged(props.glowColor, prev.glowColor, this.gauge.setGlowColor.bind(this.gauge));
+
+			updateIfChanged(props.on, prev.on, this.gauge.setOn.bind(this.gauge));
+			updateIfChanged(props.alpha, prev.alpha, this.gauge.setAlpha.bind(this.gauge));
 		}
 	}
 

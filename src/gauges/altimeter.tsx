@@ -47,13 +47,9 @@ export class Altimeter extends React.Component<Props> {
 				customLayer: this.props.customLayer
 			});
 
-			if(this.props.titleString) {
-				this.gauge.setTitleString(this.props.titleString);
-			}
+			if(this.props.titleString) { this.gauge.setTitleString(this.props.titleString); }
 
-			if(this.props.unitString) {
-				this.gauge.setUnitString(this.props.unitString);
-			}
+			if(this.props.unitString) { this.gauge.setUnitString(this.props.unitString); }
 
 			if(this.props.value) {
 				this.props.animate
@@ -71,47 +67,15 @@ export class Altimeter extends React.Component<Props> {
 
 		const { props } = this;
 
-		// if(definedAndChanged(props.frameDesign, prev.frameDesign)) {
-		// 	this.gauge.setFrameDesign(this.props.frameDesign);
-		// }
 		updateIfChanged(props.frameDesign, prev.frameDesign, this.gauge.setFrameDesign.bind(this.gauge));
-
-		// if(definedAndChanged(props.backgroundColor, prev.backgroundColor)) {
-		// 	this.gauge.setBackgroundColor(this.props.backgroundColor);
-		// }
 		updateIfChanged(props.backgroundColor, prev.backgroundColor, this.gauge.setBackgroundColor.bind(this.gauge));
-
-		// if(definedAndChanged(props.foregroundType, prev.foregroundType)) {
-		// 	this.gauge.setForegroundType(this.props.foregroundType);
-		// }
 		updateIfChanged(props.foregroundType, prev.foregroundType, this.gauge.setForegroundType.bind(this.gauge));
-
-		// if(definedAndChanged(props.lcdColor, prev.lcdColor)) {
-		// 	this.gauge.setLcdColor(this.props.lcdColor);
-		// }
 		updateIfChanged(props.lcdColor, prev.lcdColor, this.gauge.setLcdColor.bind(this.gauge));
-
-		// if(definedAndChanged(props.titleString, prev.titleString)) {
-		// 	this.gauge.setTitleString(this.props.titleString);
-		// }
 		updateIfChanged(props.titleString, prev.titleString, this.gauge.setTitleString.bind(this.gauge));
-
-		// if(definedAndChanged(props.unitString, prev.unitString)) {
-		// 	this.gauge.setUnitString(this.props.unitString);
-
-		// 	if(props.resetValueOnUnitChange) {
-		// 		this.gauge.setValue(0);
-		// 	}
-		// }
 		if(updateIfChanged(props.unitString, prev.unitString, this.gauge.setUnitString.bind(this.gauge)) && props.resetValueOnUnitChange) {
 			this.gauge.setValue(0);
 		}
 
-		// if(definedAndChanged(props.value, prev.value)) {
-		// 	props.animate
-		// 		? this.gauge.setValueAnimated(this.props.value, this.props.animationCallback)
-		// 		: this.gauge.setValue(this.props.value);
-		// }
 		updateIfChanged(props.value, prev.value, () => {
 			props.animate
 				? this.gauge.setValueAnimated(props.value, props.animationCallback)

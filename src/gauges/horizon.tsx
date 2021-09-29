@@ -33,8 +33,9 @@ export class Horizon extends React.Component<Props> {
 				foregroundVisible: this.props.foregroundVisible
 			});
 		
-			if(this.props.pitchOffset !== undefined)
+			if(this.props.pitchOffset !== undefined) {
 				this.gauge.setPitchOffset(this.props.pitchOffset);
+			}
 		
 			if(this.props.roll !== undefined) {
 				this.props.animate
@@ -59,37 +60,15 @@ export class Horizon extends React.Component<Props> {
 				return;
 			}
 
-			// if(definedAndChanged(props.frameDesign, prev.frameDesign)) {
-			// 	this.gauge.setFrameDesign(props.frameDesign);
-			// }
 			updateIfChanged(props.frameDesign, prev.frameDesign, this.gauge.setFrameDesign.bind(this.gauge));
-
-			// if(definedAndChanged(props.foregroundType, prev.foregroundType)) {
-			// 	this.gauge.setForegroundType(props.foregroundType);
-			// }
 			updateIfChanged(props.foregroundType, prev.foregroundType, this.gauge.setForegroundType.bind(this.gauge));
 
-			// if(definedAndChanged(props.pitchOffset, prev.pitchOffset)) {
-			// 	this.gauge.setPitchOffset(props.pitchOffset);
-			// }
 			updateIfChanged(props.pitchOffset, prev.pitchOffset, this.gauge.setPitchOffset.bind(this.gauge));
-
-			// if(definedAndChanged(props.pitch, prev.pitch)) {
-			// 	this.props.animate
-			// 		? this.gauge.setPitchAnimated(this.props.pitch, this.props.pitchAnimationCallback)
-			// 		: this.gauge.setPitch(this.props.pitch);
-			// }
 			updateIfChanged(props.pitch, prev.pitch, () => {
 				props.animate
 					? this.gauge.setPitchAnimated(props.pitch, props.pitchAnimationCallback)
 					: this.gauge.setPitch(props.pitch);
 			});
-
-			// if(definedAndChanged(props.roll, prev.roll)) {
-			// 	this.props.animate
-			// 		? this.gauge.setRollAnimated(this.props.roll, this.props.rollAnimationCallback)
-			// 		: this.gauge.setRoll(this.props.roll);
-			// }
 			updateIfChanged(props.roll, prev.roll, () => {
 				props.animate
 					? this.gauge.setRollAnimated(props.roll, props.rollAnimationCallback)

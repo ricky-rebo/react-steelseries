@@ -29,8 +29,7 @@ export class DisplayMulti extends React.Component<Props> {
 				linkAltValue: (this.props.linkAltValue === undefined) ? false : this.props.linkAltValue
 			});
 			
-			if(this.props.value)
-				this.gauge.setValue(this.props.value)
+			if(this.props.value) { this.gauge.setValue(this.props.value); }
 		}
 	}
 
@@ -43,16 +42,9 @@ export class DisplayMulti extends React.Component<Props> {
 
 			const { props } = this;
 
-			// if(definedAndChanged(props.lcdColor, prev.lcdColor))
-			// 	this.gauge.setLcdColor(props.lcdColor);
 			updateIfChanged(props.lcdColor, prev.lcdColor, this.gauge.setLcdColor.bind(this.gauge));
 
-			// if(definedAndChanged(props.value, prev.value))
-			// 	this.gauge.setValue(props.value);
 			updateIfChanged(props.value, prev.value, this.gauge.setValue.bind(this.gauge));
-
-			// if(definedAndChanged(props.altValue, prev.altValue))
-			// 	this.gauge.setAltValue(props.altValue);
 			updateIfChanged(props.altValue, prev.altValue, this.gauge.setAltValue.bind(this.gauge));
 		}
 
