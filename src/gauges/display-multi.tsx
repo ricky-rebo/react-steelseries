@@ -1,6 +1,6 @@
 import React from "react";
 import { DisplayMulti as ssDisplayMulti, DisplayMultiParams } from "steelseries";
-import { definedAndChanged } from "../tools";
+import { updateIfChanged } from "../tools";
 
 
 interface Props extends Omit<DisplayMultiParams, "headerStringVisible"|"detailStringVisible"|"unitStringVisible"> {
@@ -43,14 +43,17 @@ export class DisplayMulti extends React.Component<Props> {
 
 			const { props } = this;
 
-			if(definedAndChanged(props.lcdColor, prev.lcdColor))
-				this.gauge.setLcdColor(props.lcdColor);
+			// if(definedAndChanged(props.lcdColor, prev.lcdColor))
+			// 	this.gauge.setLcdColor(props.lcdColor);
+			updateIfChanged(props.lcdColor, prev.lcdColor, this.gauge.setLcdColor.bind(this.gauge));
 
-			if(definedAndChanged(props.value, prev.value))
-				this.gauge.setValue(props.value);
+			// if(definedAndChanged(props.value, prev.value))
+			// 	this.gauge.setValue(props.value);
+			updateIfChanged(props.value, prev.value, this.gauge.setValue.bind(this.gauge));
 
-			if(definedAndChanged(props.altValue, prev.altValue))
-				this.gauge.setAltValue(props.altValue);
+			// if(definedAndChanged(props.altValue, prev.altValue))
+			// 	this.gauge.setAltValue(props.altValue);
+			updateIfChanged(props.altValue, prev.altValue, this.gauge.setAltValue.bind(this.gauge));
 		}
 
 	}

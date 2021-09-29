@@ -5,7 +5,7 @@ import { definedAndChanged } from "../tools";
 
 interface Props extends BatteryParams {
 	size: number;
-	value?: number;
+	// value?: number;
 }
 
 

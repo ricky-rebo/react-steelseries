@@ -1,6 +1,6 @@
 import React from "react";
 import { Led as ssLed, LedParams } from "steelseries";
-import { definedAndChanged } from "../tools";
+import { updateIfChanged } from "../tools";
 
 
 interface Props extends LedParams {
@@ -45,17 +45,20 @@ export class Led extends React.Component<Props> {
 				return;
 			}
 
-			if(definedAndChanged(props.ledColor, prev.ledColor)) {
-				this.gauge.setLedColor(props.ledColor);
-			}
+			// if(definedAndChanged(props.ledColor, prev.ledColor)) {
+			// 	this.gauge.setLedColor(props.ledColor);
+			// }
+			updateIfChanged(props.ledColor, prev.ledColor, this.gauge.setLedColor.bind(this.gauge));
 
-			if(definedAndChanged(props.on, prev.on)) {
-				this.gauge.setLedOnOff(props.on);
-			}
+			// if(definedAndChanged(props.on, prev.on)) {
+			// 	this.gauge.setLedOnOff(props.on);
+			// }
+			updateIfChanged(props.on, prev.on, this.gauge.setLedOnOff.bind(this.gauge));
 
-			if(definedAndChanged(props.blink, prev.blink)) {
-				this.gauge.blink(props.blink);
-			}
+			// if(definedAndChanged(props.blink, prev.blink)) {
+			// 	this.gauge.blink(props.blink);
+			// }
+			updateIfChanged(props.blink, prev.blink, this.gauge.blink.bind(this.gauge));
 		}
 	}
 

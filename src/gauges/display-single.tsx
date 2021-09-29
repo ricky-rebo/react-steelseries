@@ -1,6 +1,6 @@
 import React from "react";
 import { DisplaySingle as ssDisplaySingle, DisplaySingleParams } from "steelseries";
-import { definedAndChanged } from "../tools";
+import { updateIfChanged } from "../tools";
 
 
 interface Props extends Omit<DisplaySingleParams, "headerStringVisible"|"unitStringVisible"> {
@@ -41,21 +41,25 @@ export class DisplaySingle extends React.Component<Props> {
 				return;
 			}
 
-			if(definedAndChanged(props.lcdColor, prev.lcdColor)) {
-				this.gauge.setLcdColor(props.lcdColor);
-			}
+			// if(definedAndChanged(props.lcdColor, prev.lcdColor)) {
+			// 	this.gauge.setLcdColor(props.lcdColor);
+			// }
+			updateIfChanged(props.lcdColor, prev.lcdColor, this.gauge.setLcdColor.bind(this.gauge));
 
-			if(definedAndChanged(props.section, prev.section)) {
-				this.gauge.setSection(props.section);
-			}
+			// if(definedAndChanged(props.section, prev.section)) {
+			// 	this.gauge.setSection(props.section);
+			// }
+			updateIfChanged(props.section, prev.section, this.gauge.setSection.bind(this.gauge));
 			
-			if(definedAndChanged(props.autoScroll, prev.alwaysScroll)) {
-				this.gauge.setScrolling(props.autoScroll);
-			}
+			// if(definedAndChanged(props.autoScroll, prev.alwaysScroll)) {
+			// 	this.gauge.setScrolling(props.autoScroll);
+			// }
+			updateIfChanged(props.autoScroll, prev.autoScroll, this.gauge.setScrolling.bind(this.gauge));
 
-			if(definedAndChanged(props.value, prev.value)) {
-				this.gauge.setValue(props.value);
-			}
+			// if(definedAndChanged(props.value, prev.value)) {
+			// 	this.gauge.setValue(props.value);
+			// }
+			updateIfChanged(props.value, prev.value, this.gauge.setValue.bind(this.gauge));
 		}
 	}
 

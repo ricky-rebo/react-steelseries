@@ -1,6 +1,6 @@
 import React from "react";
 import { Lightbulb as ssLightbulb, LightbulbParams } from "steelseries";
-import { definedAndChanged } from "../tools";
+import { updateIfChanged } from "../tools";
 
 
 interface Props extends Partial<LightbulbParams> {
@@ -51,17 +51,20 @@ export class Lightbulb extends React.Component<Props> {
 				return;
 			}
 
-			if(definedAndChanged(props.on, prev.on)) {
-				this.gauge.setOn(props.on);
-			}
+			// if(definedAndChanged(props.on, prev.on)) {
+			// 	this.gauge.setOn(props.on);
+			// }
+			updateIfChanged(props.on, prev.on, this.gauge.setOn.bind(this.gauge));
 
-			if(definedAndChanged(props.alpha, prev.alpha)) {
-				this.gauge.setAlpha(props.alpha);
-			}
+			// if(definedAndChanged(props.alpha, prev.alpha)) {
+			// 	this.gauge.setAlpha(props.alpha);
+			// }
+			updateIfChanged(props.alpha, prev.alpha, this.gauge.setAlpha.bind(this.gauge));
 
-			if(definedAndChanged(props.glowColor, prev.glowColor)) {
-				this.gauge.setGlowColor(props.glowColor);
-			}
+			// if(definedAndChanged(props.glowColor, prev.glowColor)) {
+			// 	this.gauge.setGlowColor(props.glowColor);
+			// }
+			updateIfChanged(props.glowColor, prev.glowColor, this.gauge.setGlowColor.bind(this.gauge));
 		}
 	}
 

@@ -1,6 +1,6 @@
 import React from "react";
 import { Level as ssLevel, LevelParams } from "steelseries";
-import { definedAndChanged } from "../tools";
+import { updateIfChanged } from "../tools";
 
 
 interface Props extends LevelParams {
@@ -24,10 +24,16 @@ export class Level extends React.Component<Props> {
 		if(this.canvasRef.current) {
 			this.gauge = new ssLevel(this.canvasRef.current, {
 				size: this.props.size,
+				frameDesign: this.props.frameDesign,
+				frameVisible: this.props.frameVisible,
+				backgroundColor: this.props.backgroundColor,
+				backgroundVisible: this.props.backgroundVisible,
+				foregroundType: this.props.foregroundType,
+				foregroundVisible: this.props.foregroundVisible,
+				pointerColor: this.props.pointerColor,
 				decimalsVisible: this.props.decimalsVisible,
 				textOrientationFixed: this.props.textOrientationFixed,
-				pointerColor: this.props.pointerColor,
-				rotateFace: this.props.rotateFace
+				rotateFace: this.props.rotateFace,
 			});
 		
 			if(this.props.value !== undefined) {
@@ -47,27 +53,36 @@ export class Level extends React.Component<Props> {
 				return;
 			}
 
-			if(definedAndChanged(props.frameDesign, prev.frameDesign)) {
-				this.gauge.setFrameDesign(props.frameDesign);
-			}
+			// if(definedAndChanged(props.frameDesign, prev.frameDesign)) {
+			// 	this.gauge.setFrameDesign(props.frameDesign);
+			// }
+			updateIfChanged(props.frameDesign, prev.frameDesign, this.gauge.setFrameDesign.bind(this.gauge));
 
-			if(definedAndChanged(props.backgroundColor, prev.backgroundColor)) {
-				this.gauge.setBackgroundColor(props.backgroundColor);
-			}
+			// if(definedAndChanged(props.backgroundColor, prev.backgroundColor)) {
+			// 	this.gauge.setBackgroundColor(props.backgroundColor);
+			// }
+			updateIfChanged(props.backgroundColor, prev.backgroundColor, this.gauge.setBackgroundColor.bind(this.gauge));
 
-			if(definedAndChanged(props.foregroundType, prev.foregroundType)) {
-				this.gauge.setForegroundType(props.foregroundType);
-			}
+			// if(definedAndChanged(props.foregroundType, prev.foregroundType)) {
+			// 	this.gauge.setForegroundType(props.foregroundType);
+			// }
+			updateIfChanged(props.foregroundType, prev.foregroundType, this.gauge.setForegroundType.bind(this.gauge));
 
-			if(definedAndChanged(props.pointerColor, prev.pointerColor)) {
-				this.gauge.setPointerColor(props.pointerColor);
-			}
+			// if(definedAndChanged(props.pointerColor, prev.pointerColor)) {
+			// 	this.gauge.setPointerColor(props.pointerColor);
+			// }
+			updateIfChanged(props.pointerColor, prev.pointerColor, this.gauge.setPointerColor.bind(this.gauge));
 
-			if(definedAndChanged(props.value, prev.value)) {
+			// if(definedAndChanged(props.value, prev.value)) {
+			// 	props.animate
+			// 		? this.gauge.setValueAnimated(props.value, props.animationCallback)
+			// 		: this.gauge.setValue(props.value);
+			// }
+			updateIfChanged(props.value, prev.value, () => {
 				props.animate
 					? this.gauge.setValueAnimated(props.value, props.animationCallback)
 					: this.gauge.setValue(props.value);
-			}
+			});
 		}
 	}
 

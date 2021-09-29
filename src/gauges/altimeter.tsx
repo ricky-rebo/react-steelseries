@@ -74,6 +74,7 @@ export class Altimeter extends React.Component<Props> {
 		if(definedAndChanged(props.frameDesign, prev.frameDesign)) {
 			this.gauge.setFrameDesign(this.props.frameDesign);
 		}
+		// updateIfChanged(props.frameDesign, prev.frameDesign, this.gauge.setFrameDesign)
 
 		if(definedAndChanged(props.backgroundColor, prev.backgroundColor)) {
 			this.gauge.setBackgroundColor(this.props.backgroundColor);
