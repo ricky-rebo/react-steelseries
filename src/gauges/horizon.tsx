@@ -1,6 +1,6 @@
 import React from "react";
 import { Horizon as ssHorizon, HorizonParams } from "steelseries";
-import { updateIfChanged } from "../tools";
+import { definedAndChanged, updateIfChanged } from "../tools";
 
 interface Props extends HorizonParams {
 	size: number;
@@ -51,29 +51,36 @@ export class Horizon extends React.Component<Props> {
 		}
 	}
 
+	gaugeShouldRepaint(prev: Props) {
+		return (this.props.size !== prev.size)
+			|| definedAndChanged(this.props.frameVisible, prev.frameVisible)
+			|| definedAndChanged(this.props.foregroundVisible, prev.foregroundVisible)
+			|| definedAndChanged(this.props.pointerColor, prev.pointerColor);
+	}
+
 	componentDidUpdate (prev: Props) {
 		if(this.canvasRef.current) {
-			const { props } = this;
-
-			if(props.size !== prev.size) {
+			if(this.gaugeShouldRepaint(prev)) {
 				this.componentDidMount();
-				return;
 			}
+			else {
+				const { props } = this;
+				
+				updateIfChanged(props.frameDesign, prev.frameDesign, this.gauge.setFrameDesign.bind(this.gauge));
+				updateIfChanged(props.foregroundType, prev.foregroundType, this.gauge.setForegroundType.bind(this.gauge));
 
-			updateIfChanged(props.frameDesign, prev.frameDesign, this.gauge.setFrameDesign.bind(this.gauge));
-			updateIfChanged(props.foregroundType, prev.foregroundType, this.gauge.setForegroundType.bind(this.gauge));
-
-			updateIfChanged(props.pitchOffset, prev.pitchOffset, this.gauge.setPitchOffset.bind(this.gauge));
-			updateIfChanged(props.pitch, prev.pitch, () => {
-				props.animate
-					? this.gauge.setPitchAnimated(props.pitch, props.pitchAnimationCallback)
-					: this.gauge.setPitch(props.pitch);
-			});
-			updateIfChanged(props.roll, prev.roll, () => {
-				props.animate
-					? this.gauge.setRollAnimated(props.roll, props.rollAnimationCallback)
-					: this.gauge.setRoll(props.roll);
-			});
+				updateIfChanged(props.pitchOffset, prev.pitchOffset, this.gauge.setPitchOffset.bind(this.gauge));
+				updateIfChanged(props.pitch, prev.pitch, () => {
+					props.animate
+						? this.gauge.setPitchAnimated(props.pitch, props.pitchAnimationCallback)
+						: this.gauge.setPitch(props.pitch);
+				});
+				updateIfChanged(props.roll, prev.roll, () => {
+					props.animate
+						? this.gauge.setRollAnimated(props.roll, props.rollAnimationCallback)
+						: this.gauge.setRoll(props.roll);
+				});
+			}
 		}
 	}
 

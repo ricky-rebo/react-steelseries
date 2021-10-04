@@ -1,6 +1,6 @@
 import React from "react";
 import { DisplayMulti as ssDisplayMulti, DisplayMultiParams } from "steelseries";
-import { updateIfChanged } from "../tools";
+import { definedAndChanged, updateIfChanged } from "../tools";
 
 
 interface Props extends Omit<DisplayMultiParams, "headerStringVisible"|"detailStringVisible"|"unitStringVisible"> {
@@ -33,21 +33,29 @@ export class DisplayMulti extends React.Component<Props> {
 		}
 	}
 
+	gaugeShouldRepaint(prev: Props) {
+		return (this.props.width !== prev.width) 
+			|| (this.props.height !== prev.height)
+			|| definedAndChanged(this.props.digitalFont, prev.digitalFont)
+			|| definedAndChanged(this.props.lcdDecimals, prev.lcdDecimals)
+			|| definedAndChanged(this.props.linkAltValue, prev.linkAltValue)
+			|| definedAndChanged(this.props.valuesNumeric, prev.valuesNumeric);
+	}
+
 	componentDidUpdate(prev: Props) {
 		if(this.canvasRef.current) {
-			if(this.props.width !== prev.width || this.props.height !== prev.height) {
+			if(this.gaugeShouldRepaint(prev)) {
 				this.componentDidMount();
-				return;
 			}
+			else {
+				const { props } = this;
 
-			const { props } = this;
+				updateIfChanged(props.lcdColor, prev.lcdColor, this.gauge.setLcdColor.bind(this.gauge));
 
-			updateIfChanged(props.lcdColor, prev.lcdColor, this.gauge.setLcdColor.bind(this.gauge));
-
-			updateIfChanged(props.value, prev.value, this.gauge.setValue.bind(this.gauge));
-			updateIfChanged(props.altValue, prev.altValue, this.gauge.setAltValue.bind(this.gauge));
+				updateIfChanged(props.value, prev.value, this.gauge.setValue.bind(this.gauge));
+				updateIfChanged(props.altValue, prev.altValue, this.gauge.setAltValue.bind(this.gauge));
+			}
 		}
-
 	}
 
 	render() {

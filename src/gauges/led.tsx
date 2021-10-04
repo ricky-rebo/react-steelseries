@@ -36,19 +36,23 @@ export class Led extends React.Component<Props> {
 		}
 	}
 
+	gaugeShouldRepaint(prev: Props) {
+		return (this.props.size !== prev.size);
+	}
+
 	componentDidUpdate(prev: Props) {
 		if(this.canvasRef.current) {
-			const { props } = this;
-
-			if(props.size !== prev.size) {
+			if(this.gaugeShouldRepaint(prev)) {
 				this.componentDidMount();
-				return;
 			}
+			else {
+				const { props, gauge } = this;
 
-			updateIfChanged(props.ledColor, prev.ledColor, this.gauge.setLedColor.bind(this.gauge));
+				updateIfChanged(props.ledColor, prev.ledColor, gauge.setLedColor.bind(gauge));
 
-			updateIfChanged(props.on, prev.on, this.gauge.setLedOnOff.bind(this.gauge));
-			updateIfChanged(props.blink, prev.blink, this.gauge.blink.bind(this.gauge));
+				updateIfChanged(props.on, prev.on, gauge.setLedOnOff.bind(gauge));
+				updateIfChanged(props.blink, prev.blink, gauge.blink.bind(gauge));
+			}
 		}
 	}
 

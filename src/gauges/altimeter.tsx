@@ -1,6 +1,6 @@
 import React from "react";
 import { Altimeter as ssAltimeter, AltimeterParams } from "steelseries";
-import { updateIfChanged } from "../tools";
+import { definedAndChanged, updateIfChanged } from "../tools";
 
 
 interface Props extends AltimeterParams {
@@ -59,28 +59,44 @@ export class Altimeter extends React.Component<Props> {
 		}
 	}
 
+	gaugeShouldRepaint(prev: Props) {
+		return (this.props.size !== prev.size)
+		  || definedAndChanged(this.props.frameVisible, prev.frameVisible)
+			|| definedAndChanged(this.props.backgroundVisible, prev.backgroundVisible)
+			|| definedAndChanged(this.props.foregroundVisible, prev.foregroundVisible)
+			|| definedAndChanged(this.props.knobType, prev.knobType)
+			|| definedAndChanged(this.props.knobStyle, prev.knobStyle)
+			|| definedAndChanged(this.props.digitalFont, prev.digitalFont)
+			|| definedAndChanged(this.props.lcdVisible, prev.lcdVisible)
+			|| definedAndChanged(this.props.unitAltPos, prev.unitAltPos)
+			|| definedAndChanged(this.props.customLayer, prev.customLayer);
+	}
+
 	componentDidUpdate(prev: Props) {
-		if(this.props.size !== prev.size) {
-			this.componentDidMount();
-			return;
+		if(this.canvasRef.current) {
+			if(this.gaugeShouldRepaint(prev)) {
+				this.componentDidMount();
+			}
+			else {
+				const { props } = this;
+
+				updateIfChanged(props.frameDesign, prev.frameDesign, this.gauge.setFrameDesign.bind(this.gauge));
+				updateIfChanged(props.backgroundColor, prev.backgroundColor, this.gauge.setBackgroundColor.bind(this.gauge));
+				updateIfChanged(props.foregroundType, prev.foregroundType, this.gauge.setForegroundType.bind(this.gauge));
+				updateIfChanged(props.lcdColor, prev.lcdColor, this.gauge.setLcdColor.bind(this.gauge));
+				
+				updateIfChanged(props.titleString, prev.titleString, this.gauge.setTitleString.bind(this.gauge));
+				if(updateIfChanged(props.unitString, prev.unitString, this.gauge.setUnitString.bind(this.gauge)) && props.resetValueOnUnitChange) {
+					this.gauge.setValue(0);
+				}
+
+				updateIfChanged(props.value, prev.value, () => {
+					props.animate
+						? this.gauge.setValueAnimated(props.value, props.animationCallback)
+						: this.gauge.setValue(props.value);
+				});
+			}
 		}
-
-		const { props } = this;
-
-		updateIfChanged(props.frameDesign, prev.frameDesign, this.gauge.setFrameDesign.bind(this.gauge));
-		updateIfChanged(props.backgroundColor, prev.backgroundColor, this.gauge.setBackgroundColor.bind(this.gauge));
-		updateIfChanged(props.foregroundType, prev.foregroundType, this.gauge.setForegroundType.bind(this.gauge));
-		updateIfChanged(props.lcdColor, prev.lcdColor, this.gauge.setLcdColor.bind(this.gauge));
-		updateIfChanged(props.titleString, prev.titleString, this.gauge.setTitleString.bind(this.gauge));
-		if(updateIfChanged(props.unitString, prev.unitString, this.gauge.setUnitString.bind(this.gauge)) && props.resetValueOnUnitChange) {
-			this.gauge.setValue(0);
-		}
-
-		updateIfChanged(props.value, prev.value, () => {
-			props.animate
-				? this.gauge.setValueAnimated(props.value, props.animationCallback)
-				: this.gauge.setValue(props.value);
-		});
 	}
 
 	render() {

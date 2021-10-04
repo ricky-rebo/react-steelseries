@@ -26,14 +26,18 @@ export class Battery extends React.Component<Props> {
 		}
 	}
 
+	gaugeShouldRepaint(prev: Props) {
+		return (this.props.size !== prev.size);
+	}
+
 	componentDidUpdate(prev: Props) {
 		if(this.canvasRef.current) {
-			if(this.props.size !== prev.size) {
+			if(this.gaugeShouldRepaint(prev)) {
 				this.componentDidMount();
-				return
 			}
-			
-			updateIfChanged(this.props.value, prev.value, this.gauge.setValue.bind(this.gauge));
+			else {
+				updateIfChanged(this.props.value, prev.value, this.gauge.setValue.bind(this.gauge));
+			}
 		}
 	}
 

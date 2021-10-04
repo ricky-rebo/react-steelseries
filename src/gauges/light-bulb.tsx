@@ -38,19 +38,24 @@ export class Lightbulb extends React.Component<Props> {
 		}
 	}
 
+	gaugeShouldRepaint(prev: Props) {
+		return (this.props.width !== prev.width) 
+			|| (this.props.height !== prev.height);
+	}
+
 	componentDidUpdate(prev: Props) {
 		if(this.canvasRef.current) {
-			const { props } = this;
-
-			if(props.width !== prev.width || props.height !== prev.height) {
+			if(this.gaugeShouldRepaint(prev)) {
 				this.componentDidMount();
-				return;
 			}
+			else {
+				const { props } = this;
 
-			updateIfChanged(props.glowColor, prev.glowColor, this.gauge.setGlowColor.bind(this.gauge));
+				updateIfChanged(props.glowColor, prev.glowColor, this.gauge.setGlowColor.bind(this.gauge));
 
-			updateIfChanged(props.on, prev.on, this.gauge.setOn.bind(this.gauge));
-			updateIfChanged(props.alpha, prev.alpha, this.gauge.setAlpha.bind(this.gauge));
+				updateIfChanged(props.on, prev.on, this.gauge.setOn.bind(this.gauge));
+				updateIfChanged(props.alpha, prev.alpha, this.gauge.setAlpha.bind(this.gauge));
+			}
 		}
 	}
 

@@ -1,6 +1,6 @@
 import React from "react";
 import { Level as ssLevel, LevelParams } from "steelseries";
-import { updateIfChanged } from "../tools";
+import { definedAndChanged, updateIfChanged } from "../tools";
 
 
 interface Props extends LevelParams {
@@ -44,25 +44,35 @@ export class Level extends React.Component<Props> {
 		}
 	}
 
+	gaugeShouldRepaint(prev: Props) {
+		return (this.props.size !== prev.size)
+			|| definedAndChanged(this.props.frameVisible, prev.frameVisible)
+			|| definedAndChanged(this.props.backgroundVisible, prev.backgroundVisible)
+			|| definedAndChanged(this.props.foregroundVisible, prev.foregroundVisible)
+			|| definedAndChanged(this.props.decimalsVisible, prev.decimalsVisible)
+			|| definedAndChanged(this.props.textOrientationFixed, prev.textOrientationFixed)
+			|| definedAndChanged(this.props.rotateFace, prev.rotateFace);
+	}
+
 	componentDidUpdate(prev: Props) {
 		if(this.canvasRef.current) {
-			const { props } = this;
-
-			if(props.size !== prev.size) {
+			if(this.gaugeShouldRepaint(prev)) {
 				this.componentDidMount();
-				return;
 			}
+			else {
+				const { props } = this;
 
-			updateIfChanged(props.frameDesign, prev.frameDesign, this.gauge.setFrameDesign.bind(this.gauge));
-			updateIfChanged(props.backgroundColor, prev.backgroundColor, this.gauge.setBackgroundColor.bind(this.gauge));
-			updateIfChanged(props.foregroundType, prev.foregroundType, this.gauge.setForegroundType.bind(this.gauge));
-			updateIfChanged(props.pointerColor, prev.pointerColor, this.gauge.setPointerColor.bind(this.gauge));
+				updateIfChanged(props.frameDesign, prev.frameDesign, this.gauge.setFrameDesign.bind(this.gauge));
+				updateIfChanged(props.backgroundColor, prev.backgroundColor, this.gauge.setBackgroundColor.bind(this.gauge));
+				updateIfChanged(props.foregroundType, prev.foregroundType, this.gauge.setForegroundType.bind(this.gauge));
+				updateIfChanged(props.pointerColor, prev.pointerColor, this.gauge.setPointerColor.bind(this.gauge));
 
-			updateIfChanged(props.value, prev.value, () => {
-				props.animate
-					? this.gauge.setValueAnimated(props.value, props.animationCallback)
-					: this.gauge.setValue(props.value);
-			});
+				updateIfChanged(props.value, prev.value, () => {
+					props.animate
+						? this.gauge.setValueAnimated(props.value, props.animationCallback)
+						: this.gauge.setValue(props.value);
+				});
+			}
 		}
 	}
 

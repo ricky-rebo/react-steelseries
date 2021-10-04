@@ -1,6 +1,6 @@
 import React from "react";
 import { DisplaySingle as ssDisplaySingle, DisplaySingleParams } from "steelseries";
-import { updateIfChanged } from "../tools";
+import { definedAndChanged, updateIfChanged } from "../tools";
 
 
 interface Props extends Omit<DisplaySingleParams, "headerStringVisible"|"unitStringVisible"> {
@@ -32,21 +32,34 @@ export class DisplaySingle extends React.Component<Props> {
 		}
 	}
 
+	gaugeShouldRepaint(prev: Props) {
+		return (this.props.width !== prev.width) 
+			|| (this.props.height !== prev.height) 
+			|| (typeof this.props.value !== typeof prev.value)
+			|| definedAndChanged(this.props.digitalFont, prev.digitalFont)
+			|| definedAndChanged(this.props.lcdDecimals, prev.lcdDecimals)
+			|| (this.props.headerString && prev.headerString === undefined)
+			|| (this.props.headerString === undefined && prev.headerString)
+			|| (this.props.unitString && prev.unitString === undefined)
+			|| (this.props.unitString === undefined && prev.unitString)
+			|| definedAndChanged(this.props.alwaysScroll, prev.alwaysScroll);
+	}
+
 	componentDidUpdate(prev: Props) {
 		if(this.canvasRef.current) {
-			const { props } = this;
-			
-			if(props.width !== prev.width || props.height !== prev.height || typeof props.value !== typeof prev.value) {
+			if(this.gaugeShouldRepaint(prev)) {
 				this.componentDidMount();
-				return;
 			}
+			else {
+				const { props } = this;
 
-			updateIfChanged(props.lcdColor, prev.lcdColor, this.gauge.setLcdColor.bind(this.gauge));
-			updateIfChanged(props.section, prev.section, this.gauge.setSection.bind(this.gauge));
+				updateIfChanged(props.lcdColor, prev.lcdColor, this.gauge.setLcdColor.bind(this.gauge));
+				updateIfChanged(props.section, prev.section, this.gauge.setSection.bind(this.gauge));
 
-			updateIfChanged(props.autoScroll, prev.autoScroll, this.gauge.setScrolling.bind(this.gauge));
+				updateIfChanged(props.autoScroll, prev.autoScroll, this.gauge.setScrolling.bind(this.gauge));
 
-			updateIfChanged(props.value, prev.value, this.gauge.setValue.bind(this.gauge));
+				updateIfChanged(props.value, prev.value, this.gauge.setValue.bind(this.gauge));
+			}
 		}
 	}
 
