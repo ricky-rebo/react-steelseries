@@ -30,6 +30,8 @@ import { Level } from "./gauges/level";
 // FIXME(Riccardo Rebottini) TypeError: steelseries__WEBPACK_IMPORTED_MODULE_0__.Lightbulb is not a constructor
 // import { Lightbulb } from "./gauges/light-bulb"; 
 
+import { Linear } from "./gauges/linear";
+
 export {
   /* Steelseries tools & constants */
   gradientWrapper,
@@ -60,4 +62,5 @@ export {
   Led,
   Level,
   // Lightbulb,
+  Linear,
 };
