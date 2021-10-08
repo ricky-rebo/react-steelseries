@@ -1,5 +1,5 @@
 export function definedAndChanged<T = unknown>(prop: T, prev: T) {
-	return (prop !== undefined && prop !== prev)
+	return ((prop !== undefined || prev !== undefined) && prop !== prev)
 }
 
 export function updateIfChanged<T = unknown>(prop: T, prev: T, updateFunction: (p: T) => unknown) {
