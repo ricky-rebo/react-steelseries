@@ -1,9 +1,9 @@
 import React from "react";
-import { Linear as ssLinear, LinearParams } from "steelseries";
+import { LinearBargraph as ssLinearBargraph, LinearBargraphParams } from "steelseries";
 import { definedAndChanged, updateIfChanged } from "../tools";
 
 
-interface Props extends LinearParams {
+interface Props extends Omit<LinearBargraphParams, "useValueGradient"> {
 	width: number;
 	height: number;
 
@@ -19,9 +19,9 @@ interface Props extends LinearParams {
 }
 
 
-export class Linear extends React.Component<Props> {
+export class LinearBargraph extends React.Component<Props> {
 	canvasRef: React.RefObject<HTMLCanvasElement>;
-	gauge: ssLinear;
+	gauge: ssLinearBargraph;
 
 	constructor(props: Props) {
 		super(props);
@@ -30,11 +30,10 @@ export class Linear extends React.Component<Props> {
 
 	componentDidMount() {
 		if(this.canvasRef.current) {
-			this.gauge = new ssLinear(this.canvasRef.current, {
+			this.gauge = new ssLinearBargraph(this.canvasRef.current, {
 				width: this.props.width,
 				height: this.props.height,
 
-				gaugeType: this.props.gaugeType,
 				frameDesign: this.props.frameDesign,
 				frameVisible: this.props.frameVisible,
 				backgroundColor: this.props.backgroundColor,
@@ -49,7 +48,6 @@ export class Linear extends React.Component<Props> {
 				ledColor: this.props.ledColor,
 				ledVisible: this.props.ledVisible,
 
-				valueColor: this.props.valueColor,
 				minValue: this.props.minValue,
 				maxValue: this.props.maxValue,
 				minMeasuredValueVisible: this.props.minMeasuredValueVisible,
@@ -65,6 +63,11 @@ export class Linear extends React.Component<Props> {
 
 				titleString: this.props.titleString,
 				unitString: this.props.unitString,
+				
+				valueColor: this.props.valueColor,
+				valueGradient: this.props.valueGradient,
+				useValueGradient: true,
+				section: this.props.section
 			});
 
 			if(this.props.value) {
@@ -86,7 +89,6 @@ export class Linear extends React.Component<Props> {
 	gaugeShouldRepaint(prev: Props) {
 		return (this.props.width !== prev.width)
 			|| (this.props.height !== prev.height)
-			|| definedAndChanged(this.props.gaugeType, prev.gaugeType)
 			|| definedAndChanged(this.props.frameVisible, prev.frameVisible)
 			|| definedAndChanged(this.props.backgroundVisible, prev.backgroundVisible)
 			|| definedAndChanged(this.props.foregroundVisible, prev.foregroundVisible)
@@ -115,6 +117,8 @@ export class Linear extends React.Component<Props> {
 				updateIfChanged(props.ledColor, prev.ledColor, gauge.setLedColor.bind(gauge));
 				updateIfChanged(props.ledVisible, prev.ledVisible, gauge.setLedVisible.bind(gauge));
 				updateIfChanged(props.valueColor, prev.valueColor, gauge.setValueColor.bind(gauge));
+				updateIfChanged(props.section, prev.section, gauge.setSection.bind(gauge));
+				updateIfChanged(props.valueGradient, prev.valueGradient, gauge.setGradient.bind(gauge));
 				
 				updateIfChanged(props.threshold, prev.threshold, gauge.setThreshold.bind(gauge));
 				updateIfChanged(props.thresholdRising, prev.thresholdRising, gauge.setThresholdRising.bind(gauge));

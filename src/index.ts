@@ -1,4 +1,5 @@
-import { 
+import {
+  rgbaColor,
   gradientWrapper,
   Section,
   BackgroundColor,
@@ -31,9 +32,11 @@ import { Level } from "./gauges/level";
 // import { Lightbulb } from "./gauges/light-bulb"; 
 
 import { Linear } from "./gauges/linear";
+import { LinearBargraph } from "./gauges/linear-bargraph";
 
 export {
   /* Steelseries tools & constants */
+  rgbaColor,
   gradientWrapper,
   Section,
   BackgroundColor,
@@ -63,4 +66,5 @@ export {
   Level,
   // Lightbulb,
   Linear,
+  LinearBargraph
 };
