@@ -34,6 +34,7 @@ import { Level } from "./gauges/level";
 import { Linear } from "./gauges/linear";
 import { LinearBargraph } from "./gauges/linear-bargraph";
 import { Odometer } from "./gauges/odometer";
+import { Radial } from "./gauges/radial";
 
 export {
   /* Steelseries tools & constants */
@@ -68,5 +69,6 @@ export {
   // Lightbulb,
   Linear,
   LinearBargraph,
-  Odometer
+  Odometer,
+  Radial
 };
