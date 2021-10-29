@@ -2,19 +2,35 @@ import React from "react";
 import { OdometerParams, Radial as ssRadial, RadialParams, Section, TrendState } from "steelseries";
 import { updateIfChanged } from "../tools";
 
+// BUG @types/steelseries
+// Define a subset of params for Radial Odometer
 type RadialOdometerParams = Omit<OdometerParams, "_context" | "height" | "value" | "wobbleFactor">;
 
-type ExcludedParams = "odometerUseValue" | "area" | "section" | "userLedVisible" | "minMeasuredValueVisible" | "maxMeasuredValueVisible" | "odometerParams" | "userLedState";
+type ExcludedParams = "odometerUseValue" 
+	| "area" 
+	| "section" 
+	| "userLedVisible" 
+	| "minMeasuredValueVisible" 
+	| "maxMeasuredValueVisible" 
+	| "odometerParams" 
+	| "userLedState"
+	| "thresholdVisible"
+	| "ledVisible"
+	| "trendVisible";
 interface Props extends Omit<RadialParams, ExcludedParams> {
 	size: number;
 
 	sections?: Section[];
 	sectors?: Section[];
 
+	showThreshold?: boolean;
+
+	showLed?: boolean;
 	showUserLed?: boolean;
 	userLedOn?: boolean;
 	userLedBlink?: boolean;
 
+	showTrend?: boolean;
 	showMinMeasuredValue?: boolean;
 	showMaxMeasuredValue?: boolean;
 
@@ -43,7 +59,7 @@ export class Radial extends React.Component<Props> {
 		this.canvasRef = React.createRef();
 	}
 
-	componentDidMount() {
+	componentDidMount(animate: boolean = true) {
 		if(this.canvasRef.current) {
 			this.gauge = new ssRadial(this.canvasRef.current, {
 				size: this.props.size,
@@ -74,7 +90,7 @@ export class Radial extends React.Component<Props> {
 				labelNumberFormat: this.props.labelNumberFormat,
 				threshold: this.props.threshold,
 				thresholdRising: this.props.thresholdRising,
-				thresholdVisible: this.props.thresholdVisible,
+				thresholdVisible: (this.props.showThreshold === undefined) ? false : this.props.showThreshold,
 				fullScaleDeflectionTime: this.props.fullScaleDeflectionTime,
 				playAlarm: this.props.playAlarm,
 				alarmSound: this.props.alarmSound,
@@ -83,11 +99,11 @@ export class Radial extends React.Component<Props> {
 				unitString: this.props.unitString,
 
 				ledColor: this.props.ledColor,
-				ledVisible: this.props.ledVisible,
+				ledVisible: (this.props.showLed === undefined) ? false : this.props.showLed,
 
 				fractionalScaleDecimals: this.props.fractionalScaleDecimals,
 				tickLabelOrientation: this.props.tickLabelOrientation,
-				trendVisible: this.props.trendVisible,
+				trendVisible: this.props.showTrend,
 				trendColors: this.props.trendColors,
 				userLedColor: this.props.userLedColor,
 				userLedVisible: this.props.showUserLed,
@@ -109,7 +125,7 @@ export class Radial extends React.Component<Props> {
 			}
 
 			if(this.props.value) {
-				this.props.animate
+				(this.props.animate && animate)
 					? this.gauge.setValueAnimated(this.props.value, this.props.animationCallback)
 					: this.gauge.setValue(this.props.value);
 			}
@@ -153,13 +169,13 @@ export class Radial extends React.Component<Props> {
 			|| (this.props.odometerParams !== prev.odometerParams)
 			|| (this.props.syncOdometerValue !== prev.syncOdometerValue)
 			|| (this.props.customLayer !== prev.customLayer)
-			|| (this.props.thresholdVisible !== prev.thresholdVisible);
+			|| (this.props.showThreshold !== prev.showThreshold);
 	}
 
 	componentDidUpdate(prev: Props) {
 		if(this.gauge) {
 			if(this.gaugeShouldRepaint(prev)) {
-				this.componentDidMount();
+				this.componentDidMount(false);
 			}
 			else {
 				const { props, gauge } = this;
@@ -180,6 +196,7 @@ export class Radial extends React.Component<Props> {
 				updateIfChanged(props.threshold, prev.threshold, gauge.setThreshold.bind(gauge));
 				updateIfChanged(props.thresholdRising, prev.thresholdRising, gauge.setThresholdRising.bind(gauge));
 				
+				// BUG in 'steelseries' library
 				// Radial.setThresholdVisible might not work properly
 				// thresholdVisible update detection moved in gaugeShouldRepaint()
 				// updateIfChanged(props.thresholdVisible, prev.thresholdVisible, gauge.setThresholdVisible.bind(gauge));
@@ -195,10 +212,10 @@ export class Radial extends React.Component<Props> {
 				}
 
 				updateIfChanged(props.ledColor, prev.ledColor, gauge.setLedColor.bind(gauge));
-				updateIfChanged(props.ledVisible, prev.ledVisible, gauge.setLedVisible.bind(gauge));
+				updateIfChanged(props.showLed, prev.showLed, gauge.setLedVisible.bind(gauge));
 
 				updateIfChanged(props.fractionalScaleDecimals, prev.fractionalScaleDecimals, gauge.setFractionalScaleDecimals.bind(gauge));
-				updateIfChanged(props.trendVisible, prev.trendVisible, gauge.setTrendVisible.bind(gauge));
+				updateIfChanged(props.showTrend, prev.showTrend, gauge.setTrendVisible.bind(gauge));
 				updateIfChanged(props.userLedColor, prev.userLedColor, gauge.setUserLedColor.bind(gauge));
 				updateIfChanged(props.showUserLed, prev.showUserLed, gauge.setUserLedVisible.bind(gauge));
 				updateIfChanged(props.sections, prev.sections, gauge.setSection.bind(gauge));
