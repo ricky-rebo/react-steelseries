@@ -43,6 +43,9 @@ export class Led extends React.Component<Props> {
 	componentDidUpdate(prev: Props) {
 		if(this.canvasRef.current) {
 			if(this.gaugeShouldRepaint(prev)) {
+				// Stop animation before redrawing the gauge
+				// otherwise it brokes
+				this.gauge.blink(false); 
 				this.componentDidMount();
 			}
 			else {
