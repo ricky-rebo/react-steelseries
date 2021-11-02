@@ -159,5 +159,9 @@ export class RadialVertical extends React.Component<Props> {
 				});
 			}
 		}
-	} 
+	}
+
+	render() {
+		return <canvas ref={this.canvasRef}></canvas>
+	}
 }
