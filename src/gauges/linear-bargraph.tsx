@@ -1,11 +1,25 @@
 import React from "react";
-import { LinearBargraph as ssLinearBargraph, LinearBargraphParams } from "steelseries";
+import { gradientWrapper, LinearBargraph as ssLinearBargraph, LinearBargraphParams, Section } from "steelseries";
 import { definedAndChanged, updateIfChanged } from "../tools";
 
-
-interface Props extends Omit<LinearBargraphParams, "useValueGradient"> {
+type ExcludedParams = "section" 
+	| "valueGradient"
+	| "useValueGradient"
+	| "ledVisible"
+	| "minMeasuredValueVisible"
+	| "maxMeasuredValueVisible"
+	| "thresholdVisible";
+interface Props extends Omit<LinearBargraphParams, ExcludedParams> {
 	width: number;
 	height: number;
+
+	showLed: boolean;
+	showThreshold: boolean;
+	showMinMeasuredValue: boolean;
+	showMaxMeasuredValue: boolean;
+
+	valueColorSection?: Section[];
+	valueColorGradient?: gradientWrapper;
 
 	value?: number;
 	minMeasuredValue?: number;
@@ -14,7 +28,6 @@ interface Props extends Omit<LinearBargraphParams, "useValueGradient"> {
 	animate?: boolean;
 	animationCallback?: () => void;
 
-	resetValueOnUnitChange?: boolean;
 	resetValueOnBoundsChange?: boolean;
 }
 
@@ -46,17 +59,17 @@ export class LinearBargraph extends React.Component<Props> {
 				lcdVisible: this.props.lcdVisible,
 
 				ledColor: this.props.ledColor,
-				ledVisible: this.props.ledVisible,
+				ledVisible: (this.props.showLed === undefined) ? false : this.props.showLed,
 
 				minValue: this.props.minValue,
 				maxValue: this.props.maxValue,
-				minMeasuredValueVisible: this.props.minMeasuredValueVisible,
-				maxMeasuredValueVisible: this.props.maxMeasuredValueVisible,
+				minMeasuredValueVisible: this.props.showMinMeasuredValue,
+				maxMeasuredValueVisible: this.props.showMaxMeasuredValue,
 				niceScale: this.props.niceScale,
 				labelNumberFormat: this.props.labelNumberFormat,
 				threshold: this.props.threshold,
 				thresholdRising: this.props.thresholdRising,
-				thresholdVisible: this.props.thresholdVisible,
+				thresholdVisible: (this.props.showThreshold === undefined) ? false : this.props.showThreshold,
 				fullScaleDeflectionTime: this.props.fullScaleDeflectionTime,
 				playAlarm: this.props.playAlarm,
 				alarmSound: this.props.alarmSound,
@@ -65,9 +78,9 @@ export class LinearBargraph extends React.Component<Props> {
 				unitString: this.props.unitString,
 				
 				valueColor: this.props.valueColor,
-				valueGradient: this.props.valueGradient,
-				useValueGradient: true,
-				section: this.props.section
+				section: this.props.valueColorSection,
+				useValueGradient: (this.props.valueColorGradient !== undefined),
+				valueGradient: this.props.valueColorGradient,
 			});
 
 			if(this.props.value) {
@@ -115,29 +128,31 @@ export class LinearBargraph extends React.Component<Props> {
 				updateIfChanged(props.lcdColor, prev.lcdColor, gauge.setLcdColor.bind(gauge));
 				updateIfChanged(props.lcdDecimals, prev.lcdDecimals, gauge.setLcdDecimals.bind(this));
 				updateIfChanged(props.ledColor, prev.ledColor, gauge.setLedColor.bind(gauge));
-				updateIfChanged(props.ledVisible, prev.ledVisible, gauge.setLedVisible.bind(gauge));
+				updateIfChanged(props.showLed, prev.showLed, gauge.setLedVisible.bind(gauge));
 				updateIfChanged(props.valueColor, prev.valueColor, gauge.setValueColor.bind(gauge));
-				updateIfChanged(props.section, prev.section, gauge.setSection.bind(gauge));
-				updateIfChanged(props.valueGradient, prev.valueGradient, gauge.setGradient.bind(gauge));
+				updateIfChanged(props.valueColorSection, prev.valueColorSection, gauge.setSection.bind(gauge));
+				updateIfChanged(props.valueColorGradient, prev.valueColorGradient, (val?: gradientWrapper) => {
+					gauge.setGradientActive(val !== undefined).setGradient(val);
+				});
 				
 				updateIfChanged(props.threshold, prev.threshold, gauge.setThreshold.bind(gauge));
 				updateIfChanged(props.thresholdRising, prev.thresholdRising, gauge.setThresholdRising.bind(gauge));
-				updateIfChanged(props.thresholdVisible, prev.thresholdVisible, gauge.setThresholdVisible.bind(gauge));
+				updateIfChanged(props.showThreshold, prev.showThreshold, gauge.setThresholdVisible.bind(gauge));
 
 				updateIfChanged(props.titleString, prev.titleString, gauge.setTitleString.bind(gauge));
+				updateIfChanged(props.unitString, prev.unitString, gauge.setUnitString.bind(gauge));
 
 				let minUpd = updateIfChanged(props.minValue, prev.minValue, gauge.setMinValue.bind(gauge));
 				let maxUpd = updateIfChanged(props.maxValue, prev.maxValue, gauge.setMaxValue.bind(gauge));
-				let untUpd = updateIfChanged(props.unitString, prev.unitString, gauge.setUnitString.bind(gauge));
 
-				if((minUpd || maxUpd || untUpd) && (props.resetValueOnBoundsChange || props.resetValueOnUnitChange) && props.animate) {
+				if((minUpd || maxUpd) && props.resetValueOnBoundsChange && props.animate) {
 					gauge.setValue(gauge.getMinValue());
 				}
 
 				updateIfChanged(props.minMeasuredValue, prev.minMeasuredValue, gauge.setMinMeasuredValue.bind(gauge));
-				updateIfChanged(props.minMeasuredValueVisible, prev.minMeasuredValueVisible, gauge.setMinMeasuredValueVisible.bind(gauge));
+				updateIfChanged(props.showMinMeasuredValue, prev.showMinMeasuredValue, gauge.setMinMeasuredValueVisible.bind(gauge));
 				updateIfChanged(props.maxMeasuredValue, props.maxMeasuredValue, gauge.setMaxMeasuredValue.bind(gauge));
-				updateIfChanged(props.maxMeasuredValueVisible, prev.maxMeasuredValueVisible, gauge.setMaxMeasuredValueVisible.bind(gauge));
+				updateIfChanged(props.showMaxMeasuredValue, prev.showMaxMeasuredValue, gauge.setMaxMeasuredValueVisible.bind(gauge));
 
 				updateIfChanged(props.value, prev.value, () => {
 					props.animate

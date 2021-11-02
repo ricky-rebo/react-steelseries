@@ -45,7 +45,6 @@ interface Props extends Omit<RadialParams, ExcludedParams> {
 	animate?: boolean;
 	animationCallback?: () => void;
 
-	resetValueOnUnitChange?: boolean;
 	resetValueOnBoundsChange?: boolean;
 }
 
@@ -189,7 +188,13 @@ export class Radial extends React.Component<Props> {
 
 				updateIfChanged(props.lcdColor, prev.lcdColor, gauge.setLcdColor.bind(gauge));
 				updateIfChanged(props.lcdDecimals, prev.lcdDecimals, gauge.setLcdDecimals.bind(this));
-
+				
+				const minUpd = updateIfChanged(props.minValue, prev.minValue, gauge.setMinValue.bind(gauge));
+				const maxUpd = updateIfChanged(props.maxValue, prev.maxValue, gauge.setMaxValue.bind(gauge));
+				if((minUpd || maxUpd) && props.resetValueOnBoundsChange && props.animate) {
+					gauge.setValue(gauge.getMinValue());
+				}
+				
 				updateIfChanged(props.showMinMeasuredValue, prev.showMinMeasuredValue, gauge.setMinMeasuredValueVisible.bind(gauge));
 				updateIfChanged(props.showMaxMeasuredValue, prev.showMaxMeasuredValue, gauge.setMaxMeasuredValueVisible.bind(gauge));
 				updateIfChanged(props.labelNumberFormat, prev.labelNumberFormat, gauge.setLabelNumberFormat.bind(gauge));
@@ -202,14 +207,7 @@ export class Radial extends React.Component<Props> {
 				// updateIfChanged(props.thresholdVisible, prev.thresholdVisible, gauge.setThresholdVisible.bind(gauge));
 
 				updateIfChanged(props.titleString, prev.titleString, gauge.setTitleString.bind(gauge));
-				
-				const minUpd = updateIfChanged(props.minValue, prev.minValue, gauge.setMinValue.bind(gauge));
-				const maxUpd = updateIfChanged(props.maxValue, prev.maxValue, gauge.setMaxValue.bind(gauge));
-				const untUpd = updateIfChanged(props.unitString, prev.unitString, gauge.setUnitString.bind(gauge));
-
-				if((minUpd || maxUpd || untUpd) && (props.resetValueOnBoundsChange || props.resetValueOnUnitChange) && props.animate) {
-					gauge.setValue(gauge.getMinValue());
-				}
+				updateIfChanged(props.unitString, prev.unitString, gauge.setUnitString.bind(gauge));
 
 				updateIfChanged(props.ledColor, prev.ledColor, gauge.setLedColor.bind(gauge));
 				updateIfChanged(props.showLed, prev.showLed, gauge.setLedVisible.bind(gauge));

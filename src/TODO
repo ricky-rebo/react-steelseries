@@ -1,4 +1,8 @@
 - align gauges to Radial code structure
+	Done:
+	- LinearBargraph
+	- Radial
+	- Radialbargraph
 
 - impostare value come prop obbligatoria
 

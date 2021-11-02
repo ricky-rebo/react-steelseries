@@ -14,7 +14,6 @@ interface Props extends LinearParams {
 	animate?: boolean;
 	animationCallback?: () => void;
 
-	resetValueOnUnitChange?: boolean;
 	resetValueOnBoundsChange?: boolean;
 }
 
@@ -121,12 +120,12 @@ export class Linear extends React.Component<Props> {
 				updateIfChanged(props.thresholdVisible, prev.thresholdVisible, gauge.setThresholdVisible.bind(gauge));
 
 				updateIfChanged(props.titleString, prev.titleString, gauge.setTitleString.bind(gauge));
+				updateIfChanged(props.unitString, prev.unitString, gauge.setUnitString.bind(gauge));
 
 				let minUpd = updateIfChanged(props.minValue, prev.minValue, gauge.setMinValue.bind(gauge));
 				let maxUpd = updateIfChanged(props.maxValue, prev.maxValue, gauge.setMaxValue.bind(gauge));
-				let untUpd = updateIfChanged(props.unitString, prev.unitString, gauge.setUnitString.bind(gauge));
 
-				if((minUpd || maxUpd || untUpd) && (props.resetValueOnBoundsChange || props.resetValueOnUnitChange) && props.animate) {
+				if((minUpd || maxUpd) && props.resetValueOnBoundsChange && props.animate) {
 					gauge.setValue(gauge.getMinValue());
 				}
 
