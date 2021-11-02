@@ -36,6 +36,7 @@ import { LinearBargraph } from "./gauges/linear-bargraph";
 import { Odometer } from "./gauges/odometer";
 import { Radial } from "./gauges/radial";
 import { RadialBargraph } from "./gauges/radial-bargraph";
+import { RadialVertical } from "./gauges/radial-vertical";
 
 export {
   /* Steelseries tools & constants */
@@ -72,5 +73,6 @@ export {
   LinearBargraph,
   Odometer,
   Radial,
-  RadialBargraph
+  RadialBargraph,
+  RadialVertical
 };
