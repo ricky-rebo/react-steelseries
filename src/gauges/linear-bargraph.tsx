@@ -13,10 +13,10 @@ interface Props extends Omit<LinearBargraphParams, ExcludedParams> {
 	width: number;
 	height: number;
 
-	showLed: boolean;
-	showThreshold: boolean;
-	showMinMeasuredValue: boolean;
-	showMaxMeasuredValue: boolean;
+	showLed?: boolean;
+	showThreshold?: boolean;
+	showMinMeasuredValue?: boolean;
+	showMaxMeasuredValue?: boolean;
 
 	valueColorSection?: Section[];
 	valueColorGradient?: gradientWrapper;
