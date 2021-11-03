@@ -29,6 +29,7 @@ import { Led } from "./gauges/led";
 import { Level } from "./gauges/level";
 
 // FIXME(Riccardo Rebottini) TypeError: steelseries__WEBPACK_IMPORTED_MODULE_0__.Lightbulb is not a constructor
+// Maybe a bug in '@types/steelseries'?
 // import { Lightbulb } from "./gauges/light-bulb"; 
 
 import { Linear } from "./gauges/linear";
@@ -37,6 +38,11 @@ import { Odometer } from "./gauges/odometer";
 import { Radial } from "./gauges/radial";
 import { RadialBargraph } from "./gauges/radial-bargraph";
 import { RadialVertical } from "./gauges/radial-vertical";
+
+// FIXME TypeError: steelseries__WEBPACK_IMPORTED_MODULE_0__.Trafficlight is not a constructor
+// Maybe a bug '@type/steelseries'?
+//import { Trafficlight } from "./gauges/traffic-light";
+
 
 export {
   /* Steelseries tools & constants */
@@ -74,5 +80,6 @@ export {
   Odometer,
   Radial,
   RadialBargraph,
-  RadialVertical
+  RadialVertical,
+  // Trafficlight
 };
