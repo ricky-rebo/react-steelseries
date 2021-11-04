@@ -43,6 +43,8 @@ import { RadialVertical } from "./gauges/radial-vertical";
 // Maybe a bug '@type/steelseries'?
 //import { Trafficlight } from "./gauges/traffic-light";
 
+import { WindDirection } from "./gauges/wind-direction";
+
 
 export {
   /* Steelseries tools & constants */
@@ -82,4 +84,5 @@ export {
   RadialBargraph,
   RadialVertical,
   // Trafficlight
+  WindDirection
 };
