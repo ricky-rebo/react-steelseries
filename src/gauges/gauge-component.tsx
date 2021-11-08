@@ -26,7 +26,7 @@ export default abstract class GaugeComponent<P, G, GP> extends React.Component<P
 	}
 
 	cl(msg: string) {
-		console.log(`[${this.constructor.name}] ${msg}`)
+		if(DEBUG) console.log(`[${this.constructor.name}] ${msg}`)
 	}
 
 	componentDidMount(animate: boolean = true) {
