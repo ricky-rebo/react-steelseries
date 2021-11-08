@@ -59,31 +59,31 @@ export class Rose extends GaugeComponent<Props, ssRose, RoseParams> {
 
 	setValue() {
 		// DEBUG
-		if(DEBUG) console.log("set value");
+		if(DEBUG) this.cl(`set value`);
 		this.gauge.setValue(this.props.value);
 	}
 
 	setFrameDesign() {
 		//DEBUG
-		if(DEBUG) console.log("set frameDesign");
+		if(DEBUG) this.cl(`set frameDesign`);
 		this.gauge.setFrameDesign(this.props.frameDesign);
 	}
 
 	setBackgroundColor() {
 		// DEBUG
-		if(DEBUG) console.log("set backgroundColor")
+		if(DEBUG) this.cl(`set backgroundColor`)
 		this.gauge.setBackgroundColor(this.props.backgroundColor);
 	}
 
 	setForegroundType() {
 		// DEBUG
-		if(DEBUG) console.log("set foregrundType");
+		if(DEBUG) this.cl(`set foregrundType`);
 		this.gauge.setForegroundType(this.props.foregroundType);
 	}
 
 	setOdometerValue() {
 		// DEBUG
-		if(DEBUG) console.log("set odometerValue");
+		if(DEBUG) this.cl(`set odometerValue`);
 		this.props.animate
 			? this.gauge.setOdoValueAnimated(this.props.odometerValue, this.props.animationCallback)
 			: this.gauge.setOdoValue(this.props.odometerValue);
@@ -91,19 +91,19 @@ export class Rose extends GaugeComponent<Props, ssRose, RoseParams> {
 
 	setTitleString() {
 		// DEBUG
-		if(DEBUG) console.log("set titleString");
+		if(DEBUG) this.cl(`set titleString`);
 		this.gauge.setTitleString(this.props.titleString);
 	}
 
 	setUnitString() {
 		// DEBUG
-		if(DEBUG) console.log("set unitString");
+		if(DEBUG) this.cl(`set unitString`);
 		this.gauge.setUnitString(this.props.unitString);
 	}
 
 	setPointSymbols() {
 		// DEBUG
-		if(DEBUG) console.log("set pointSymbols");
+		if(DEBUG) this.cl(`set pointSymbols`);
 		this.gauge.setPointSymbols(this.props.pointSymbols);
 	}
 }

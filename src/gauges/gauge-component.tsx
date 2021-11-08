@@ -25,10 +25,14 @@ export default abstract class GaugeComponent<P, G, GP> extends React.Component<P
 		this.canvasRef = React.createRef();
 	}
 
+	cl(msg: string) {
+		console.log(`[${this.constructor.name}] ${msg}`)
+	}
+
 	componentDidMount(animate: boolean = true) {
 		if(this.canvasRef.current && this.GaugeClass) {
 			// DEBUG
-			if(DEBUG) console.log("rose init")
+			if(DEBUG) this.cl("init");
 			this.gauge = activator(this.GaugeClass, this.canvasRef.current, this.getGaugeParams());
 
 			this.gaugePostInit(animate);
@@ -45,7 +49,8 @@ export default abstract class GaugeComponent<P, G, GP> extends React.Component<P
 			for(let prop in this.props) {
 				if(this.props[prop] !== prev[prop] && !this.ignoredProps.includes(prop)) {
 					setter = getSetterName(prop)
-					console.log(`${prop} => ${setter}`);
+					// DEBUG
+					// console.log(`${prop} => ${setter}`);
 					if(setter in this) {
 						this[setter]();
 					}
