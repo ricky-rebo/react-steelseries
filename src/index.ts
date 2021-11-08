@@ -44,6 +44,7 @@ import { RadialVertical } from "./gauges/radial-vertical";
 //import { Trafficlight } from "./gauges/traffic-light";
 
 import { WindDirection } from "./gauges/wind-direction";
+import { Rose } from "./gauges/wind-rose";
 
 
 export {
@@ -84,5 +85,6 @@ export {
   RadialBargraph,
   RadialVertical,
   // Trafficlight
-  WindDirection
+  WindDirection,
+  Rose
 };
