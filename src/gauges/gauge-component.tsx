@@ -14,7 +14,7 @@ function activator<T>(type: IConstructor<T>, canvas: HTMLCanvasElement | string,
 
 
 export default abstract class GaugeComponent<P, G, GP> extends React.Component<P> {
-	GaugeClass: IConstructor<G>;
+	abstract GaugeClass: IConstructor<G>;
 	ignoredProps: string[] = [];
 
 	canvasRef: React.RefObject<HTMLCanvasElement>;
