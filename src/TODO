@@ -1,9 +1,5 @@
-- align gauges to Radial code structure
-	Done:
-	- LinearBargraph
-	- Radial
-	- Radialbargraph
+- align gauges to Rose approach (with GaugeComponent class)
 
-- impostare value come prop obbligatoria
+- stop possible gauge animations in componentWillUnmount()
 
-- aggiungere prop { time: Date } a clock per raggruppare i valori del time
+- impostare value come prop obbligatoria?

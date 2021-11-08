@@ -3,11 +3,9 @@ import { Clock as ssClock, ClockParams } from "steelseries";
 import { definedAndChanged, updateIfChanged } from "../tools";
 
 
-interface Props extends Partial<ClockParams> {
+interface Props extends Partial<Omit<ClockParams, "hour"|"minute"|"second|">> {
 	size: number;
-	hour: number;
-	minute: number;
-	second: number;
+	value: Date;
 }
 
 
@@ -34,9 +32,9 @@ export class Clock extends React.Component<Props> {
 				pointerColor: this.props.pointerColor,
 				size: this.props.size,
 	
-				hour: this.props.hour,
-				minute: this.props.minute,
-				second: this.props.second,
+				hour: this.props.value.getHours(),
+				minute: this.props.value.getMinutes(),
+				second: this.props.value.getSeconds(),
 	
 				/* Should be opional, but they're not... */
 				// BUG fix in @types/steelseries
@@ -82,20 +80,22 @@ export class Clock extends React.Component<Props> {
 				updateIfChanged(props.secondPointerVisible, prev.secondPointerVisible, this.gauge.setSecondPointerVisible.bind(this.gauge));
 				updateIfChanged(props.secondMovesContinuous, prev.secondMovesContinuous, this.gauge.setSecondMovesContinuous.bind(this.gauge));
 				
-				if(props.hour !== prev.hour) {
-					this.gauge.setHour(props.hour);
+				if(props.value.getHours() !== prev.value.getHours()) {
+					this.gauge.setHour(props.value.getHours());
 				}
 
-				if(props.minute !== prev.minute) {
-					this.gauge.setMinute(props.minute);
+				if(props.value.getMinutes() !== prev.value.getMinutes()) {
+					this.gauge.setMinute(props.value.getMinutes());
 				}
 				
-				if(props.second !== prev.second) {
-					this.gauge.setSecond(props.second);
+				if(props.value.getSeconds() !== prev.value.getSeconds()) {
+					this.gauge.setSecond(props.value.getSeconds());
 				}
 			}
 		}
 	}
+
+	// TODO stop animations in componentWillUnmount()
 
 	render() {
 		return <canvas ref={this.canvasRef}></canvas>
