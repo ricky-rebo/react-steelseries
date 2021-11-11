@@ -67,7 +67,7 @@ export default abstract class GaugeComponent<P, G, GP> extends React.Component<P
 					setter = getSetterName(prop)
 					// DEBUG
 					// console.log(`${prop} => ${setter}`);
-					if(setter in this) {
+					if(setter in this && typeof this[setter] === 'function') {
 						this[setter]();
 					}
 					else {
