@@ -48,7 +48,9 @@ export default abstract class GaugeComponent<P, G, GP> extends React.Component<P
 			
 			this.gauge = new this.GaugeClass(this.canvasRef.current, this.getGaugeParams());
 
-			this.gaugePostInit(animate);
+			if(this.gaugePostInit) {
+				this.gaugePostInit(animate);
+			}
 		}
 	}
 

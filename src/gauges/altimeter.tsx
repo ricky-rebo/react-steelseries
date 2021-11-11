@@ -1,8 +1,6 @@
 import GaugeComponent from "./gauge-component";
 import { Altimeter as ssAltimeter, AltimeterParams } from "steelseries";
 
-const DEBUG = true;
-
 
 interface Props extends AltimeterParams {
 	size: number;
