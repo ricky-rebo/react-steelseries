@@ -42,8 +42,6 @@ export class Clock extends GaugeComponent<Props, ssClock, ClockParams> {
 		}
 	}
 
-	gaugePostInit() {}
-
 	setFrameDesign() {
 		this.cl(`set frameDesign`);
 		if(this.gauge) {

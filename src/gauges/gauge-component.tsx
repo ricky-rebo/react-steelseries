@@ -12,7 +12,9 @@ function activator<T>(type: IConstructor<T>, canvas: HTMLCanvasElement | string,
 	return new type(canvas, parameters);
 }
 
-
+export default interface GaugeComponent<P, G, GP> {
+	gaugePostInit?(animate: boolean): void;
+}
 export default abstract class GaugeComponent<P, G, GP> extends React.Component<P> {
 	abstract GaugeClass: IConstructor<G>;
 	ignoredProps: string[] = [];
@@ -40,8 +42,6 @@ export default abstract class GaugeComponent<P, G, GP> extends React.Component<P
 	}
 
 	abstract getGaugeParams(): GP;
-
-	abstract gaugePostInit(animate: boolean): void;
 
 	componentDidUpdate(prev: P) {
 		if(this.gauge) {
