@@ -89,7 +89,9 @@ export class Clock extends GaugeComponent<Props, ssClock, ClockParams> {
 
 	setSecondPointerTick() {
 		this.log("set secondPointerTick");
+		if(this.props.isAutomatic) this.gauge.setAutomatic(false);
 		this.gauge.setSecondMovesContinuous(!this.props.secondPointerTick);
+		if(this.props.isAutomatic) this.gauge.setAutomatic(true);
 	}
 
 	setValue() {
