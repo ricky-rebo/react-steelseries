@@ -29,7 +29,11 @@ export class DisplayMulti extends GaugeComponent<Props, ssDisplayMulti, DisplayM
 		linkAltValue: (this.props.linkAltValue === undefined) ? false : this.props.linkAltValue,
 		valuesNumeric: this.props.valuesNumeric,
 		value: this.props.value,
-		altValue: this.props.altValue
+		altValue: this.props.altValue,
+
+		lcdColor: this.props.lcdColor,
+		digitalFont: this.props.digitalFont,
+		lcdDecimals: this.props.lcdDecimals
 	});
 
 	setLcdColor() {

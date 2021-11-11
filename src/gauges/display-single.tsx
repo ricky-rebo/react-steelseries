@@ -1,69 +1,66 @@
-import React from "react";
+import GaugeComponent from "./gauge-component";
 import { DisplaySingle as ssDisplaySingle, DisplaySingleParams } from "steelseries";
-import { definedAndChanged, updateIfChanged } from "../tools";
 
 
-interface Props extends Omit<DisplaySingleParams, "headerStringVisible"|"unitStringVisible"> {
+
+type ExcludedParams = "headerStringVisible"
+	|"unitStringVisible"
+	|"alwaysScroll";
+interface Props extends Omit<DisplaySingleParams, ExcludedParams> {
 	width: number;
 	height: number;
+
+	showHeaderString?: boolean;
+	showUnitString?: boolean;
+
+	infiniteScroll?: boolean;
 }
 
 
-export class DisplaySingle extends React.Component<Props> {
-	canvasRef: React.RefObject<HTMLCanvasElement>;
-	gauge: ssDisplaySingle;
+export class DisplaySingle extends GaugeComponent<Props, ssDisplaySingle, DisplaySingleParams> {
+	GaugeClass = ssDisplaySingle;
 
-	constructor(props: Props) {
-		super(props);
+	getGaugeParams: () => DisplaySingleParams = () => ({
+		width: this.props.width,
+		height: this.props.height,
+		section: this.props.section,
+		headerString: this.props.headerString,
+		headerStringVisible: this.props.showHeaderString,
+		unitString: this.props.unitString,
+		unitStringVisible: this.props.valuesNumeric,
+		value: this.props.value,
+		alwaysScroll: this.props.infiniteScroll,
+		autoScroll: this.props.autoScroll,
 
-		this.canvasRef = React.createRef();
+		lcdColor: this.props.lcdColor,
+		digitalFont: this.props.digitalFont,
+		lcdDecimals: this.props.lcdDecimals
+	});
+
+	setLcdColor() {
+		this.log("set lcdColor");
+		this.gauge.setLcdColor(this.props.lcdColor);
 	}
 
-	componentDidMount() {
-		if(this.canvasRef.current) {
-			this.gauge = new ssDisplaySingle(this.canvasRef.current, {
-				...this.props,
-				headerStringVisible: (this.props.headerString !== undefined),
-				unitStringVisible: (this.props.unitString !== undefined),
-				valuesNumeric: (this.props.valuesNumeric !== undefined) ? this.props.valuesNumeric : (typeof this.props.value === "number")
-			});
-			
-			if(this.props.value) { this.gauge.setValue(this.props.value); }
+	setSection() {
+		this.log("set section");
+		this.gauge.setSection(this.props.section);
+	}
+
+	setAutoScroll() {
+		this.log("set autoScroll");
+		this.gauge.setScrolling(this.props.autoScroll);
+	}
+
+	setValue() {
+		this.log("set value");
+		this.gauge.setValue(this.props.value);
+	}
+
+	componentWillUnmount() {
+		if(this.gauge) {
+			this.log("unmount");
+			this.gauge.setScrolling(false);
 		}
-	}
-
-	gaugeShouldRepaint(prev: Props) {
-		return (this.props.width !== prev.width) 
-			|| (this.props.height !== prev.height) 
-			|| (typeof this.props.value !== typeof prev.value)
-			|| definedAndChanged(this.props.digitalFont, prev.digitalFont)
-			|| definedAndChanged(this.props.lcdDecimals, prev.lcdDecimals)
-			|| (this.props.headerString && prev.headerString === undefined)
-			|| (this.props.headerString === undefined && prev.headerString)
-			|| (this.props.unitString && prev.unitString === undefined)
-			|| (this.props.unitString === undefined && prev.unitString)
-			|| definedAndChanged(this.props.alwaysScroll, prev.alwaysScroll);
-	}
-
-	componentDidUpdate(prev: Props) {
-		if(this.canvasRef.current) {
-			if(this.gaugeShouldRepaint(prev)) {
-				this.componentDidMount();
-			}
-			else {
-				const { props } = this;
-
-				updateIfChanged(props.lcdColor, prev.lcdColor, this.gauge.setLcdColor.bind(this.gauge));
-				updateIfChanged(props.section, prev.section, this.gauge.setSection.bind(this.gauge));
-
-				updateIfChanged(props.autoScroll, prev.autoScroll, this.gauge.setScrolling.bind(this.gauge));
-
-				updateIfChanged(props.value, prev.value, this.gauge.setValue.bind(this.gauge));
-			}
-		}
-	}
-
-	render() {
-		return <canvas ref={this.canvasRef}></canvas>
 	}
 }
