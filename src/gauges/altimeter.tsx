@@ -60,38 +60,32 @@ export class Altimeter extends GaugeComponent<Props, ssAltimeter, AltimeterParam
 	}
 
 	setFrameDesign() {
-		//DEBUG
-		if(DEBUG) this.cl(`set frameDesign`);
+		this.log(`set frameDesign`);
 		this.gauge.setFrameDesign(this.props.frameDesign);
 	}
 
 	setBackgroundColor() {
-		// DEBUG
-		if(DEBUG) this.cl(`set backgroundColor`)
+		this.log(`set backgroundColor`)
 		this.gauge.setBackgroundColor(this.props.backgroundColor);
 	}
 
 	setForegroundType() {
-		// DEBUG
-		if(DEBUG) this.cl(`set foregrundType`);
+		this.log(`set foregrundType`);
 		this.gauge.setForegroundType(this.props.foregroundType);
 	}
 
 	setLcdColor() {
-		// DEBUG
-		if(DEBUG) this.cl(`set lcdColor`);
+		this.log(`set lcdColor`);
 		this.gauge.setLcdColor(this.props.lcdColor);
 	}
 
 	setTitleString() {
-		// DEBUG
-		if(DEBUG) this.cl(`set titleString`);
+		this.log(`set titleString`);
 		this.gauge.setTitleString(this.props.titleString);
 	}
 
 	setUnitString() {
-		// DEBUG
-		if(DEBUG) this.cl(`set unitString`);
+		this.log(`set unitString`);
 		this.gauge.setUnitString(this.props.unitString);
 
 		if(this.props.resetValueOnUnitChange && this.props.animate) {
@@ -100,8 +94,7 @@ export class Altimeter extends GaugeComponent<Props, ssAltimeter, AltimeterParam
 	}
 
 	setValue() {
-		// DEBUG
-		if(DEBUG) this.cl(`set value`);
+		this.log(`set value`);
 		if(this.props.animate) {
 			this.gauge.setValueAnimated(this.props.value, this.props.animationCallback);
 		}
