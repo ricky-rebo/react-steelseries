@@ -1,11 +1,18 @@
 import React from "react";
 import { Linear as ssLinear, LinearParams } from "steelseries";
 import { definedAndChanged, updateIfChanged } from "../tools";
+import GaugeComponent from "./gauge-component";
 
 
-interface Props extends LinearParams {
+type ExcludedParams = "ledVisible"|"minMeasuredValueVisible"|"maxMeasuredValueVisible"|"thresholdVisible";
+interface Props extends Omit<LinearParams, ExcludedParams> {
 	width: number;
 	height: number;
+
+	showLed?: boolean;
+	showThreshold?: boolean;
+	showMinMeasuredValue?: boolean;
+	showMaxMeasuredValue?: boolean;
 
 	value?: number;
 	minMeasuredValue?: number;
@@ -18,132 +25,187 @@ interface Props extends LinearParams {
 }
 
 
-export class Linear extends React.Component<Props> {
-	canvasRef: React.RefObject<HTMLCanvasElement>;
-	gauge: ssLinear;
+export class Linear extends GaugeComponent<Props, ssLinear, LinearParams> {
+	GaugeClass = ssLinear;
+	ignoredProps = ["animate", "animationCallback", "resetValueOnBoundsChange"]
 
-	constructor(props: Props) {
-		super(props);
-		this.canvasRef = React.createRef();
-	}
+	valueReset = false;
+	prevValue = 0;
 
-	componentDidMount() {
-		if(this.canvasRef.current) {
-			this.gauge = new ssLinear(this.canvasRef.current, {
-				width: this.props.width,
-				height: this.props.height,
+	getGaugeParams = () => ({
+		width: this.props.width,
+		height: this.props.height,
 
-				gaugeType: this.props.gaugeType,
-				frameDesign: this.props.frameDesign,
-				frameVisible: this.props.frameVisible,
-				backgroundColor: this.props.backgroundColor,
-				backgroundVisible: this.props.backgroundVisible,
-				foregroundVisible: this.props.foregroundVisible,
+		gaugeType: this.props.gaugeType,
+		frameDesign: this.props.frameDesign,
+		frameVisible: this.props.frameVisible,
+		backgroundColor: this.props.backgroundColor,
+		backgroundVisible: this.props.backgroundVisible,
+		foregroundVisible: this.props.foregroundVisible,
 
-				lcdColor: this.props.lcdColor,
-				digitalFont: this.props.digitalFont,
-				lcdDecimals: this.props.lcdDecimals,
-				lcdVisible: this.props.lcdVisible,
+		lcdColor: this.props.lcdColor,
+		digitalFont: this.props.digitalFont,
+		lcdDecimals: this.props.lcdDecimals,
+		lcdVisible: this.props.lcdVisible,
 
-				ledColor: this.props.ledColor,
-				ledVisible: this.props.ledVisible,
+		ledColor: this.props.ledColor,
+		ledVisible: (this.props.showLed === undefined) ? false : this.props.showLed,
 
-				valueColor: this.props.valueColor,
-				minValue: this.props.minValue,
-				maxValue: this.props.maxValue,
-				minMeasuredValueVisible: this.props.minMeasuredValueVisible,
-				maxMeasuredValueVisible: this.props.maxMeasuredValueVisible,
-				niceScale: this.props.niceScale,
-				labelNumberFormat: this.props.labelNumberFormat,
-				threshold: this.props.threshold,
-				thresholdRising: this.props.thresholdRising,
-				thresholdVisible: this.props.thresholdVisible,
-				fullScaleDeflectionTime: this.props.fullScaleDeflectionTime,
-				playAlarm: this.props.playAlarm,
-				alarmSound: this.props.alarmSound,
+		valueColor: this.props.valueColor,
+		minValue: this.props.minValue,
+		maxValue: this.props.maxValue,
+		minMeasuredValueVisible: this.props.showMinMeasuredValue,
+		maxMeasuredValueVisible: this.props.showMaxMeasuredValue,
+		niceScale: this.props.niceScale,
+		labelNumberFormat: this.props.labelNumberFormat,
+		threshold: this.props.threshold,
+		thresholdRising: this.props.thresholdRising,
+		thresholdVisible: (this.props.showThreshold === undefined) ? false : this.props.showThreshold,
+		fullScaleDeflectionTime: this.props.fullScaleDeflectionTime,
+		playAlarm: this.props.playAlarm,
+		alarmSound: this.props.alarmSound,
 
-				titleString: this.props.titleString,
-				unitString: this.props.unitString,
-			});
+		titleString: this.props.titleString,
+		unitString: this.props.unitString,
+	});
 
-			if(this.props.value) {
-				this.props.animate
-					? this.gauge.setValueAnimated(this.props.value, this.props.animationCallback)
-					: this.gauge.setValue(this.props.value);
-			}
+	gaugePostInit(animate: boolean) {
+		if(this.props.value) {
+			this.props.animate && animate
+				? this.gauge.setValueAnimated(this.props.value, this.props.animationCallback)
+				: this.gauge.setValue(this.props.value);
+		}
 
-			if(this.props.minMeasuredValue) {
-				this.gauge.setMinMeasuredValue(this.props.minMeasuredValue);
-			}
+		if(this.props.minMeasuredValue) {
+			this.gauge.setMinMeasuredValue(this.props.minMeasuredValue);
+		}
 
-			if(this.props.maxMeasuredValue) {
-				this.gauge.setMaxMeasuredValue(this.props.maxMeasuredValue);
-			}
+		if(this.props.maxMeasuredValue) {
+			this.gauge.setMaxMeasuredValue(this.props.maxMeasuredValue);
 		}
 	}
 
-	gaugeShouldRepaint(prev: Props) {
-		return (this.props.width !== prev.width)
-			|| (this.props.height !== prev.height)
-			|| definedAndChanged(this.props.gaugeType, prev.gaugeType)
-			|| definedAndChanged(this.props.frameVisible, prev.frameVisible)
-			|| definedAndChanged(this.props.backgroundVisible, prev.backgroundVisible)
-			|| definedAndChanged(this.props.foregroundVisible, prev.foregroundVisible)
-			|| definedAndChanged(this.props.digitalFont, prev.digitalFont)
-			|| definedAndChanged(this.props.lcdVisible, prev.lcdVisible)
-			|| definedAndChanged(this.props.niceScale, prev.niceScale)
-			|| definedAndChanged(this.props.labelNumberFormat, prev.labelNumberFormat)
-			|| definedAndChanged(this.props.playAlarm, prev.playAlarm)
-			|| definedAndChanged(this.props.alarmSound, prev.alarmSound)
-			|| definedAndChanged(this.props.fullScaleDeflectionTime, prev.fullScaleDeflectionTime);
+	setFrameDesign() {
+		this.log();
+		this.gauge.setFrameDesign(this.props.frameDesign);
 	}
 
-	componentDidUpdate(prev: Props) {
-		if(this.gauge) {
-			if(this.gaugeShouldRepaint(prev)) {
-				this.componentDidMount();
-			}
-			else {
-				const { props, gauge } = this;
+	setBackgroundColor() {
+		this.log()
+		this.gauge.setBackgroundColor(this.props.backgroundColor);
+	}
 
-				updateIfChanged(props.frameDesign, prev.frameDesign, gauge.setFrameDesign.bind(gauge));
-				updateIfChanged(props.backgroundColor, prev.backgroundColor, gauge.setBackgroundColor.bind(gauge));
-				
-				updateIfChanged(props.lcdColor, prev.lcdColor, gauge.setLcdColor.bind(gauge));
-				updateIfChanged(props.lcdDecimals, prev.lcdDecimals, gauge.setLcdDecimals.bind(this));
-				updateIfChanged(props.ledColor, prev.ledColor, gauge.setLedColor.bind(gauge));
-				updateIfChanged(props.ledVisible, prev.ledVisible, gauge.setLedVisible.bind(gauge));
-				updateIfChanged(props.valueColor, prev.valueColor, gauge.setValueColor.bind(gauge));
-				
-				updateIfChanged(props.threshold, prev.threshold, gauge.setThreshold.bind(gauge));
-				updateIfChanged(props.thresholdRising, prev.thresholdRising, gauge.setThresholdRising.bind(gauge));
-				updateIfChanged(props.thresholdVisible, prev.thresholdVisible, gauge.setThresholdVisible.bind(gauge));
+	setLcdColor() {
+		this.log();
+		this.gauge.setLcdColor(this.props.lcdColor);
+	}
 
-				updateIfChanged(props.titleString, prev.titleString, gauge.setTitleString.bind(gauge));
-				updateIfChanged(props.unitString, prev.unitString, gauge.setUnitString.bind(gauge));
+	setLcdDecimals() {
+		this.log();
+		this.gauge.setLcdDecimals(this.props.lcdDecimals);
+	}
 
-				let minUpd = updateIfChanged(props.minValue, prev.minValue, gauge.setMinValue.bind(gauge));
-				let maxUpd = updateIfChanged(props.maxValue, prev.maxValue, gauge.setMaxValue.bind(gauge));
+	setLedColor() {
+		this.log();
+		this.gauge.setLedColor(this.props.ledColor);
+	}
 
-				if((minUpd || maxUpd) && props.resetValueOnBoundsChange && props.animate) {
-					gauge.setValue(gauge.getMinValue());
-				}
+	setShowLed() {
+		this.log();
+		this.gauge.setLedVisible(this.props.showLed);
+	}
 
-				updateIfChanged(props.minMeasuredValue, prev.minMeasuredValue, gauge.setMinMeasuredValue.bind(gauge));
-				updateIfChanged(props.minMeasuredValueVisible, prev.minMeasuredValueVisible, gauge.setMinMeasuredValueVisible.bind(gauge));
-				updateIfChanged(props.maxMeasuredValue, props.maxMeasuredValue, gauge.setMaxMeasuredValue.bind(gauge));
-				updateIfChanged(props.maxMeasuredValueVisible, prev.maxMeasuredValueVisible, gauge.setMaxMeasuredValueVisible.bind(gauge));
+	setValueColor() {
+		this.log();
+		this.gauge.setValueColor(this.props.valueColor);
+	}
 
-				updateIfChanged(props.value, prev.value, () => {
-					props.animate
-						? gauge.setValueAnimated(props.value, props.animationCallback)
-						: gauge.setValue(props.value);
-				});
-			}
+	setThreshold() {
+		this.log();
+		this.gauge.setThreshold(this.props.threshold);
+	}
+
+	setThresholdRising() {
+		this.log();
+		this.gauge.setThresholdRising(this.props.thresholdRising);
+	}
+
+	// BUG in 'steelseries' library
+	// Linear.setThresholdVisible might not work properly
+	// missimg buffer resets and re-init?
+	// setShowThreshold() {
+	// 	this.log();
+	// 	this.gauge.setThresholdVisible(this.props.showThreshold);
+	// }
+
+	setTitleString() {
+		this.log();
+		this.gauge.setTitleString(this.props.titleString);
+	}
+
+	setUnitString() {
+		this.log();
+		this.gauge.setUnitString(this.props.unitString);
+	}
+
+	setMinValue() {
+		this.log();
+		this.gauge.setMinValue(this.props.minValue);
+
+		if(this.props.resetValueOnBoundsChange && !this.valueReset && this.props.animate) {
+			this.prevValue = this.gauge.getValue();
+			this.valueReset = true;
+			this.gauge.setValue(this.gauge.getMinValue());
 		}
 	}
 
-	render() {
-		return <canvas ref={this.canvasRef}></canvas>
+	setMaxValue() {
+		this.log();
+		this.gauge.setMaxValue(this.props.maxValue);
+
+		if(this.props.resetValueOnBoundsChange && !this.valueReset && this.props.animate) {
+			this.prevValue = this.gauge.getValue();
+			this.valueReset = true;
+			this.gauge.setValue(this.gauge.getMinValue());
+		}
+	}
+
+	setShowMinMeasuredValue() {
+		this.log();
+		this.gauge.setMinMeasuredValueVisible(this.props.showMinMeasuredValue);
+	}
+
+	setMinMeasuredValue() {
+		this.log();
+		this.gauge.setMinMeasuredValue(this.props.minMeasuredValue);
+	}
+
+	setShowMaxMeasuredValue() {
+		this.log();
+		this.gauge.setMaxMeasuredValueVisible(this.props.showMaxMeasuredValue);
+	}
+
+	setMaxMeasuredValue() {
+		this.log();
+		this.gauge.setMaxMeasuredValue(this.props.maxMeasuredValue);
+	}
+
+	setValue() {
+		this.log();
+		if(this.props.animate) {
+			this.gauge.setValueAnimated(this.props.value, this.props.animationCallback);
+
+			if(this.valueReset) this.valueReset = false;
+		}
+		else {
+			this.gauge.setValue(this.props.value);
+		}
+	}
+
+	gaugePostUpdate() {
+		if(this.valueReset) {
+			this.gauge.setValueAnimated(this.prevValue, this.props.animationCallback);
+			this.valueReset = false;
+		}
 	}
 }
