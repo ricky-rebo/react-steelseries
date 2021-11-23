@@ -12,7 +12,12 @@ interface IConstructor<T> {
 export default interface GaugeComponent<P, G, GP> {
 
 	/**
-	 * Additional code right after gauge initialization
+	 * Additional code to be executed right before gauge init
+	 */
+	gaugePreInit?(): void;
+
+	/**
+	 * Additional code to be execudet right after gauge init
 	 * 
 	 * @param animate enable animation, if gauge supports it 
 	 */
@@ -41,10 +46,19 @@ export default abstract class GaugeComponent<P, G, GP> extends React.Component<P
 		if(DEBUG) console.log(`[${this.constructor.name}] ${msg}`)
 	}
 
+	/**
+	 * Return Steelseries gauge params, based on this.props
+	 */
+	abstract getGaugeParams(): GP;
+
 	componentDidMount(animate: boolean = true) {
 		if(this.canvasRef.current && this.GaugeClass) {
 			// DEBUG
 			this.log("init");
+
+			if(this.gaugePreInit) {
+				this.gaugePreInit();
+			}
 			
 			this.gauge = new this.GaugeClass(this.canvasRef.current, this.getGaugeParams());
 
@@ -53,11 +67,6 @@ export default abstract class GaugeComponent<P, G, GP> extends React.Component<P
 			}
 		}
 	}
-
-	/**
-	 * Return Steelseries gauge params, based on this.props
-	 */
-	abstract getGaugeParams(): GP;
 
 	componentDidUpdate(prev: P) {
 		if(this.gauge) {
