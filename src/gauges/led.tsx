@@ -1,6 +1,6 @@
-import React from "react";
+import GaugeComponent from "./gauge-component";
 import { Led as ssLed, LedParams } from "steelseries";
-import { updateIfChanged } from "../tools";
+
 
 
 interface Props extends LedParams {
@@ -10,56 +10,43 @@ interface Props extends LedParams {
 }
 
 
-export class Led extends React.Component<Props> {
-	canvasRef: React.RefObject<HTMLCanvasElement>;
-	gauge: ssLed;
+export class Led extends GaugeComponent<Props, ssLed, LedParams> {
+	GaugeClass = ssLed;
 
-	constructor(props: Props) {
-		super(props);
-		this.canvasRef = React.createRef();
+	getGaugeParams = () => ({
+		size: this.props.size,
+		ledColor: this.props.ledColor
+	});
+
+	gaugePreInit() {
+		if(this.gauge) {
+			this.gauge.blink(false);
+		}	
 	}
 
-	componentDidMount() {
-		if(this.canvasRef.current) {
-			this.gauge = new ssLed(this.canvasRef.current, {
-				size: this.props.size,
-				ledColor: this.props.ledColor
-			});
-		
-			if(this.props.on !== undefined) {
-				this.gauge.setLedOnOff(this.props.on);
-			}
-		
-			if(this.props.blink !== undefined) {
-				this.gauge.blink(this.props.blink);
-			}
+	gaugePostInit() {
+		if(this.props.on !== undefined) {
+			this.gauge.setLedOnOff(this.props.on);
+		}
+	
+		if(this.props.blink !== undefined) {
+			this.gauge.blink(this.props.blink);
 		}
 	}
 
-	gaugeShouldRepaint(prev: Props) {
-		return (this.props.size !== prev.size);
+	setLedColor() {
+		this.gauge.setLedColor(this.props.ledColor);
 	}
 
-	componentDidUpdate(prev: Props) {
-		if(this.canvasRef.current) {
-			if(this.gaugeShouldRepaint(prev)) {
-				// Stop animation before redrawing the gauge
-				// otherwise it brokes
-				this.gauge.blink(false); 
-				this.componentDidMount();
-			}
-			else {
-				const { props, gauge } = this;
-
-				updateIfChanged(props.ledColor, prev.ledColor, gauge.setLedColor.bind(gauge));
-
-				updateIfChanged(props.on, prev.on, gauge.setLedOnOff.bind(gauge));
-				updateIfChanged(props.blink, prev.blink, gauge.blink.bind(gauge));
-			}
-		}
+	setOn() {
+		this.gauge.setLedOnOff(this.props.on);
 	}
 
-	render() {
-		return <canvas ref={this.canvasRef}></canvas>
+	setBlink() {
+		this.gauge.blink(this.props.blink);
+	}
+
+	componentWillUnmount() {
+		this.gaugePreInit()
 	}
 }
