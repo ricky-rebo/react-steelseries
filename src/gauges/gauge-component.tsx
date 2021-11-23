@@ -22,6 +22,16 @@ export default interface GaugeComponent<P, G, GP> {
 	 * @param animate enable animation, if gauge supports it 
 	 */
 	gaugePostInit?(animate: boolean): void;
+
+	/**
+	 * Execudet right before gauge update
+	 */
+	gaugePreUpdate?(): void;
+
+	/**
+	 * Executed right after gauge update
+	 */
+	gaugePostUpdate?(): void;
 }
 export default abstract class GaugeComponent<P, G, GP> extends React.Component<P> {
 	/**
@@ -42,8 +52,8 @@ export default abstract class GaugeComponent<P, G, GP> extends React.Component<P
 		this.canvasRef = React.createRef();
 	}
 
-	log(msg: string) {
-		if(DEBUG) console.log(`[${this.constructor.name}] ${msg}`)
+	log(_msg?: string) {
+		if(DEBUG) console.log(`[${this.constructor.name}] ${this.log.caller.name}`)
 	}
 
 	/**
@@ -70,6 +80,10 @@ export default abstract class GaugeComponent<P, G, GP> extends React.Component<P
 
 	componentDidUpdate(prev: P) {
 		if(this.gauge) {
+			if(this.gaugePreUpdate) {
+				this.gaugePreUpdate();
+			}
+
 			let setter: string;
 			for(let prop in this.props) {
 				if(this.props[prop] !== prev[prop] && !this.ignoredProps.includes(prop)) {
@@ -84,6 +98,10 @@ export default abstract class GaugeComponent<P, G, GP> extends React.Component<P
 						return;
 					}
 				}
+			}
+
+			if(this.gaugePostUpdate) {
+				this.gaugePostUpdate();
 			}
 		}
 	}
