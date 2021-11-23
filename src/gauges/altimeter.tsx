@@ -22,6 +22,9 @@ export class Altimeter extends GaugeComponent<Props, ssAltimeter, AltimeterParam
 	GaugeClass = ssAltimeter;
 	ignoredProps = ['animate', 'animationCallback', 'resetValueOnUnitChange']
 
+	valueReset = false;
+	prevValue = 0;
+
 	getGaugeParams() {
 		return {
 			frameDesign: this.props.frameDesign,
@@ -87,6 +90,8 @@ export class Altimeter extends GaugeComponent<Props, ssAltimeter, AltimeterParam
 		this.gauge.setUnitString(this.props.unitString);
 
 		if(this.props.resetValueOnUnitChange && this.props.animate) {
+			this.valueReset = true;
+			this.prevValue = this.gauge.getValue()
 			this.gauge.setValue(0);
 		}
 	}
@@ -95,9 +100,20 @@ export class Altimeter extends GaugeComponent<Props, ssAltimeter, AltimeterParam
 		this.log(`set value`);
 		if(this.props.animate) {
 			this.gauge.setValueAnimated(this.props.value, this.props.animationCallback);
+
+			if(this.valueReset) {
+				this.valueReset = false;
+			}
 		}
 		else {
 			this.gauge.setValue(this.props.value);
+		}
+	}
+
+	gaugePostUpdate() {
+		if(this.valueReset) {
+			this.gauge.setValueAnimated(this.prevValue, this.props.animationCallback);
+			this.valueReset = false;
 		}
 	}
 }
