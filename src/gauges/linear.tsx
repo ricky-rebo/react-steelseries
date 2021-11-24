@@ -1,10 +1,12 @@
-import React from "react";
 import { Linear as ssLinear, LinearParams } from "steelseries";
-import { definedAndChanged, updateIfChanged } from "../tools";
+
 import GaugeComponent from "./gauge-component";
 
 
-type ExcludedParams = "ledVisible"|"minMeasuredValueVisible"|"maxMeasuredValueVisible"|"thresholdVisible";
+type ExcludedParams = "ledVisible"
+	|"minMeasuredValueVisible"
+	|"maxMeasuredValueVisible"
+	|"thresholdVisible";
 interface Props extends Omit<LinearParams, ExcludedParams> {
 	width: number;
 	height: number;
