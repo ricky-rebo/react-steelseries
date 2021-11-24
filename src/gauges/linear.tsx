@@ -87,6 +87,11 @@ export class Linear extends GaugeComponent<Props, ssLinear, LinearParams> {
 		}
 	}
 
+	gaugePreUpdate() {
+		if(this.valueReset)
+			this.valueReset = false;
+	}
+
 	setFrameDesign() {
 		this.log();
 		this.gauge.setFrameDesign(this.props.frameDesign);
