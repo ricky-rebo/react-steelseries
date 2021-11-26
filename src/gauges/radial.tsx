@@ -1,6 +1,6 @@
-import React from "react";
 import { OdometerParams, Radial as ssRadial, RadialParams, Section, TrendState } from "steelseries";
-import { updateIfChanged } from "../tools";
+
+import GaugeComponent from "./gauge-component";
 
 // BUG @types/steelseries
 // Define a subset of params for Radial Odometer
@@ -49,194 +49,291 @@ interface Props extends Omit<RadialParams, ExcludedParams> {
 }
 
 
-export class Radial extends React.Component<Props> {
-	canvasRef: React.RefObject<HTMLCanvasElement>;
-	gauge: ssRadial;
+export class Radial extends GaugeComponent<Props, ssRadial, RadialParams> {
+	GaugeClass = ssRadial;
+	ignoredProps = ["animate", "animationCallback", "resetValueOnBoundsChange"];
 
-	constructor(props: Props) {
-		super(props);
-		this.canvasRef = React.createRef();
-	}
+	valueReset = false;
+	prevValue = 0;
 
-	componentDidMount(animate: boolean = true) {
-		if(this.canvasRef.current) {
-			this.gauge = new ssRadial(this.canvasRef.current, {
-				size: this.props.size,
-				gaugeType: this.props.gaugeType,
+	getGaugeParams = () => ({
+		size: this.props.size,
+		gaugeType: this.props.gaugeType,
 
-				frameDesign: this.props.frameDesign,
-				frameVisible: this.props.frameVisible,
-				backgroundColor: this.props.backgroundColor,
-				backgroundVisible: this.props.backgroundVisible,
-				foregroundType: this.props.foregroundType,
-				foregroundVisible: this.props.foregroundVisible,
+		frameDesign: this.props.frameDesign,
+		frameVisible: this.props.frameVisible,
+		backgroundColor: this.props.backgroundColor,
+		backgroundVisible: this.props.backgroundVisible,
+		foregroundType: this.props.foregroundType,
+		foregroundVisible: this.props.foregroundVisible,
 
-				knobType: this.props.knobType,
-				knobStyle: this.props.knobStyle,
-				pointerType: this.props.pointerType,
-				pointerColor: this.props.pointerColor,
+		knobType: this.props.knobType,
+		knobStyle: this.props.knobStyle,
+		pointerType: this.props.pointerType,
+		pointerColor: this.props.pointerColor,
 
-				lcdColor: this.props.lcdColor,
-				digitalFont: this.props.digitalFont,
-				lcdDecimals: this.props.lcdDecimals,
-				lcdVisible: this.props.lcdVisible,
+		lcdColor: this.props.lcdColor,
+		digitalFont: this.props.digitalFont,
+		lcdDecimals: this.props.lcdDecimals,
+		lcdVisible: this.props.lcdVisible,
 
-				minValue: this.props.minValue,
-				maxValue: this.props.maxValue,
-				minMeasuredValueVisible: this.props.showMinMeasuredValue,
-				maxMeasuredValueVisible: this.props.showMaxMeasuredValue,
-				niceScale: this.props.niceScale,
-				labelNumberFormat: this.props.labelNumberFormat,
-				threshold: this.props.threshold,
-				thresholdRising: this.props.thresholdRising,
-				thresholdVisible: (this.props.showThreshold === undefined) ? false : this.props.showThreshold,
-				fullScaleDeflectionTime: this.props.fullScaleDeflectionTime,
-				playAlarm: this.props.playAlarm,
-				alarmSound: this.props.alarmSound,
+		minValue: this.props.minValue,
+		maxValue: this.props.maxValue,
+		minMeasuredValueVisible: this.props.showMinMeasuredValue,
+		maxMeasuredValueVisible: this.props.showMaxMeasuredValue,
+		niceScale: this.props.niceScale,
+		labelNumberFormat: this.props.labelNumberFormat,
+		threshold: this.props.threshold,
+		thresholdRising: this.props.thresholdRising,
+		thresholdVisible: (this.props.showThreshold === undefined) ? false : this.props.showThreshold,
+		fullScaleDeflectionTime: this.props.fullScaleDeflectionTime,
+		playAlarm: this.props.playAlarm,
+		alarmSound: this.props.alarmSound,
 
-				titleString: this.props.titleString,
-				unitString: this.props.unitString,
+		titleString: this.props.titleString,
+		unitString: this.props.unitString,
 
-				ledColor: this.props.ledColor,
-				ledVisible: (this.props.showLed === undefined) ? false : this.props.showLed,
+		ledColor: this.props.ledColor,
+		ledVisible: (this.props.showLed === undefined) ? false : this.props.showLed,
 
-				fractionalScaleDecimals: this.props.fractionalScaleDecimals,
-				tickLabelOrientation: this.props.tickLabelOrientation,
-				trendVisible: this.props.showTrend,
-				trendColors: this.props.trendColors,
-				userLedColor: this.props.userLedColor,
-				userLedVisible: this.props.showUserLed,
-				section: this.props.sections,
-				area: this.props.sectors,
-				useOdometer: this.props.useOdometer,
-				odometerParams: this.props.odometerParams,
-				odometerUseValue: this.props.syncOdometerValue,
+		fractionalScaleDecimals: this.props.fractionalScaleDecimals,
+		tickLabelOrientation: this.props.tickLabelOrientation,
+		trendVisible: this.props.showTrend,
+		trendColors: this.props.trendColors,
+		userLedColor: this.props.userLedColor,
+		userLedVisible: this.props.showUserLed,
+		section: this.props.sections,
+		area: this.props.sectors,
+		useOdometer: this.props.useOdometer,
+		odometerParams: this.props.odometerParams,
+		odometerUseValue: this.props.syncOdometerValue,
 
-				customLayer: this.props.customLayer,
-			});
+		customLayer: this.props.customLayer,
+	});
 
-			if(this.props.showMinMeasuredValue) {
-				this.gauge.setMinMeasuredValue(this.props.minMeasuredValue);
-			}
+	gaugePostInit(animate: boolean) {
+		if(this.props.showMinMeasuredValue) {
+			this.gauge.setMinMeasuredValue(this.props.minMeasuredValue);
+		}
 
-			if(this.props.showMaxMeasuredValue) {
-				this.gauge.setMaxMeasuredValue(this.props.maxMeasuredValue);
-			}
+		if(this.props.showMaxMeasuredValue) {
+			this.gauge.setMaxMeasuredValue(this.props.maxMeasuredValue);
+		}
 
-			if(this.props.value) {
-				(this.props.animate && animate)
-					? this.gauge.setValueAnimated(this.props.value, this.props.animationCallback)
-					: this.gauge.setValue(this.props.value);
-			}
+		if(this.props.value) {
+			(this.props.animate && animate)
+				? this.gauge.setValueAnimated(this.props.value, this.props.animationCallback)
+				: this.gauge.setValue(this.props.value);
+		}
 
-			if(this.props.trend) {
-				this.gauge.setTrend(this.props.trend);
-			}
+		if(this.props.trend) {
+			this.gauge.setTrend(this.props.trend);
+		}
 
-			if(this.props.odometerValue && !this.props.syncOdometerValue) {
-				this.gauge.setOdoValue(this.props.odometerValue);
-			}
+		if(this.props.odometerValue && !this.props.syncOdometerValue) {
+			this.gauge.setOdoValue(this.props.odometerValue);
+		}
 
-			if(this.props.userLedOn !== undefined) {
-				this.gauge.setUserLedOnOff(this.props.userLedOn);
-			}
-			
-			if(this.props.userLedBlink !== undefined) {
-				this.gauge.blinkUserLed(this.props.userLedBlink);
-			}
+		if(this.props.userLedOn !== undefined) {
+			this.gauge.setUserLedOnOff(this.props.userLedOn);
+		}
+		
+		if(this.props.userLedBlink !== undefined) {
+			this.gauge.blinkUserLed(this.props.userLedBlink);
 		}
 	}
 
-	gaugeShouldRepaint(prev: Props) {
-		return (this.props.size !== prev.size)
-			|| (this.props.gaugeType !== prev.gaugeType)
-			|| (this.props.frameVisible !== prev.frameVisible)
-			|| (this.props.backgroundVisible !== prev.backgroundVisible)
-			|| (this.props.foregroundVisible !== prev.foregroundVisible)
-			|| (this.props.knobType !== prev.knobType)
-			|| (this.props.knobStyle !== prev.knobStyle)
-			|| (this.props.digitalFont !== prev.digitalFont)
-			|| (this.props.lcdVisible !== prev.lcdVisible)
-			|| (this.props.niceScale !== prev.niceScale)
-			|| (this.props.fullScaleDeflectionTime !== prev.fullScaleDeflectionTime)
-			|| (this.props.playAlarm !== prev.playAlarm)
-			|| (this.props.alarmSound !== prev.alarmSound)
-			|| (this.props.fullScaleDeflectionTime !== prev.fullScaleDeflectionTime)
-			|| (this.props.tickLabelOrientation !== prev.tickLabelOrientation)
-			|| (this.props.trendColors !== prev.trendColors)
-			|| (this.props.useOdometer !== prev.useOdometer)
-			|| (this.props.odometerParams !== prev.odometerParams)
-			|| (this.props.syncOdometerValue !== prev.syncOdometerValue)
-			|| (this.props.customLayer !== prev.customLayer)
-			|| (this.props.showThreshold !== prev.showThreshold);
+	gaugePreUpdate() {
+		if(this.valueReset)
+			this.valueReset = false;
 	}
 
-	componentDidUpdate(prev: Props) {
-		if(this.gauge) {
-			if(this.gaugeShouldRepaint(prev)) {
-				this.componentDidMount(false);
-			}
-			else {
-				const { props, gauge } = this;
+	setFrameDesign() {
+		this.log();
+		this.gauge.setFrameDesign(this.props.frameDesign);
+	}
 
-				updateIfChanged(props.frameDesign, prev.frameDesign, gauge.setFrameDesign.bind(gauge));
-				updateIfChanged(props.backgroundColor, prev.backgroundColor, gauge.setBackgroundColor.bind(gauge));
-				updateIfChanged(props.foregroundType, prev.foregroundType, gauge.setForegroundType.bind(gauge));
+	setBackgroundColor() {
+		this.log()
+		this.gauge.setBackgroundColor(this.props.backgroundColor);
+	}
 
-				updateIfChanged(props.pointerType, prev.pointerType, gauge.setPointerType.bind(gauge));
-				updateIfChanged(props.pointerColor, prev.pointerColor, gauge.setPointerColor.bind(gauge));
+	setForegroundType() {
+		this.log();
+		this.gauge.setForegroundType(this.props.foregroundType);
+	}
 
-				updateIfChanged(props.lcdColor, prev.lcdColor, gauge.setLcdColor.bind(gauge));
-				updateIfChanged(props.lcdDecimals, prev.lcdDecimals, gauge.setLcdDecimals.bind(this));
-				
-				const minUpd = updateIfChanged(props.minValue, prev.minValue, gauge.setMinValue.bind(gauge));
-				const maxUpd = updateIfChanged(props.maxValue, prev.maxValue, gauge.setMaxValue.bind(gauge));
-				if((minUpd || maxUpd) && props.resetValueOnBoundsChange && props.animate) {
-					gauge.setValue(gauge.getMinValue());
-				}
-				
-				updateIfChanged(props.showMinMeasuredValue, prev.showMinMeasuredValue, gauge.setMinMeasuredValueVisible.bind(gauge));
-				updateIfChanged(props.showMaxMeasuredValue, prev.showMaxMeasuredValue, gauge.setMaxMeasuredValueVisible.bind(gauge));
-				updateIfChanged(props.labelNumberFormat, prev.labelNumberFormat, gauge.setLabelNumberFormat.bind(gauge));
-				updateIfChanged(props.threshold, prev.threshold, gauge.setThreshold.bind(gauge));
-				updateIfChanged(props.thresholdRising, prev.thresholdRising, gauge.setThresholdRising.bind(gauge));
-				
-				// BUG in 'steelseries' library
-				// Radial.setThresholdVisible might not work properly
-				// thresholdVisible update detection moved in gaugeShouldRepaint()
-				// updateIfChanged(props.thresholdVisible, prev.thresholdVisible, gauge.setThresholdVisible.bind(gauge));
+	setPointerColor() {
+		this.log();
+		this.gauge.setPointerColor(this.props.pointerColor);
+	}
 
-				updateIfChanged(props.titleString, prev.titleString, gauge.setTitleString.bind(gauge));
-				updateIfChanged(props.unitString, prev.unitString, gauge.setUnitString.bind(gauge));
+	setPointerType() {
+		this.log();
+		this.gauge.setPointerType(this.props.pointerType);
+	}
 
-				updateIfChanged(props.ledColor, prev.ledColor, gauge.setLedColor.bind(gauge));
-				updateIfChanged(props.showLed, prev.showLed, gauge.setLedVisible.bind(gauge));
+	setLcdColor() {
+		this.log();
+		this.gauge.setLcdColor(this.props.lcdColor);
+	}
 
-				updateIfChanged(props.fractionalScaleDecimals, prev.fractionalScaleDecimals, gauge.setFractionalScaleDecimals.bind(gauge));
-				updateIfChanged(props.showTrend, prev.showTrend, gauge.setTrendVisible.bind(gauge));
-				updateIfChanged(props.userLedColor, prev.userLedColor, gauge.setUserLedColor.bind(gauge));
-				updateIfChanged(props.showUserLed, prev.showUserLed, gauge.setUserLedVisible.bind(gauge));
-				updateIfChanged(props.sections, prev.sections, gauge.setSection.bind(gauge));
-				updateIfChanged(props.sectors, prev.sectors, gauge.setArea.bind(gauge));
+	setLcdDecimals() {
+		this.log();
+		this.gauge.setLcdDecimals(this.props.lcdDecimals);
+	}
 
-				updateIfChanged(props.minMeasuredValue, prev.minMeasuredValue, gauge.setMinMeasuredValue.bind(gauge));
-				updateIfChanged(props.maxMeasuredValue, prev.maxMeasuredValue, gauge.setMaxMeasuredValue.bind(gauge));
-				updateIfChanged(this.props.value, prev.value, () => {
-					this.props.animate
-						? this.gauge.setValueAnimated(this.props.value, this.props.animationCallback)
-						: this.gauge.setValue(this.props.value);
-				});
-				updateIfChanged(props.trend, prev.trend, gauge.setTrend.bind(gauge));
-				if(!props.syncOdometerValue) {
-					updateIfChanged(props.odometerValue, prev.odometerValue, gauge.setOdoValue.bind(gauge));
-				}
-				updateIfChanged(props.userLedOn, prev.userLedOn, gauge.setUserLedOnOff.bind(gauge));
-				updateIfChanged(props.userLedBlink, prev.userLedBlink, gauge.blinkUserLed.bind(gauge));
-			}
+	setMinValue() {
+		this.log();
+		this.gauge.setMinValue(this.props.minValue);
+
+		if(this.props.resetValueOnBoundsChange && !this.valueReset && this.props.animate) {
+			this.prevValue = this.gauge.getValue();
+			this.valueReset = true;
+			this.gauge.setValue(this.gauge.getMinValue());
 		}
 	}
 
-	render() {
-		return <canvas ref={this.canvasRef}></canvas>
+	setMaxValue() {
+		this.log();
+		this.gauge.setMaxValue(this.props.maxValue);
+
+		if(this.props.resetValueOnBoundsChange && !this.valueReset && this.props.animate) {
+			this.prevValue = this.gauge.getValue();
+			this.valueReset = true;
+			this.gauge.setValue(this.gauge.getMinValue());
+		}
+	}
+
+	setShowMinMeasuredValue() {
+		this.log();
+		this.gauge.setMinMeasuredValueVisible(this.props.showMinMeasuredValue);
+	}
+
+	setShowMaxMeasuredValue() {
+		this.log();
+		this.gauge.setMaxMeasuredValueVisible(this.props.showMaxMeasuredValue);
+	}
+
+	setLabelNumberFormat() {
+		this.log();
+		this.gauge.setLabelNumberFormat(this.props.labelNumberFormat);
+	}
+
+	setThreshold() {
+		this.log();
+		this.gauge.setThreshold(this.props.threshold);
+	}
+
+	setThresholdRising() {
+		this.log();
+		this.gauge.setThresholdRising(this.props.thresholdRising);
+	}
+
+	// BUG in 'steelseries' library
+	// setThresholdVisible() might not work properly
+	// missimg buffer resets and re-init?
+	//
+	// setShowThreshold() {
+	// 	this.log();
+	// 	this.gauge.setThresholdVisible(this.props.showThreshold);
+	// }
+
+	setTitleString() {
+		this.log();
+		this.gauge.setTitleString(this.props.titleString);
+	}
+
+	setUnitString() {
+		this.log();
+		this.gauge.setUnitString(this.props.unitString);
+	}
+
+	setShowLed() {
+		this.log();
+		this.gauge.setLedVisible(this.props.showLed);
+	}
+
+	setLedColor() {
+		this.log();
+		this.gauge.setLedColor(this.props.ledColor);
+	}
+
+	setFractionalScaleDecimals() {
+		this.log();
+		this.gauge.setFractionalScaleDecimals(this.props.fractionalScaleDecimals);
+	}
+
+	setShowTrend() {
+		this.log();
+		this.gauge.setTrendVisible(this.props.showTrend);
+	}
+
+	setShowUserLed() {
+		this.log();
+		this.gauge.setUserLedVisible(this.props.showUserLed);
+	}
+
+	setUserLedColor() {
+		this.log();
+		this.gauge.setUserLedColor(this.props.userLedColor);
+	}
+
+	setSections() {
+		this.log();
+		this.gauge.setSection(this.props.sections);
+	}
+
+	setSectors() {
+		this.log();
+		this.gauge.setArea(this.props.sectors);
+	}
+
+	setMinMeasuredValue() {
+		this.log();
+		this.gauge.setMinMeasuredValue(this.props.minMeasuredValue);
+	}
+
+	setMaxMeasuredValue() {
+		this.log();
+		this.gauge.setMaxMeasuredValue(this.props.maxMeasuredValue);
+	}
+
+	setValue() {
+		if(this.props.animate) {
+			this.gauge.setValueAnimated(this.props.value, this.props.animationCallback);
+		}
+		else {
+			this.gauge.setValue(this.props.value);
+		}
+	}
+
+	setTrend() {
+		this.log();
+		this.gauge.setTrend(this.props.trend);
+	}
+
+	setOdometerValue() {
+		this.log();
+		if(!this.props.syncOdometerValue) {
+			this.gauge.setOdoValue(this.props.odometerValue);
+		}
+	}
+
+	setUserLedOn() {
+		this.log();
+		this.gauge.setUserLedOnOff(this.props.userLedOn);
+	}
+
+	setUserLedBlink() {
+		this.log();
+		this.gauge.blinkUserLed(this.props.userLedBlink);
+	}
+
+	gaugePostUpdate() {
+		if(this.valueReset) {
+			this.gauge.setValueAnimated(this.prevValue, this.props.animationCallback);
+			this.valueReset = false;
+		}
 	}
 }
