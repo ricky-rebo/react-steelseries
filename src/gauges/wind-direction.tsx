@@ -1,7 +1,7 @@
-import React from "react";
 import { ColorDef, PointerType, Section, WindDirection as ssWindDirection, WindDirectionParams } from "steelseries";
-import { updateIfChanged } from "../tools";
+
 import GaugeComponent from "./gauge-component";
+
 
 type ExcludedParams = "area" | "section"
 	| "pointerTypeLatest" | "pointerTypeAverage"
@@ -27,6 +27,7 @@ interface Props extends Omit<WindDirectionParams, ExcludedParams> {
 	lstAnimationCallback?: () => void;
 	avgAnimationCallback?: () => void;
 }
+
 
 export class WindDirection extends GaugeComponent<Props, ssWindDirection, WindDirectionParams> {
 	GaugeClass = ssWindDirection;
