@@ -14,7 +14,7 @@ interface Props extends StopwatchParams {
 	reset?: boolean;
 }
 
-// When i'll undestand how it's works, i'll finish the gauge :)
+// When i'll undestand how wrap it up in React, i'll finish it :)
 export class Stopwatch extends React.Component<Props> {
 	canvasRef: React.RefObject<HTMLCanvasElement>;
 	gauge: ssStopwatch;
