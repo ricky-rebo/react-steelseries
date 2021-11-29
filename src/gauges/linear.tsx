@@ -93,7 +93,6 @@ export class Linear extends GaugeComponent<Props, ssLinear, LinearParams> {
 	}
 
 	setFrameDesign() {
-		this.log();
 		this.gauge.setFrameDesign(this.props.frameDesign);
 	}
 
@@ -103,37 +102,30 @@ export class Linear extends GaugeComponent<Props, ssLinear, LinearParams> {
 	}
 
 	setLcdColor() {
-		this.log();
 		this.gauge.setLcdColor(this.props.lcdColor);
 	}
 
 	setLcdDecimals() {
-		this.log();
 		this.gauge.setLcdDecimals(this.props.lcdDecimals);
 	}
 
 	setLedColor() {
-		this.log();
 		this.gauge.setLedColor(this.props.ledColor);
 	}
 
 	setShowLed() {
-		this.log();
 		this.gauge.setLedVisible(this.props.showLed);
 	}
 
 	setValueColor() {
-		this.log();
 		this.gauge.setValueColor(this.props.valueColor);
 	}
 
 	setThreshold() {
-		this.log();
 		this.gauge.setThreshold(this.props.threshold);
 	}
 
 	setThresholdRising() {
-		this.log();
 		this.gauge.setThresholdRising(this.props.thresholdRising);
 	}
 
@@ -141,22 +133,18 @@ export class Linear extends GaugeComponent<Props, ssLinear, LinearParams> {
 	// Linear.setThresholdVisible might not work properly
 	// missimg buffer resets and re-init?
 	// setShowThreshold() {
-	// 	this.log();
 	// 	this.gauge.setThresholdVisible(this.props.showThreshold);
 	// }
 
 	setTitleString() {
-		this.log();
 		this.gauge.setTitleString(this.props.titleString);
 	}
 
 	setUnitString() {
-		this.log();
 		this.gauge.setUnitString(this.props.unitString);
 	}
 
 	setMinValue() {
-		this.log();
 		this.gauge.setMinValue(this.props.minValue);
 
 		if(this.props.resetValueOnBoundsChange && !this.valueReset && this.props.animate) {
@@ -167,7 +155,6 @@ export class Linear extends GaugeComponent<Props, ssLinear, LinearParams> {
 	}
 
 	setMaxValue() {
-		this.log();
 		this.gauge.setMaxValue(this.props.maxValue);
 
 		if(this.props.resetValueOnBoundsChange && !this.valueReset && this.props.animate) {
@@ -178,27 +165,22 @@ export class Linear extends GaugeComponent<Props, ssLinear, LinearParams> {
 	}
 
 	setShowMinMeasuredValue() {
-		this.log();
 		this.gauge.setMinMeasuredValueVisible(this.props.showMinMeasuredValue);
 	}
 
 	setMinMeasuredValue() {
-		this.log();
 		this.gauge.setMinMeasuredValue(this.props.minMeasuredValue);
 	}
 
 	setShowMaxMeasuredValue() {
-		this.log();
 		this.gauge.setMaxMeasuredValueVisible(this.props.showMaxMeasuredValue);
 	}
 
 	setMaxMeasuredValue() {
-		this.log();
 		this.gauge.setMaxMeasuredValue(this.props.maxMeasuredValue);
 	}
 
 	setValue() {
-		this.log();
 		if(this.props.animate) {
 			this.gauge.setValueAnimated(this.props.value, this.props.animationCallback);
 

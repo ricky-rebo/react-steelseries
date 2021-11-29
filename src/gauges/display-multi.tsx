@@ -37,17 +37,14 @@ export class DisplayMulti extends GaugeComponent<Props, ssDisplayMulti, DisplayM
 	});
 
 	setLcdColor() {
-		this.log("set lcdColor");
 		this.gauge.setLcdColor(this.props.lcdColor);
 	}
 
 	setValue() {
-		this.log("set value");
 		this.gauge.setValue(this.props.value);
 	}
 
 	setAltValue() {
-		this.log("set altValue");
 		this.gauge.setAltValue(this.props.altValue);
 	}
 }

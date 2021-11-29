@@ -110,32 +110,26 @@ export class RadialBargraph extends GaugeComponent<Props, ssRadialBargraph, Radi
 	}
 
 	setFrameDesign() {
-		this.log();
 		this.gauge.setFrameDesign(this.props.frameDesign);
 	}
 
 	setBackgroundColor() {
-		this.log()
 		this.gauge.setBackgroundColor(this.props.backgroundColor);
 	}
 
 	setForegroundType() {
-		this.log();
 		this.gauge.setForegroundType(this.props.foregroundType);
 	}
 
 	setLcdColor() {
-		this.log();
 		this.gauge.setLcdColor(this.props.lcdColor);
 	}
 
 	setLcdDecimals() {
-		this.log();
 		this.gauge.setLcdDecimals(this.props.lcdDecimals);
 	}
 
 	setMinValue() {
-		this.log();
 		this.gauge.setMinValue(this.props.minValue);
 
 		if(this.props.resetValueOnBoundsChange && !this.valueReset && this.props.animate) {
@@ -146,7 +140,6 @@ export class RadialBargraph extends GaugeComponent<Props, ssRadialBargraph, Radi
 	}
 
 	setMaxValue() {
-		this.log();
 		this.gauge.setMaxValue(this.props.maxValue);
 
 		if(this.props.resetValueOnBoundsChange && !this.valueReset && this.props.animate) {
@@ -157,73 +150,59 @@ export class RadialBargraph extends GaugeComponent<Props, ssRadialBargraph, Radi
 	}
 
 	setLabelNumberFormat() {
-		this.log();
 		this.gauge.setLabelNumberFormat(this.props.labelNumberFormat);
 	}
 
 	setThreshold() {
-		this.log();
 		this.gauge.setThreshold(this.props.threshold);
 	}
 
 	setThresholdRising() {
-		this.log();
 		this.gauge.setThresholdRising(this.props.thresholdRising);
 	}
 
 	setTitleString() {
-		this.log();
 		this.gauge.setTitleString(this.props.titleString);
 	}
 
 	setUnitString() {
-		this.log();
 		this.gauge.setUnitString(this.props.unitString);
 	}
 
 	setShowLed() {
-		this.log();
 		this.gauge.setLedVisible(this.props.showLed);
 	}
 
 	setLedColor() {
-		this.log();
 		this.gauge.setLedColor(this.props.ledColor);
 	}
 
 	setFractionalScaleDecimals() {
-		this.log();
 		this.gauge.setFractionalScaleDecimals(this.props.fractionalScaleDecimals);
 	}
 
 	setShowTrend() {
-		this.log();
 		this.gauge.setTrendVisible(this.props.showTrend);
 	}
 
 	setShowUserLed() {
-		this.log();
 		this.gauge.setUserLedVisible(this.props.showUserLed);
 	}
 
 	setUserLedColor() {
-		this.log();
 		this.gauge.setUserLedColor(this.props.userLedColor);
 	}
 
 	setValueColor() {
-		this.log();
 		this.gauge.setValueColor(this.props.valueColor);
 	}
 
 	setValueColorSections() {
-		this.log();
 		this.gauge.setSectionActive(this.props.valueColorSections !== undefined)
 			.setSection(this.props.valueColorSections);
 	}
 
 	setValueColorGradient() {
-		this.log();
 		this.gauge.setGradientActive(this.props.valueColorGradient !== undefined)
 			.setGradient(this.props.valueColorGradient);
 	}
@@ -238,17 +217,14 @@ export class RadialBargraph extends GaugeComponent<Props, ssRadialBargraph, Radi
 	}
 
 	setTrend() {
-		this.log();
 		this.gauge.setTrend(this.props.trend);
 	}
 
 	setUserLedOn() {
-		this.log();
 		this.gauge.setUserLedOnOff(this.props.userLedOn);
 	}
 
 	setUserLedBlink() {
-		this.log();
 		this.gauge.blinkUserLed(this.props.userLedBlink);
 	}
 

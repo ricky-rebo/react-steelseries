@@ -57,44 +57,36 @@ export class Rose extends GaugeComponent<Props, ssRose, RoseParams> {
 	}
 
 	setValue() {
-		this.log();
 		this.gauge.setValue(this.props.value);
 	}
 
 	setFrameDesign() {
-		 this.log();
 		this.gauge.setFrameDesign(this.props.frameDesign);
 	}
 
 	setBackgroundColor() {
-		this.log()
 		this.gauge.setBackgroundColor(this.props.backgroundColor);
 	}
 
 	setForegroundType() {
-		this.log();
 		this.gauge.setForegroundType(this.props.foregroundType);
 	}
 
 	setOdometerValue() {
-		this.log();
 		this.props.animate
 			? this.gauge.setOdoValueAnimated(this.props.odometerValue, this.props.animationCallback)
 			: this.gauge.setOdoValue(this.props.odometerValue);
 	}
 
 	setTitleString() {
-		this.log();
 		this.gauge.setTitleString(this.props.titleString);
 	}
 
 	setUnitString() {
-		this.log();
 		this.gauge.setUnitString(this.props.unitString);
 	}
 
 	setPointSymbols() {
-		this.log();
 		this.gauge.setPointSymbols(this.props.pointSymbols);
 	}
 }

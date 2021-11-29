@@ -85,66 +85,54 @@ export class WindDirection extends GaugeComponent<Props, ssWindDirection, WindDi
 	}
 
 	setFrameDesign() {
-		this.log();
 		this.gauge.setFrameDesign(this.props.frameDesign);
 	}
 
 	setBackgroundColor() {
-		this.log()
 		this.gauge.setBackgroundColor(this.props.backgroundColor);
 	}
 
 	setForegroundType() {
-		this.log();
 		this.gauge.setForegroundType(this.props.foregroundType);
 	}
 
 	setLstPointerType() {
-		this.log();
 		this.gauge.setPointerType(this.props.lstPointerType);
 	}
 
 	setAvgPointerType() {
-		this.log();
 		this.gauge.setPointerTypeAverage(this.props.avgPointerType);
 	}
 
 	setLstPointerColor() {
-		this.log();
 		this.gauge.setPointerColor(this.props.lstPointerColor);
 	}
 
 	setAvgPointerColor() {
-		this.log();
 		this.gauge.setPointerColorAverage(this.props.avgPointerColor);
 	}
 
 	setLcdColor() {
-		this.log();
 		this.gauge.setLcdColor(this.props.lcdColor);
 	}
 
 	setSections() {
-		this.log();
 		this.gauge.setSection(this.props.sections);
 	}
 
 	setSectors() {
-		this.log();
 		this.gauge.setArea(this.props.sectors);
 	}
 
 	setPointSymbols() {
-		this.log();
+		this.gauge.setPointSymbols(this.props.pointSymbols);
 	}
 
 	setLcdTitleStrings() {
-		this.log();
 		this.gauge.setLcdTitleStrings(this.props.lcdTitleStrings);
 	}
 
 	setLstValue() {
-		this.log();
 		if(this.props.animate) {
 			this.gauge.setValueAnimatedLatest(this.props.ltsValue, this.props.lstAnimationCallback);
 		}
@@ -154,7 +142,6 @@ export class WindDirection extends GaugeComponent<Props, ssWindDirection, WindDi
 	}
 
 	setAvgValue() {
-		this.log();
 		if(this.props.animate) {
 			this.gauge.setValueAnimatedAverage(this.props.avgValue, this.props.avgAnimationCallback);
 		}

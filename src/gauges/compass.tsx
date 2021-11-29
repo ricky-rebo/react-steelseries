@@ -46,37 +46,30 @@ export class Compass extends GaugeComponent<Props, ssCompass, CompassParams> {
 	}
 
 	setFrameDesign() {
-		this.log(`set frameDesign`);
 		this.gauge.setFrameDesign(this.props.frameDesign);
 	}
 
 	setBackgroundColor() {
-		this.log(`set backgroundColor`)
 		this.gauge.setBackgroundColor(this.props.backgroundColor);
 	}
 
 	setForegroundType() {
-		this.log(`set foregrundType`);
 		this.gauge.setForegroundType(this.props.foregroundType);
 	}
 
 	setPointerColor() {
-		this.log("set pointerColor");
 		this.gauge.setPointerColor(this.props.pointerColor);
 	}
 
 	setPointerType() {
-		this.log("set pointerType");
 		this.gauge.setPointerType(this.props.pointerType);
 	}
 
 	setPointSymbols() {
-		this.log("set pointSymbols");
 		this.gauge.setPointSymbols(this.props.pointSymbols);
 	}
 
 	setValue() {
-		this.log(`set value`);
 		if(this.props.animate) {
 			this.gauge.setValueAnimated(this.props.value, this.props.animationCallback);
 		}

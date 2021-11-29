@@ -101,58 +101,47 @@ export class LinearBargraph extends GaugeComponent<Props, ssLinearBargraph, Line
 	}
 
 	setFrameDesign() {
-		this.log();
 		this.gauge.setFrameDesign(this.props.frameDesign);
 	}
 
 	setBackgroundColor() {
-		this.log()
 		this.gauge.setBackgroundColor(this.props.backgroundColor);
 	}
 
 	setLcdColor() {
-		this.log();
 		this.gauge.setLcdColor(this.props.lcdColor);
 	}
 
 	setLcdDecimals() {
-		this.log();
 		this.gauge.setLcdDecimals(this.props.lcdDecimals);
 	}
 
 	setLedColor() {
-		this.log();
 		this.gauge.setLedColor(this.props.ledColor);
 	}
 
 	setShowLed() {
-		this.log();
 		this.gauge.setLedVisible(this.props.showLed);
 	}
 
 	setValueColor() {
-		this.log();
 		this.gauge.setValueColor(this.props.valueColor);
 	}
 
 	setValueColorSections() {
-		this.log();
 		this.gauge.setSection(this.props.valueColorSections)
 	}
 
 	setValueColorGradient() {
-		this.log();
 		this.gauge.setGradientActive(this.props.valueColorGradient !== undefined)
 			.setGradient(this.props.valueColorGradient);
 	}
 
 	setThreshold() {
-		this.log();
 		this.gauge.setThreshold(this.props.threshold);
 	}
 
 	setThresholdRising() {
-		this.log();
 		this.gauge.setThresholdRising(this.props.thresholdRising);
 	}
 
@@ -160,22 +149,18 @@ export class LinearBargraph extends GaugeComponent<Props, ssLinearBargraph, Line
 	// Linear.setThresholdVisible might not work properly
 	// missimg buffer resets and re-init?
 	// setShowThreshold() {
-	// 	this.log();
 	// 	this.gauge.setThresholdVisible(this.props.showThreshold);
 	// }
 
 	setTitleString() {
-		this.log();
 		this.gauge.setTitleString(this.props.titleString);
 	}
 
 	setUnitString() {
-		this.log();
 		this.gauge.setUnitString(this.props.unitString);
 	}
 
 	setMinValue() {
-		this.log();
 		this.gauge.setMinValue(this.props.minValue);
 
 		if(this.props.resetValueOnBoundsChange && !this.valueReset && this.props.animate) {
@@ -186,7 +171,6 @@ export class LinearBargraph extends GaugeComponent<Props, ssLinearBargraph, Line
 	}
 
 	setMaxValue() {
-		this.log();
 		this.gauge.setMaxValue(this.props.maxValue);
 
 		if(this.props.resetValueOnBoundsChange && !this.valueReset && this.props.animate) {
@@ -197,27 +181,22 @@ export class LinearBargraph extends GaugeComponent<Props, ssLinearBargraph, Line
 	}
 
 	setShowMinMeasuredValue() {
-		this.log();
 		this.gauge.setMinMeasuredValueVisible(this.props.showMinMeasuredValue);
 	}
 
 	setMinMeasuredValue() {
-		this.log();
 		this.gauge.setMinMeasuredValue(this.props.minMeasuredValue);
 	}
 
 	setShowMaxMeasuredValue() {
-		this.log();
 		this.gauge.setMaxMeasuredValueVisible(this.props.showMaxMeasuredValue);
 	}
 
 	setMaxMeasuredValue() {
-		this.log();
 		this.gauge.setMaxMeasuredValue(this.props.maxMeasuredValue);
 	}
 
 	setValue() {
-		this.log();
 		if(this.props.animate) {
 			this.gauge.setValueAnimated(this.props.value, this.props.animationCallback);
 

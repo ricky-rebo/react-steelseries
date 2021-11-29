@@ -53,7 +53,7 @@ export default abstract class GaugeComponent<P, G, GP> extends React.Component<P
 	}
 
 	log(_msg?: string) {
-		if(DEBUG) console.log(`[${this.constructor.name}] ${this.log.caller.name}`)
+		if(DEBUG) console.log(`[${this.constructor.name}] ${_msg || ""}`)
 	}
 
 	/**
@@ -88,8 +88,6 @@ export default abstract class GaugeComponent<P, G, GP> extends React.Component<P
 			for(let prop in this.props) {
 				if(this.props[prop] !== prev[prop] && !this.ignoredProps.includes(prop)) {
 					setter = getSetterName(prop)
-					// DEBUG
-					// console.log(`${prop} => ${setter}`);
 					if(setter in this && typeof this[setter] === 'function') {
 						this[setter]();
 					}

@@ -39,27 +39,22 @@ export class Level extends GaugeComponent<Props, ssLevel, LevelParams> {
 	}
 
 	setFrameDesign() {
-		this.log(`set frameDesign`);
 		this.gauge.setFrameDesign(this.props.frameDesign);
 	}
 
 	setBackgroundColor() {
-		this.log(`set backgroundColor`)
 		this.gauge.setBackgroundColor(this.props.backgroundColor);
 	}
 
 	setForegroundType() {
-		this.log(`set foregrundType`);
 		this.gauge.setForegroundType(this.props.foregroundType);
 	}
 
 	setPointerColor() {
-		this.log("set pointerColor");
 		this.gauge.setPointerColor(this.props.pointerColor);
 	}
 
 	setValue() {
-		this.log(`set value`);
 		if(this.props.animate) {
 			this.gauge.setValueAnimated(this.props.value, this.props.animationCallback);
 		}

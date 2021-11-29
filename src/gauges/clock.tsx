@@ -43,59 +43,48 @@ export class Clock extends GaugeComponent<Props, ssClock, ClockParams> {
 	}
 
 	setFrameDesign() {
-		this.log(`set frameDesign`);
 		this.gauge.setFrameDesign(this.props.frameDesign);
 	}
 
 	setBackgroundColor() {
-		this.log(`set backgroundColor`)
 		this.gauge.setBackgroundColor(this.props.backgroundColor);
 	}
 
 	setForegroundType() {
-		this.log(`set foregrundType`);
 		this.gauge.setForegroundType(this.props.foregroundType);
 	}
 
 	setPointerType() {
-		this.log("set pointerType");
 		this.gauge.setPointerType(this.props.pointerType);
 	}
 
 	setPointerColor() {
-		this.log("set pointerColor");
 		this.gauge.setPointerColor(this.props.pointerColor);
 	}
 
 	setIsAutomatic() {
-		this.log("set isAutomatic");
 		this.gauge.setAutomatic(this.props.isAutomatic);
 	}
 
 	setTimeZoneOffsetHour() {
-		this.log("set timeZoneOffsetHour");
 		this.gauge.setTimeZoneOffsetHour(this.props.timeZoneOffsetHour);
 	}
 
 	setTimeZoneOffsetMinute() {
-		this.log("set timeZoneOffsetMinute");
 		this.gauge.setTimeZoneOffsetMinute(this.props.timeZoneOffsetMinute);
 	}
 
 	setSecondPointerVisible() {
-		this.log("set secondPointerVisible");
 		this.gauge.setSecondPointerVisible(this.props.secondPointerVisible);
 	}
 
 	setSecondPointerTick() {
-		this.log("set secondPointerTick");
 		if(this.props.isAutomatic) this.gauge.setAutomatic(false);
 		this.gauge.setSecondMovesContinuous(!this.props.secondPointerTick);
 		if(this.props.isAutomatic) this.gauge.setAutomatic(true);
 	}
 
 	setValue() {
-		this.log("set value");
 		this.gauge.setHour(this.props.value.getHours())
 			.setMinute(this.props.value.getMinutes())
 			.setSecond(this.props.value.getSeconds());

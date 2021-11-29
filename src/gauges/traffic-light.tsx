@@ -35,17 +35,14 @@ export class Trafficlight extends GaugeComponent<Props, ssTrafficLight, Trafficl
 	}
 
 	setRed() {
-		this.log();
 		this.gauge.setRedOn(this.props.red);
 	}
 
 	setYellow() {
-		this.log();
 		this.gauge.setYellowOn(this.props.yellow);
 	}
 
 	setGreen() {
-		this.log();
 		this.gauge.setGreenOn(this.props.green);
 	}
 }

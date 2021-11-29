@@ -61,32 +61,26 @@ export class Altimeter extends GaugeComponent<Props, ssAltimeter, AltimeterParam
 	}
 
 	setFrameDesign() {
-		this.log(`set frameDesign`);
 		this.gauge.setFrameDesign(this.props.frameDesign);
 	}
 
 	setBackgroundColor() {
-		this.log(`set backgroundColor`)
 		this.gauge.setBackgroundColor(this.props.backgroundColor);
 	}
 
 	setForegroundType() {
-		this.log(`set foregrundType`);
 		this.gauge.setForegroundType(this.props.foregroundType);
 	}
 
 	setLcdColor() {
-		this.log(`set lcdColor`);
 		this.gauge.setLcdColor(this.props.lcdColor);
 	}
 
 	setTitleString() {
-		this.log(`set titleString`);
 		this.gauge.setTitleString(this.props.titleString);
 	}
 
 	setUnitString() {
-		this.log(`set unitString`);
 		this.gauge.setUnitString(this.props.unitString);
 
 		if(this.props.resetValueOnUnitChange && this.props.animate) {
@@ -97,7 +91,6 @@ export class Altimeter extends GaugeComponent<Props, ssAltimeter, AltimeterParam
 	}
 
 	setValue() {
-		this.log(`set value`);
 		if(this.props.animate) {
 			this.gauge.setValueAnimated(this.props.value, this.props.animationCallback);
 

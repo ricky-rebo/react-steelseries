@@ -38,28 +38,23 @@ export class DisplaySingle extends GaugeComponent<Props, ssDisplaySingle, Displa
 	});
 
 	setLcdColor() {
-		this.log("set lcdColor");
 		this.gauge.setLcdColor(this.props.lcdColor);
 	}
 
 	setSection() {
-		this.log("set section");
 		this.gauge.setSection(this.props.section);
 	}
 
 	setAutoScroll() {
-		this.log("set autoScroll");
 		this.gauge.setScrolling(this.props.autoScroll);
 	}
 
 	setValue() {
-		this.log("set value");
 		this.gauge.setValue(this.props.value);
 	}
 
 	componentWillUnmount() {
 		if(this.gauge) {
-			this.log("unmount");
 			this.gauge.setScrolling(false);
 		}
 	}

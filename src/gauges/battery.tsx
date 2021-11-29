@@ -21,7 +21,6 @@ export class Battery extends GaugeComponent<Props, ssBattery, BatteryParams> {
 	}
 
 	setValue() {
-		this.log("set value");
 		this.gauge.setValue(this.props.value);
 	}
 }

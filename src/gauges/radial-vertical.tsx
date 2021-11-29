@@ -98,32 +98,26 @@ export class RadialVertical extends GaugeComponent<Props, ssRadialVertical, Radi
 	}
 
 	setFrameDesign() {
-		this.log();
 		this.gauge.setFrameDesign(this.props.frameDesign);
 	}
 
 	setBackgroundColor() {
-		this.log()
 		this.gauge.setBackgroundColor(this.props.backgroundColor);
 	}
 
 	setForegroundType() {
-		this.log();
 		this.gauge.setForegroundType(this.props.foregroundType);
 	}
 
 	setPointerColor() {
-		this.log();
 		this.gauge.setPointerColor(this.props.pointerColor);
 	}
 
 	setPointerType() {
-		this.log();
 		this.gauge.setPointerType(this.props.pointerType);
 	}
 
 	setMinValue() {
-		this.log();
 		this.gauge.setMinValue(this.props.minValue);
 
 		if(this.props.resetValueOnBoundsChange && !this.valueReset && this.props.animate) {
@@ -134,7 +128,6 @@ export class RadialVertical extends GaugeComponent<Props, ssRadialVertical, Radi
 	}
 
 	setMaxValue() {
-		this.log();
 		this.gauge.setMaxValue(this.props.maxValue);
 
 		if(this.props.resetValueOnBoundsChange && !this.valueReset && this.props.animate) {
@@ -145,17 +138,14 @@ export class RadialVertical extends GaugeComponent<Props, ssRadialVertical, Radi
 	}
 
 	setShowMinMeasuredValue() {
-		this.log();
 		this.gauge.setMinMeasuredValueVisible(this.props.showMinMeasuredValue);
 	}
 
 	setShowMaxMeasuredValue() {
-		this.log();
 		this.gauge.setMaxMeasuredValueVisible(this.props.showMaxMeasuredValue);
 	}
 
 	setThresholdRising() {
-		this.log();
 		this.gauge.setThresholdRising(this.props.thresholdRising);
 	}
 
@@ -164,27 +154,22 @@ export class RadialVertical extends GaugeComponent<Props, ssRadialVertical, Radi
 	// missimg buffer resets and re-init?
 	//
 	// setShowThreshold() {
-	// 	this.log();
 	// 	this.gauge.setThresholdVisible(this.props.showThreshold);
 	// }
 
 	setShowLed() {
-		this.log();
 		this.gauge.setLedVisible(this.props.showLed);
 	}
 
 	setLedColor() {
-		this.log();
 		this.gauge.setLedColor(this.props.ledColor);
 	}
 
 	setMinMeasuredValue() {
-		this.log();
 		this.gauge.setMinMeasuredValue(this.props.minMeasuredValue);
 	}
 
 	setMaxMeasuredValue() {
-		this.log();
 		this.gauge.setMaxMeasuredValue(this.props.maxMeasuredValue);
 	}
 

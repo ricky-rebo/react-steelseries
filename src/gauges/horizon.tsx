@@ -47,22 +47,18 @@ export class Horizon extends GaugeComponent<Props, ssHorizon, HorizonParams> {
 	}
 
 	setFrameDesign() {
-		this.log(`set frameDesign`);
 		this.gauge.setFrameDesign(this.props.frameDesign);
 	}
 
 	setForegroundType() {
-		this.log(`set foregrundType`);
 		this.gauge.setForegroundType(this.props.foregroundType);
 	}
 
 	setPitchOffset() {
-		this.log("set pitchOffset");
 		this.gauge.setPitchOffset(this.props.pitchOffset);
 	}
 
 	setPitch() {
-		this.log("set pitch");
 		if(this.props.animate) {
 			this.gauge.setPitchAnimated(this.props.pitch, this.props.pitchAnimationCallback);
 		}
@@ -72,7 +68,6 @@ export class Horizon extends GaugeComponent<Props, ssHorizon, HorizonParams> {
 	}
 
 	setRoll() {
-		this.log("set roll");
 		if(this.props.animate) {
 			this.gauge.setRollAnimated(this.props.roll, this.props.rollAnimationCallback);
 		}

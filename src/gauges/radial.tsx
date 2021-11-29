@@ -149,42 +149,34 @@ export class Radial extends GaugeComponent<Props, ssRadial, RadialParams> {
 	}
 
 	setFrameDesign() {
-		this.log();
 		this.gauge.setFrameDesign(this.props.frameDesign);
 	}
 
 	setBackgroundColor() {
-		this.log()
 		this.gauge.setBackgroundColor(this.props.backgroundColor);
 	}
 
 	setForegroundType() {
-		this.log();
 		this.gauge.setForegroundType(this.props.foregroundType);
 	}
 
 	setPointerColor() {
-		this.log();
 		this.gauge.setPointerColor(this.props.pointerColor);
 	}
 
 	setPointerType() {
-		this.log();
 		this.gauge.setPointerType(this.props.pointerType);
 	}
 
 	setLcdColor() {
-		this.log();
 		this.gauge.setLcdColor(this.props.lcdColor);
 	}
 
 	setLcdDecimals() {
-		this.log();
 		this.gauge.setLcdDecimals(this.props.lcdDecimals);
 	}
 
 	setMinValue() {
-		this.log();
 		this.gauge.setMinValue(this.props.minValue);
 
 		if(this.props.resetValueOnBoundsChange && !this.valueReset && this.props.animate) {
@@ -195,7 +187,6 @@ export class Radial extends GaugeComponent<Props, ssRadial, RadialParams> {
 	}
 
 	setMaxValue() {
-		this.log();
 		this.gauge.setMaxValue(this.props.maxValue);
 
 		if(this.props.resetValueOnBoundsChange && !this.valueReset && this.props.animate) {
@@ -206,27 +197,22 @@ export class Radial extends GaugeComponent<Props, ssRadial, RadialParams> {
 	}
 
 	setShowMinMeasuredValue() {
-		this.log();
 		this.gauge.setMinMeasuredValueVisible(this.props.showMinMeasuredValue);
 	}
 
 	setShowMaxMeasuredValue() {
-		this.log();
 		this.gauge.setMaxMeasuredValueVisible(this.props.showMaxMeasuredValue);
 	}
 
 	setLabelNumberFormat() {
-		this.log();
 		this.gauge.setLabelNumberFormat(this.props.labelNumberFormat);
 	}
 
 	setThreshold() {
-		this.log();
 		this.gauge.setThreshold(this.props.threshold);
 	}
 
 	setThresholdRising() {
-		this.log();
 		this.gauge.setThresholdRising(this.props.thresholdRising);
 	}
 
@@ -235,67 +221,54 @@ export class Radial extends GaugeComponent<Props, ssRadial, RadialParams> {
 	// missimg buffer resets and re-init?
 	//
 	// setShowThreshold() {
-	// 	this.log();
 	// 	this.gauge.setThresholdVisible(this.props.showThreshold);
 	// }
 
 	setTitleString() {
-		this.log();
 		this.gauge.setTitleString(this.props.titleString);
 	}
 
 	setUnitString() {
-		this.log();
 		this.gauge.setUnitString(this.props.unitString);
 	}
 
 	setShowLed() {
-		this.log();
 		this.gauge.setLedVisible(this.props.showLed);
 	}
 
 	setLedColor() {
-		this.log();
 		this.gauge.setLedColor(this.props.ledColor);
 	}
 
 	setFractionalScaleDecimals() {
-		this.log();
 		this.gauge.setFractionalScaleDecimals(this.props.fractionalScaleDecimals);
 	}
 
 	setShowTrend() {
-		this.log();
 		this.gauge.setTrendVisible(this.props.showTrend);
 	}
 
 	setShowUserLed() {
-		this.log();
 		this.gauge.setUserLedVisible(this.props.showUserLed);
 	}
 
 	setUserLedColor() {
-		this.log();
 		this.gauge.setUserLedColor(this.props.userLedColor);
 	}
 
 	setSections() {
-		this.log();
 		this.gauge.setSection(this.props.sections);
 	}
 
 	setSectors() {
-		this.log();
 		this.gauge.setArea(this.props.sectors);
 	}
 
 	setMinMeasuredValue() {
-		this.log();
 		this.gauge.setMinMeasuredValue(this.props.minMeasuredValue);
 	}
 
 	setMaxMeasuredValue() {
-		this.log();
 		this.gauge.setMaxMeasuredValue(this.props.maxMeasuredValue);
 	}
 
@@ -309,24 +282,20 @@ export class Radial extends GaugeComponent<Props, ssRadial, RadialParams> {
 	}
 
 	setTrend() {
-		this.log();
 		this.gauge.setTrend(this.props.trend);
 	}
 
 	setOdometerValue() {
-		this.log();
 		if(!this.props.syncOdometerValue) {
 			this.gauge.setOdoValue(this.props.odometerValue);
 		}
 	}
 
 	setUserLedOn() {
-		this.log();
 		this.gauge.setUserLedOnOff(this.props.userLedOn);
 	}
 
 	setUserLedBlink() {
-		this.log();
 		this.gauge.blinkUserLed(this.props.userLedBlink);
 	}
 
