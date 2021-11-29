@@ -1,6 +1,5 @@
-import React from "react";
 import { Trafficlight as ssTrafficLight, TrafficlightParams } from "steelseries";
-import { updateIfChanged } from "../tools";
+
 import GaugeComponent from "./gauge-component";
 
 
