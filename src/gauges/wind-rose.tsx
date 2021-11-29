@@ -1,8 +1,7 @@
-import GaugeComponent from "./gauge-component";
-import { OdometerParams } from "steelseries";
 import { Rose as ssRose, RoseParams } from "steelseries-rose-gauge";
+import { OdometerParams } from "steelseries";
 
-const DEBUG = true;
+import GaugeComponent from "./gauge-component";
 
 
 // BUG @types/steelseries
@@ -58,52 +57,44 @@ export class Rose extends GaugeComponent<Props, ssRose, RoseParams> {
 	}
 
 	setValue() {
-		// DEBUG
-		if(DEBUG) this.log(`set value`);
+		this.log();
 		this.gauge.setValue(this.props.value);
 	}
 
 	setFrameDesign() {
-		//DEBUG
-		if(DEBUG) this.log(`set frameDesign`);
+		 this.log();
 		this.gauge.setFrameDesign(this.props.frameDesign);
 	}
 
 	setBackgroundColor() {
-		// DEBUG
-		if(DEBUG) this.log(`set backgroundColor`)
+		this.log()
 		this.gauge.setBackgroundColor(this.props.backgroundColor);
 	}
 
 	setForegroundType() {
-		// DEBUG
-		if(DEBUG) this.log(`set foregrundType`);
+		this.log();
 		this.gauge.setForegroundType(this.props.foregroundType);
 	}
 
 	setOdometerValue() {
-		// DEBUG
-		if(DEBUG) this.log(`set odometerValue`);
+		this.log();
 		this.props.animate
 			? this.gauge.setOdoValueAnimated(this.props.odometerValue, this.props.animationCallback)
 			: this.gauge.setOdoValue(this.props.odometerValue);
 	}
 
 	setTitleString() {
-		// DEBUG
-		if(DEBUG) this.log(`set titleString`);
+		this.log();
 		this.gauge.setTitleString(this.props.titleString);
 	}
 
 	setUnitString() {
-		// DEBUG
-		if(DEBUG) this.log(`set unitString`);
+		this.log();
 		this.gauge.setUnitString(this.props.unitString);
 	}
 
 	setPointSymbols() {
-		// DEBUG
-		if(DEBUG) this.log(`set pointSymbols`);
+		this.log();
 		this.gauge.setPointSymbols(this.props.pointSymbols);
 	}
 }
