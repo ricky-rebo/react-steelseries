@@ -85,18 +85,26 @@ export default abstract class GaugeComponent<P, G, GP> extends React.Component<P
 			}
 
 			let setter: string;
+			let setters: { () : void }[] = [];
 			for(let prop in this.props) {
 				if(this.props[prop] !== prev[prop] && !this.ignoredProps.includes(prop)) {
 					setter = getSetterName(prop)
 					if(setter in this && typeof this[setter] === 'function') {
-						this[setter]();
+						//this[setter]();
+						setters.push(this[setter].bind(this));
 					}
 					else {
+						//DEBUG
+						this.log("gauge re-init...")
 						this.componentDidMount(false);
 						return;
 					}
 				}
 			}
+
+			//DEBUG
+			this.log("calling setters...")
+			setters.forEach((fun) => fun());
 
 			if(this.gaugePostUpdate) {
 				this.gaugePostUpdate();
