@@ -14,7 +14,7 @@ interface Props extends LevelParams {
 
 export class Level extends GaugeComponent<Props, ssLevel, LevelParams> {
 	GaugeClass = ssLevel;
-	ignoredProps = ["animate", "animationCallback"];
+	IgnoredProps = ["animate", "animationCallback"];
 
 	getGaugeParams = () => ({
 		size: this.props.size,

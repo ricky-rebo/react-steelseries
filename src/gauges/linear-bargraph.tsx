@@ -34,7 +34,7 @@ interface Props extends Omit<LinearBargraphParams, ExcludedParams> {
 
 export class LinearBargraph extends GaugeComponent<Props, ssLinearBargraph, LinearBargraphParams> {
 	GaugeClass = ssLinearBargraph;
-	ignoredProps = ["animate", "animationCallback", "resetValueOnBoundsChange"];
+	IgnoredProps = ["animate", "animationCallback", "resetValueOnBoundsChange"];
 
 	valueReset = false;
 	prevValue = 0;

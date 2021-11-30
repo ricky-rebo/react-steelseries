@@ -1,5 +1,0 @@
-- align gauges to Rose approach (with GaugeComponent class)
-
-- stop possible gauge animations in componentWillUnmount()
-
-- impostare value come prop obbligatoria?

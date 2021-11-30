@@ -20,7 +20,7 @@ interface Props extends AltimeterParams {
 
 export class Altimeter extends GaugeComponent<Props, ssAltimeter, AltimeterParams> {
 	GaugeClass = ssAltimeter;
-	ignoredProps = ['animate', 'animationCallback', 'resetValueOnUnitChange']
+	IgnoredProps = ['animate', 'animationCallback', 'resetValueOnUnitChange']
 
 	valueReset = false;
 	prevValue = 0;

@@ -12,7 +12,7 @@ interface Props extends Omit<OdometerParams, "_context"> {
 
 export class Odometer extends GaugeComponent<Props, ssOdometer, OdometerParams> {
 	GaugeClass = ssOdometer;
-	ignoredProps = ["animate", "animationCallback"];
+	IgnoredProps = ["animate", "animationCallback"];
 
 	getGaugeParams = () => ({
 		height: this.props.height,

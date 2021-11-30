@@ -13,7 +13,7 @@ interface Props extends CompassParams {
 
 export class Compass extends GaugeComponent<Props, ssCompass, CompassParams> {
 	GaugeClass = ssCompass;
-	ignoredProps = ["animate", "animationCallback"];
+	IgnoredProps = ["animate", "animationCallback"];
 
 	getGaugeParams() {
 		return {

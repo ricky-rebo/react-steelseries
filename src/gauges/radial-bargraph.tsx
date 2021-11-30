@@ -32,7 +32,7 @@ interface Props extends Omit<RadialBargraphParams, ExcludedParams> {
 
 export class RadialBargraph extends GaugeComponent<Props, ssRadialBargraph, RadialBargraphParams> {
 	GaugeClass = ssRadialBargraph;
-	ignoredProps = ["animate", "animationCallback", "resetValueOnBoundsChange"];
+	IgnoredProps = ["animate", "animationCallback", "resetValueOnBoundsChange"];
 
 	valueReset = false;
 	prevValue = 0;

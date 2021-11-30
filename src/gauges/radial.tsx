@@ -51,7 +51,7 @@ interface Props extends Omit<RadialParams, ExcludedParams> {
 
 export class Radial extends GaugeComponent<Props, ssRadial, RadialParams> {
 	GaugeClass = ssRadial;
-	ignoredProps = ["animate", "animationCallback", "resetValueOnBoundsChange"];
+	IgnoredProps = ["animate", "animationCallback", "resetValueOnBoundsChange"];
 
 	valueReset = false;
 	prevValue = 0;

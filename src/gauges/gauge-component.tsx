@@ -1,15 +1,23 @@
 import React from "react";
-import { getSetterName } from "../tools";
 
 // DEBUG
 const DEBUG = true;
 
 
-interface IConstructor<T> {
-	new (canvas: HTMLCanvasElement | string, parameters?: any): T;
+export function capitalize(str: string) {
+	return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-export default interface GaugeComponent<P, G, GP> {
+export function getSetterName(prop: string) {
+	return `set${capitalize(prop)}`;
+}
+
+
+interface IGaugeConstructor<GC, GP> {
+	new (canvas: HTMLCanvasElement | string, parameters?: GP): GC;
+}
+
+export default interface GaugeComponent<P, GC, GP> {
 
 	/**
 	 * Additional code to be executed right before gauge init
@@ -33,19 +41,19 @@ export default interface GaugeComponent<P, G, GP> {
 	 */
 	gaugePostUpdate?(): void;
 }
-export default abstract class GaugeComponent<P, G, GP> extends React.Component<P> {
+export default abstract class GaugeComponent<P, GC, GP> extends React.Component<P> {
 	/**
 	 * Steelseries Gauge Class
 	 */
-	abstract GaugeClass: IConstructor<G>;
+	abstract GaugeClass: IGaugeConstructor<GC, GP>;
 
 	/**
 	 * Props ignored in update watch
 	 */
-	ignoredProps: string[] = [];
+	IgnoredProps: string[] = [];
 
 	canvasRef: React.RefObject<HTMLCanvasElement>;
-	gauge: G;
+	gauge: GC;
 
 	constructor(props: P) {
 		super(props);
@@ -87,7 +95,7 @@ export default abstract class GaugeComponent<P, G, GP> extends React.Component<P
 			let setter: string;
 			let setters: { () : void }[] = [];
 			for(let prop in this.props) {
-				if(this.props[prop] !== prev[prop] && !this.ignoredProps.includes(prop)) {
+				if(this.props[prop] !== prev[prop] && !this.IgnoredProps.includes(prop)) {
 					setter = getSetterName(prop)
 					if(setter in this && typeof this[setter] === 'function') {
 						//this[setter]();

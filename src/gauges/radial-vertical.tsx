@@ -32,7 +32,7 @@ interface Props extends Omit<RadialVerticalParams, ExcludedParams> {
 
 export class RadialVertical extends GaugeComponent<Props, ssRadialVertical, RadialVerticalParams> {
 	GaugeClass = ssRadialVertical;
-	ignoredProps = ["animate", "animationCallback", "resetValueOnBoundsChange"];
+	IgnoredProps = ["animate", "animationCallback", "resetValueOnBoundsChange"];
 
 	valueReset = false;
 	prevValue = 0;

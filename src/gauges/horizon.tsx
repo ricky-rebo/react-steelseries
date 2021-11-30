@@ -17,7 +17,7 @@ interface Props extends HorizonParams {
 
 export class Horizon extends GaugeComponent<Props, ssHorizon, HorizonParams> {
 	GaugeClass = ssHorizon;
-	ignoredProps = ["animate", "rollAnimationCallback", "pitchAnimationCallback"]
+	IgnoredProps = ["animate", "rollAnimationCallback", "pitchAnimationCallback"]
 
 	getGaugeParams = () => ({
 		size: this.props.size,

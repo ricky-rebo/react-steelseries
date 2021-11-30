@@ -31,7 +31,7 @@ interface Props extends Omit<WindDirectionParams, ExcludedParams> {
 
 export class WindDirection extends GaugeComponent<Props, ssWindDirection, WindDirectionParams> {
 	GaugeClass = ssWindDirection;
-	ignoredProps = ["animate", "lstAnimationCallback", "avgAnimationCallback"];
+	IgnoredProps = ["animate", "lstAnimationCallback", "avgAnimationCallback"];
 
 	getGaugeParams = () => ({
 		size: this.props.size,

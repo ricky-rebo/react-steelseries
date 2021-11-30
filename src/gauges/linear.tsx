@@ -29,7 +29,7 @@ interface Props extends Omit<LinearParams, ExcludedParams> {
 
 export class Linear extends GaugeComponent<Props, ssLinear, LinearParams> {
 	GaugeClass = ssLinear;
-	ignoredProps = ["animate", "animationCallback", "resetValueOnBoundsChange"]
+	IgnoredProps = ["animate", "animationCallback", "resetValueOnBoundsChange"]
 
 	valueReset = false;
 	prevValue = 0;
@@ -97,7 +97,6 @@ export class Linear extends GaugeComponent<Props, ssLinear, LinearParams> {
 	}
 
 	setBackgroundColor() {
-		this.log()
 		this.gauge.setBackgroundColor(this.props.backgroundColor);
 	}
 

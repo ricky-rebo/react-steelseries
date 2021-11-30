@@ -23,7 +23,7 @@ interface Props extends RoseParams {
 export class Rose extends GaugeComponent<Props, ssRose, RoseParams> {
 	GaugeClass = ssRose;
 
-	ignoredProps = ['animate', 'animationCallback'];
+	IgnoredProps = ['animate', 'animationCallback'];
 
 	getGaugeParams() {
 		return {
