@@ -1,22 +1,22 @@
-export {
-  rgbaColor,
-  gradientWrapper,
-  Section,
-  BackgroundColor,
-  LcdColor,
-  ColorDef,
-  LedColor,
-  GaugeType,
-  Orientation,
-  KnobType,
-  KnobStyle,
-  FrameDesign,
-  PointerType,
-  ForegroundType,
-  LabelNumberFormat,
-  TickLabelOrientation,
-  TrendState
-} from "steelseries";
+// export {
+//   rgbaColor,
+//   gradientWrapper,
+//   Section,
+//   BackgroundColor,
+//   LcdColor,
+//   ColorDef,
+//   LedColor,
+//   GaugeType,
+//   Orientation,
+//   KnobType,
+//   KnobStyle,
+//   FrameDesign,
+//   PointerType,
+//   ForegroundType,
+//   LabelNumberFormat,
+//   TickLabelOrientation,
+//   TrendState
+// } from "steelseries";
 
 export { Altimeter } from "./gauges/altimeter";
 export { Battery } from "./gauges/battery";
