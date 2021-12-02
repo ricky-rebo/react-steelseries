@@ -1,7 +1,7 @@
 import React from "react";
 
-// DEBUG
-const DEBUG = true;
+
+declare var __DEV__: boolean;
 
 
 export function capitalize(str: string) {
@@ -61,7 +61,7 @@ export default abstract class GaugeComponent<P, GC, GP> extends React.Component<
 	}
 
 	log(_msg?: string) {
-		if(DEBUG) console.log(`[${this.constructor.name}] ${_msg || ""}`)
+		if(__DEV__) { console.log(`[${this.constructor.name}] ${_msg || ""}`); }
 	}
 
 	/**
@@ -71,8 +71,9 @@ export default abstract class GaugeComponent<P, GC, GP> extends React.Component<
 
 	componentDidMount(animate: boolean = true) {
 		if(this.canvasRef.current && this.GaugeClass) {
-			// DEBUG
-			this.log("init");
+			if(__DEV__) {
+				this.log("init");
+			}
 
 			if(this.gaugePreInit) {
 				this.gaugePreInit();
@@ -102,17 +103,20 @@ export default abstract class GaugeComponent<P, GC, GP> extends React.Component<
 						setters.push(this[setter].bind(this));
 					}
 					else {
-						//DEBUG
-						this.log("gauge re-init...")
+						if(__DEV__) { this.log("gauge re-init..."); }
+						
 						this.componentDidMount(false);
 						return;
 					}
 				}
 			}
 
-			//DEBUG
-			this.log("calling setters...")
-			setters.forEach((fun) => fun());
+			if(setters.length > 0) {
+				if(__DEV__) { this.log("calling setters..."); }
+
+				setters.forEach((fun) => fun());
+			}
+			
 
 			if(this.gaugePostUpdate) {
 				this.gaugePostUpdate();
