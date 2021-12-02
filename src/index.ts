@@ -48,3 +48,5 @@ export { RadialVertical } from "./gauges/radial-vertical";
 
 export { WindDirection } from "./gauges/wind-direction";
 export { Rose } from "./gauges/wind-rose";
+
+import "./fonts/index.css";
