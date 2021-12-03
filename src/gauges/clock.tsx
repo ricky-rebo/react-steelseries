@@ -42,6 +42,12 @@ export class Clock extends GaugeComponent<Props, ssClock, ClockParams> {
 		}
 	}
 
+	gaugePreInit() {
+		if(this.gauge && this.props.isAutomatic) {
+			this.gauge.setAutomatic(false);
+		}
+	}
+
 	setFrameDesign() {
 		this.gauge.setFrameDesign(this.props.frameDesign);
 	}
