@@ -56,6 +56,11 @@ export class Horizon extends GaugeComponent<Props, ssHorizon, HorizonParams> {
 
 	setPitchOffset() {
 		this.gauge.setPitchOffset(this.props.pitchOffset);
+
+		// BUG in 'steelseries'
+		// setPitchOffset() not working standalone
+		// possible solution: replace this.repaint() with this.setPitch(pitch) in library
+		this.gauge.setPitch(this.gauge.getPitch());
 	}
 
 	setPitch() {
