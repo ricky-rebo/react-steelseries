@@ -24,18 +24,25 @@ export class DisplaySingle extends GaugeComponent<Props, ssDisplaySingle, Displa
 		width: this.props.width,
 		height: this.props.height,
 		section: this.props.section,
-		headerString: this.props.headerString,
+		headerString: this.props.headerString, //solo se valuesNumeric = false
 		headerStringVisible: this.props.showHeaderString,
-		unitString: this.props.unitString,
-		unitStringVisible: this.props.valuesNumeric,
+		unitString: this.props.unitString, // solo se valuesNumeric = false
+		unitStringVisible: this.props.showUnitString,
+		valuesNumeric: this.props.valuesNumeric,
 		value: this.props.value,
-		alwaysScroll: this.props.infiniteScroll,
-		autoScroll: this.props.autoScroll,
+		alwaysScroll: this.props.infiniteScroll, // solo se valuesNumeric = false (scroll sempre)
+		autoScroll: this.props.autoScroll, // solo se valuesNumeric = false (scroll se txtLenght > gaugeLenght)
 
 		lcdColor: this.props.lcdColor,
 		digitalFont: this.props.digitalFont,
 		lcdDecimals: this.props.lcdDecimals
 	});
+
+	gaugePreInit() {
+		if(this.gauge && this.props.autoScroll) {
+			this.gauge.setScrolling(false);
+		}
+	}
 
 	setLcdColor() {
 		this.gauge.setLcdColor(this.props.lcdColor);
@@ -45,8 +52,8 @@ export class DisplaySingle extends GaugeComponent<Props, ssDisplaySingle, Displa
 		this.gauge.setSection(this.props.section);
 	}
 
-	setAutoScroll() {
-		this.gauge.setScrolling(this.props.autoScroll);
+	setInfiniteScroll() {
+		this.gauge.setScrolling(this.props.infiniteScroll);
 	}
 
 	setValue() {
