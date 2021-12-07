@@ -44,6 +44,11 @@ export class Led extends GaugeComponent<Props, ssLed, LedParams> {
 
 	setBlink() {
 		this.gauge.blink(this.props.blink);
+
+		// when disabling blinking, bring back led to previous state
+		if(!this.props.blink) {
+			this.gauge.setLedOnOff((this.props.on === undefined) ? false : this.props.on);
+		}
 	}
 
 	componentWillUnmount() {
