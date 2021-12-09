@@ -1,3 +1,5 @@
+import "./fonts/index.css";
+
 export { Altimeter } from "./gauges/altimeter";
 export { Battery } from "./gauges/battery";
 export { Clock } from "./gauges/clock";
