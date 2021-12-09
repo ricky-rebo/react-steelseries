@@ -34,6 +34,14 @@ export class Linear extends GaugeComponent<Props, ssLinear, LinearParams> {
 	valueReset = false;
 	prevValue = 0;
 
+	gaugePreInit() {
+		if(this.gauge) {
+			// IMPROVE execute only when led is visible on gauge
+			// maybe thgis.gauge.isLedVisible() 
+			this.gauge.setLedVisible(false);
+		}
+	}
+
 	getGaugeParams = () => ({
 		width: this.props.width,
 		height: this.props.height,
@@ -181,9 +189,24 @@ export class Linear extends GaugeComponent<Props, ssLinear, LinearParams> {
 
 	setValue() {
 		if(this.props.animate) {
-			this.gauge.setValueAnimated(this.props.value, this.props.animationCallback);
+			if(this.valueReset && this.props.showMinMeasuredValue) {
+				this.gauge.setMinMeasuredValueVisible(false);
+			}
 
-			if(this.valueReset) this.valueReset = false;
+			this.gauge.setValueAnimated(this.props.value, () => {
+				if(this.props.animationCallback && typeof this.props.animationCallback === 'function') {
+					this.props.animationCallback();
+				}
+
+				if(this.props.showMinMeasuredValue) {
+					this.setShowMinMeasuredValue();
+					this.setMinMeasuredValue();
+				}
+			});
+
+			if(this.valueReset) {
+				this.valueReset = false;
+			}
 		}
 		else {
 			this.gauge.setValue(this.props.value);
@@ -192,8 +215,7 @@ export class Linear extends GaugeComponent<Props, ssLinear, LinearParams> {
 
 	gaugePostUpdate() {
 		if(this.valueReset) {
-			this.gauge.setValueAnimated(this.prevValue, this.props.animationCallback);
-			this.valueReset = false;
+			this.setValue()
 		}
 	}
 }
