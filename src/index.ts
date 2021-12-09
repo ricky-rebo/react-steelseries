@@ -1,23 +1,3 @@
-// export {
-//   rgbaColor,
-//   gradientWrapper,
-//   Section,
-//   BackgroundColor,
-//   LcdColor,
-//   ColorDef,
-//   LedColor,
-//   GaugeType,
-//   Orientation,
-//   KnobType,
-//   KnobStyle,
-//   FrameDesign,
-//   PointerType,
-//   ForegroundType,
-//   LabelNumberFormat,
-//   TickLabelOrientation,
-//   TrendState
-// } from "steelseries";
-
 export { Altimeter } from "./gauges/altimeter";
 export { Battery } from "./gauges/battery";
 export { Clock } from "./gauges/clock";
@@ -29,7 +9,6 @@ export { Led } from "./gauges/led";
 export { Level } from "./gauges/level";
 
 // FIXME(ricky-rebo) TypeError: steelseries__WEBPACK_IMPORTED_MODULE_0__.Lightbulb is not a constructor
-// Maybe a bug in '@types/steelseries'?
 // export { Lightbulb } from "./gauges/light-bulb"; 
 
 export { Linear } from "./gauges/linear";
@@ -43,7 +22,6 @@ export { RadialVertical } from "./gauges/radial-vertical";
 // export { Stopwatch } from "./gauges/stopwatch";
 
 // FIXME(ricky-rebo) TypeError: steelseries__WEBPACK_IMPORTED_MODULE_0__.Trafficlight is not a constructor
-// Maybe a bug '@type/steelseries'?
 // export { Trafficlight } from "./gauges/traffic-light";
 
 export { WindDirection } from "./gauges/wind-direction";
