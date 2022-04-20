@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import { AltimeterParams, Altimeter as AltimeterGauge } from "steelseries";
+import { useDidUpdate } from "../hooks/useDidUpdate";
 
 interface Props extends AltimeterParams {
 	size: number;
@@ -41,11 +42,11 @@ export function Altimeter (props: Props) {
 	}, [])
 
 	// Gauge update
-	useEffect(() => {gauge.current && gauge.current.setFrameDesign(props.frameDesign)}, [props.frameDesign])
-	useEffect(() => {gauge.current && gauge.current.setBackgroundColor(props.backgroundColor)}, [props.backgroundColor])
-	useEffect(() => {gauge.current && gauge.current.setForegroundType(props.foregroundType)}, [props.foregroundType])
+	useDidUpdate(() => {gauge.current && gauge.current.setFrameDesign(props.frameDesign)}, [props.frameDesign])
+	useDidUpdate(() => {gauge.current && gauge.current.setBackgroundColor(props.backgroundColor)}, [props.backgroundColor])
+	useDidUpdate(() => {gauge.current && gauge.current.setForegroundType(props.foregroundType)}, [props.foregroundType])
 
-	useEffect(() => {gauge.current && gauge.current.setLcdColor(props.lcdColor)}, [props.lcdColor])
+	useDidUpdate(() => {gauge.current && gauge.current.setLcdColor(props.lcdColor)}, [props.lcdColor])
 
 	useEffect(() => {gauge.current && gauge.current.setTitleString(props.titleString)}, [props.titleString])
 	useEffect(() => {

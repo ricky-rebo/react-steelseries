@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { CompassParams, Compass as CompassGauge } from "steelseries";
+import { useDidUpdate } from "../hooks/useDidUpdate";
 
 interface Props extends CompassParams {
 	size: number;
@@ -38,14 +39,14 @@ export function Compass (props: Props) {
 	}, [])
 
 	// Update gauge
-	useEffect(() => {gauge.current && gauge.current.setFrameDesign(props.frameDesign)}, [props.frameDesign])
-	useEffect(() => {gauge.current && gauge.current.setBackgroundColor(props.backgroundColor)}, [props.backgroundColor])
-	useEffect(() => {gauge.current && gauge.current.setForegroundType(props.foregroundType)}, [props.foregroundType])
+	useDidUpdate(() => {gauge.current && gauge.current.setFrameDesign(props.frameDesign)}, [props.frameDesign])
+	useDidUpdate(() => {gauge.current && gauge.current.setBackgroundColor(props.backgroundColor)}, [props.backgroundColor])
+	useDidUpdate(() => {gauge.current && gauge.current.setForegroundType(props.foregroundType)}, [props.foregroundType])
 
-	useEffect(() => {gauge.current && gauge.current.setPointerType(props.pointerType)}, [props.pointerType])
-	useEffect(() => {gauge.current && gauge.current.setPointerColor(props.pointerColor)}, [props.pointerColor])
+	useDidUpdate(() => {gauge.current && gauge.current.setPointerType(props.pointerType)}, [props.pointerType])
+	useDidUpdate(() => {gauge.current && gauge.current.setPointerColor(props.pointerColor)}, [props.pointerColor])
 
-	useEffect(() => {gauge.current && props.pointSymbols && gauge.current.setPointSymbols(props.pointSymbols)}, [props.pointSymbols])
+	useDidUpdate(() => {gauge.current && gauge.current.setPointSymbols(props.pointSymbols)}, [props.pointSymbols])
 	useEffect(() => {
 		if (gauge.current) {
 			props.animate

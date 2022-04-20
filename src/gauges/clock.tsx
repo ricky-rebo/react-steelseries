@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { ClockParams, Clock as ClockGauge } from "steelseries";
+import { useDidUpdate } from "../hooks/useDidUpdate";
 
 interface Props extends Partial<Omit<ClockParams, "hour"|"minute"|"second"|"secondMovesContinuous">> {
 	size: number;
@@ -50,19 +51,19 @@ export function Clock (props: Props) {
 	}, [])
 
 	// Gauge update
-	useEffect(() => {gauge.current && gauge.current.setFrameDesign(props.frameDesign)}, [props.frameDesign])
-	useEffect(() => {gauge.current && gauge.current.setBackgroundColor(props.backgroundColor)}, [props.backgroundColor])
-	useEffect(() => {gauge.current && gauge.current.setForegroundType(props.foregroundType)}, [props.foregroundType])
+	useDidUpdate(() => {gauge.current && gauge.current.setFrameDesign(props.frameDesign)}, [props.frameDesign])
+	useDidUpdate(() => {gauge.current && gauge.current.setBackgroundColor(props.backgroundColor)}, [props.backgroundColor])
+	useDidUpdate(() => {gauge.current && gauge.current.setForegroundType(props.foregroundType)}, [props.foregroundType])
 
-	useEffect(() => {gauge.current && gauge.current.setPointerType(props.pointerType)}, [props.pointerType])
-	useEffect(() => {gauge.current && gauge.current.setPointerColor(props.pointerColor)}, [props.pointerColor])
+	useDidUpdate(() => {gauge.current && gauge.current.setPointerType(props.pointerType)}, [props.pointerType])
+	useDidUpdate(() => {gauge.current && gauge.current.setPointerColor(props.pointerColor)}, [props.pointerColor])
 
-	useEffect(() => {gauge.current && gauge.current.setAutomatic(props.isAutomatic)}, [props.isAutomatic])
-	useEffect(() => {gauge.current && gauge.current.setTimeZoneOffsetHour(props.timeZoneOffsetHour)}, [props.timeZoneOffsetHour])
-	useEffect(() => {gauge.current && gauge.current.setTimeZoneOffsetMinute(props.timeZoneOffsetHour)}, [props.timeZoneOffsetMinute])
+	useDidUpdate(() => {gauge.current && gauge.current.setAutomatic(props.isAutomatic)}, [props.isAutomatic])
+	useDidUpdate(() => {gauge.current && gauge.current.setTimeZoneOffsetHour(props.timeZoneOffsetHour)}, [props.timeZoneOffsetHour])
+	useDidUpdate(() => {gauge.current && gauge.current.setTimeZoneOffsetMinute(props.timeZoneOffsetHour)}, [props.timeZoneOffsetMinute])
 
-	useEffect(() => {gauge.current && gauge.current.setSecondPointerVisible(props.secondPointerVisible)}, [props.secondPointerVisible])
-	useEffect(() => {
+	useDidUpdate(() => {gauge.current && gauge.current.setSecondPointerVisible(props.secondPointerVisible)}, [props.secondPointerVisible])
+	useDidUpdate(() => {
 		if (gauge.current) {
 			if (props.isAutomatic) gauge.current.setAutomatic(false)
 			gauge.current.setSecondMovesContinuous(!props.secondPointerTick)
@@ -70,7 +71,7 @@ export function Clock (props: Props) {
 		}
 	}, [props.secondPointerTick])
 
-	useEffect(() => {
+	useDidUpdate(() => {
 		if (gauge.current) {
 			gauge.current.setHour(props.value.getHours())
 				.setMinute(props.value.getMinutes())
