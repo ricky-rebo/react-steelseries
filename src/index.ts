@@ -1,24 +1,24 @@
 import "./fonts/index.css";
 
-export { Altimeter } from "./gauges/altimeter";
-export { Battery } from "./gauges/battery";
-export { Clock } from "./gauges/clock";
-export { Compass } from "./gauges/compass";
-export { DisplayMulti } from "./gauges/display-multi";
-export { DisplaySingle } from "./gauges/display-single";
-export { Horizon } from "./gauges/horizon";
-export { Led } from "./gauges/led";
-export { Level } from "./gauges/level";
+export { Altimeter } from "./gauges/altimeter-class";
+export { Battery } from "./gauges/battery-class";
+export { Clock } from "./gauges/clock-class";
+export { Compass } from "./gauges/compass-class";
+export { DisplayMulti } from "./gauges/display-multi-class";
+export { DisplaySingle } from "./gauges/display-single-class";
+export { Horizon } from "./gauges/horizon-class";
+export { Led } from "./gauges/led-class";
+export { Level } from "./gauges/level-class";
 
 // FIXME(ricky-rebo) TypeError: steelseries__WEBPACK_IMPORTED_MODULE_0__.Lightbulb is not a constructor
 // export { Lightbulb } from "./gauges/light-bulb"; 
 
-export { Linear } from "./gauges/linear";
-export { LinearBargraph } from "./gauges/linear-bargraph";
-export { Odometer } from "./gauges/odometer";
-export { Radial } from "./gauges/radial";
-export { RadialBargraph } from "./gauges/radial-bargraph";
-export { RadialVertical } from "./gauges/radial-vertical";
+export { Linear } from "./gauges/linear-class";
+export { LinearBargraph } from "./gauges/linear-bargraph-class";
+export { Odometer } from "./gauges/odometer-class";
+export { Radial } from "./gauges/radial-class";
+export { RadialBargraph } from "./gauges/radial-bargraph-class";
+export { RadialVertical } from "./gauges/radial-vertical-class";
 
 // FIXME(ricky-rebo) Finish the gauge
 // export { Stopwatch } from "./gauges/stopwatch";
@@ -26,5 +26,5 @@ export { RadialVertical } from "./gauges/radial-vertical";
 // FIXME(ricky-rebo) TypeError: steelseries__WEBPACK_IMPORTED_MODULE_0__.Trafficlight is not a constructor
 // export { Trafficlight } from "./gauges/traffic-light";
 
-export { WindDirection } from "./gauges/wind-direction";
-export { Rose } from "./gauges/wind-rose";
+export { WindDirection } from "./gauges/wind-direction-class";
+export { Rose } from "./gauges/wind-rose-class";
