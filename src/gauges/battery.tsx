@@ -1,6 +1,5 @@
-import React from "react";
 import { Battery as ssBattery, BatteryParams } from "steelseries";
-import { updateIfChanged } from "../tools";
+import GaugeComponent from "./gauge-component";
 
 
 interface Props extends BatteryParams {
@@ -8,40 +7,20 @@ interface Props extends BatteryParams {
 }
 
 
-export class Battery extends React.Component<Props> {
-	canvasRef: React.RefObject<HTMLCanvasElement>;
-	gauge: ssBattery;
-
-	constructor(props: Props) {
-		super(props);
-
-		this.canvasRef = React.createRef();
-	}
-
-	componentDidMount() {
-		if(this.canvasRef.current) {
-			this.gauge = new ssBattery(this.canvasRef.current, { size: this.props.size });
+export class Battery extends GaugeComponent<Props, ssBattery, BatteryParams> {
+	GaugeClass = ssBattery;
 	
-			if(this.props.value) { this.gauge.setValue(this.props.value); }
+	getGaugeParams() {
+		return { size: this.props.size }
+	}
+
+	gaugePostInit() {
+		if(this.props.value) { 
+			this.gauge.setValue(this.props.value);
 		}
 	}
 
-	gaugeShouldRepaint(prev: Props) {
-		return (this.props.size !== prev.size);
-	}
-
-	componentDidUpdate(prev: Props) {
-		if(this.canvasRef.current) {
-			if(this.gaugeShouldRepaint(prev)) {
-				this.componentDidMount();
-			}
-			else {
-				updateIfChanged(this.props.value, prev.value, this.gauge.setValue.bind(this.gauge));
-			}
-		}
-	}
-
-	render() {
-		return <canvas ref={this.canvasRef}></canvas>
+	setValue() {
+		this.gauge.setValue(this.props.value);
 	}
 }

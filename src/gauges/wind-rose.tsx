@@ -1,8 +1,7 @@
-import GaugeComponent from "./gauge-component";
-import { OdometerParams } from "steelseries";
 import { Rose as ssRose, RoseParams } from "steelseries-rose-gauge";
+import { OdometerParams } from "steelseries";
 
-const DEBUG = true;
+import GaugeComponent from "./gauge-component";
 
 
 // BUG @types/steelseries
@@ -24,7 +23,7 @@ interface Props extends RoseParams {
 export class Rose extends GaugeComponent<Props, ssRose, RoseParams> {
 	GaugeClass = ssRose;
 
-	ignoredProps = ['animate', 'animationCallback'];
+	IgnoredProps = ['animate', 'animationCallback'];
 
 	getGaugeParams() {
 		return {
@@ -58,52 +57,36 @@ export class Rose extends GaugeComponent<Props, ssRose, RoseParams> {
 	}
 
 	setValue() {
-		// DEBUG
-		if(DEBUG) console.log("set value");
 		this.gauge.setValue(this.props.value);
 	}
 
 	setFrameDesign() {
-		//DEBUG
-		if(DEBUG) console.log("set frameDesign");
 		this.gauge.setFrameDesign(this.props.frameDesign);
 	}
 
 	setBackgroundColor() {
-		// DEBUG
-		if(DEBUG) console.log("set backgroundColor")
 		this.gauge.setBackgroundColor(this.props.backgroundColor);
 	}
 
 	setForegroundType() {
-		// DEBUG
-		if(DEBUG) console.log("set foregrundType");
 		this.gauge.setForegroundType(this.props.foregroundType);
 	}
 
 	setOdometerValue() {
-		// DEBUG
-		if(DEBUG) console.log("set odometerValue");
 		this.props.animate
 			? this.gauge.setOdoValueAnimated(this.props.odometerValue, this.props.animationCallback)
 			: this.gauge.setOdoValue(this.props.odometerValue);
 	}
 
 	setTitleString() {
-		// DEBUG
-		if(DEBUG) console.log("set titleString");
 		this.gauge.setTitleString(this.props.titleString);
 	}
 
 	setUnitString() {
-		// DEBUG
-		if(DEBUG) console.log("set unitString");
 		this.gauge.setUnitString(this.props.unitString);
 	}
 
 	setPointSymbols() {
-		// DEBUG
-		if(DEBUG) console.log("set pointSymbols");
 		this.gauge.setPointSymbols(this.props.pointSymbols);
 	}
 }

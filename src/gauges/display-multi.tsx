@@ -1,64 +1,50 @@
-import React from "react";
+import GaugeComponent from "./gauge-component";
 import { DisplayMulti as ssDisplayMulti, DisplayMultiParams } from "steelseries";
-import { definedAndChanged, updateIfChanged } from "../tools";
 
-
-interface Props extends Omit<DisplayMultiParams, "headerStringVisible"|"detailStringVisible"|"unitStringVisible"> {
+type ExcludedParams = "headerStringVisible"
+	|"detailStringVisible"
+	|"unitStringVisible";
+interface Props extends Omit<DisplayMultiParams, ExcludedParams> {
 	width: number;
 	height: number;
+
+	showHeaderString?: boolean;
+	showDetailString?: boolean;
+	showUnitString?: boolean;
 }
 
 
-export class DisplayMulti extends React.Component<Props> {
-	canvasRef: React.RefObject<HTMLCanvasElement>;
-	gauge: ssDisplayMulti;
+export class DisplayMulti extends GaugeComponent<Props, ssDisplayMulti, DisplayMultiParams> {
+	GaugeClass = ssDisplayMulti;
 
-	constructor(props: Props) {
-		super(props);
+	getGaugeParams = () => ({
+		width: this.props.width,
+		height: this.props.height,
+		headerString: this.props.headerString,
+		headerStringVisible: this.props.showHeaderString,
+		detailString: this.props.detailString,
+		detailStringVisible: this.props.showDetailString,
+		unitString: this.props.unitString,
+		unitStringVisible: this.props.showUnitString,
+		linkAltValue: (this.props.linkAltValue === undefined) ? false : this.props.linkAltValue,
+		valuesNumeric: this.props.valuesNumeric,
+		value: this.props.value,
+		altValue: this.props.altValue,
 
-		this.canvasRef = React.createRef();
+		lcdColor: this.props.lcdColor,
+		digitalFont: this.props.digitalFont,
+		lcdDecimals: this.props.lcdDecimals
+	});
+
+	setLcdColor() {
+		this.gauge.setLcdColor(this.props.lcdColor);
 	}
 
-	componentDidMount() {
-		if(this.canvasRef.current) {
-			this.gauge = new ssDisplayMulti(this.canvasRef.current, {
-				...this.props,
-				headerStringVisible: (this.props.headerString !== undefined),
-				detailStringVisible: (this.props.detailString !== undefined),
-				unitStringVisible: (this.props.unitString !== undefined),
-				linkAltValue: (this.props.linkAltValue === undefined) ? false : this.props.linkAltValue
-			});
-			
-			if(this.props.value) { this.gauge.setValue(this.props.value); }
-		}
+	setValue() {
+		this.gauge.setValue(this.props.value);
 	}
 
-	gaugeShouldRepaint(prev: Props) {
-		return (this.props.width !== prev.width) 
-			|| (this.props.height !== prev.height)
-			|| definedAndChanged(this.props.digitalFont, prev.digitalFont)
-			|| definedAndChanged(this.props.lcdDecimals, prev.lcdDecimals)
-			|| definedAndChanged(this.props.linkAltValue, prev.linkAltValue)
-			|| definedAndChanged(this.props.valuesNumeric, prev.valuesNumeric);
-	}
-
-	componentDidUpdate(prev: Props) {
-		if(this.canvasRef.current) {
-			if(this.gaugeShouldRepaint(prev)) {
-				this.componentDidMount();
-			}
-			else {
-				const { props } = this;
-
-				updateIfChanged(props.lcdColor, prev.lcdColor, this.gauge.setLcdColor.bind(this.gauge));
-
-				updateIfChanged(props.value, prev.value, this.gauge.setValue.bind(this.gauge));
-				updateIfChanged(props.altValue, prev.altValue, this.gauge.setAltValue.bind(this.gauge));
-			}
-		}
-	}
-
-	render() {
-		return <canvas ref={this.canvasRef}></canvas>
+	setAltValue() {
+		this.gauge.setAltValue(this.props.altValue);
 	}
 }

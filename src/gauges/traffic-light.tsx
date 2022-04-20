@@ -1,6 +1,6 @@
-import React from "react";
 import { Trafficlight as ssTrafficLight, TrafficlightParams } from "steelseries";
-import { updateIfChanged } from "../tools";
+
+import GaugeComponent from "./gauge-component";
 
 
 interface Props extends TrafficlightParams {
@@ -12,55 +12,37 @@ interface Props extends TrafficlightParams {
 	green?: boolean;
 }
 
-// When i'll undestand how it's works, i'll finish the gauge :)
-export class Trafficlight extends React.Component<Props> {
-	canvasRef: React.RefObject<HTMLCanvasElement>;
-	gauge: ssTrafficLight;
+export class Trafficlight extends GaugeComponent<Props, ssTrafficLight, TrafficlightParams> {
+	GaugeClass = ssTrafficLight;
 
-	constructor(props: Props) {
-		super(props);
-		this.canvasRef = React.createRef();
-	}
+	getGaugeParams = () => ({
+		width: this.props.width,
+		height: this.props.height
+	});
 
-	componentDidMount() {
-		if(this.canvasRef.current) {
-			this.gauge = new ssTrafficLight(this.canvasRef.current, {
-				width: this.props.width,
-				height: this.props.height
-			});
+	gaugePostInit() {
+		if(this.props.red) {
+			this.gauge.setRedOn(this.props.red);
+		}
 
-			if(this.props.red) {
-				this.gauge.setRedOn(this.props.red);
-			}
+		if(this.props.yellow) {
+			this.gauge.setYellowOn(this.props.yellow);
+		}
 
-			if(this.props.yellow) {
-				this.gauge.setYellowOn(this.props.yellow);
-			}
-
-			if(this.props.green) {
-				this.gauge.setGreenOn(this.props.green);
-			}
+		if(this.props.green) {
+			this.gauge.setGreenOn(this.props.green);
 		}
 	}
 
-	gaugeShouldRepaint(prev: Props) {
-		return (this.props.width !== prev.width) || (this.props.height !== prev.height);
+	setRed() {
+		this.gauge.setRedOn(this.props.red);
 	}
 
-	componentDidUpdate(prev: Props) {
-		if(this.gaugeShouldRepaint(prev)) {
-			this.componentDidMount();
-		}
-		else {
-			const { props, gauge } = this;
-
-			updateIfChanged(props.red, prev.red, gauge.setRedOn.bind(gauge));
-			updateIfChanged(props.yellow, prev.yellow, gauge.setYellowOn.bind(gauge));
-			updateIfChanged(props.green, prev.green, gauge.setGreenOn.bind(gauge));
-		}
+	setYellow() {
+		this.gauge.setYellowOn(this.props.yellow);
 	}
 
-	render() {
-		return <canvas ref={this.canvasRef}></canvas>;
+	setGreen() {
+		this.gauge.setGreenOn(this.props.green);
 	}
 }
