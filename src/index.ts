@@ -30,4 +30,5 @@ export { WindDirection } from "./gauges/wind-direction-class";
 export { Rose } from "./gauges/wind-rose-class";
 
 // Functional Components
-export { Altimeter as AltimeterFunctional } from './gauges/altimeter'
+export { Altimeter as AltimeterFunctional } from "./gauges/altimeter"
+export { Battery as BatteryFunctional } from "./gauges/battery"
