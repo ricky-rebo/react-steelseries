@@ -33,3 +33,4 @@ export { Rose } from "./gauges/wind-rose-class";
 export { Altimeter as AltimeterFunctional } from "./gauges/altimeter"
 export { Battery as BatteryFunctional } from "./gauges/battery"
 export { Clock as ClockFunctional } from "./gauges/clock"
+export { Compass as CompassFunctional } from "./gauges/compass"
