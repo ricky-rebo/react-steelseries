@@ -11,7 +11,7 @@ export { Led } from "./gauges/led-class";
 export { Level } from "./gauges/level-class";
 
 // FIXME(ricky-rebo) TypeError: steelseries__WEBPACK_IMPORTED_MODULE_0__.Lightbulb is not a constructor
-// export { Lightbulb } from "./gauges/light-bulb"; 
+export { Lightbulb } from "./gauges/light-bulb-class";
 
 export { Linear } from "./gauges/linear-class";
 export { LinearBargraph } from "./gauges/linear-bargraph-class";
@@ -39,3 +39,4 @@ export { DisplaySingle as DisplaySingleFunctional } from "./gauges/display-singl
 export { Horizon as HorizonFunctional } from "./gauges/horizon"
 export { Led as LedFunctional } from "./gauges/led"
 export { Level as LevelFunctional } from "./gauges/level"
+export { LightBulb as LightBulbFunctional } from "./gauges/light-bulb"
