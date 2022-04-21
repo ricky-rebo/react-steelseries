@@ -20,7 +20,7 @@ export { Radial } from "./gauges/radial-class";
 export { RadialBargraph } from "./gauges/radial-bargraph-class";
 export { RadialVertical } from "./gauges/radial-vertical-class";
 
-// FIXME(ricky-rebo) Finish the gauge
+// TODO(ricky-rebo) Finish the gauge
 // export { Stopwatch } from "./gauges/stopwatch";
 
 // FIXME(ricky-rebo) TypeError: steelseries__WEBPACK_IMPORTED_MODULE_0__.Trafficlight is not a constructor
@@ -36,3 +36,4 @@ export { Clock as ClockFunctional } from "./gauges/clock"
 export { Compass as CompassFunctional } from "./gauges/compass"
 export { DisplayMulti as DisplayMultiFunctional } from "./gauges/display-multi"
 export { DisplaySingle as DisplaySingleFunctional } from "./gauges/display-single"
+export { Horizon as HorizonFunctional } from "./gauges/horizon"
