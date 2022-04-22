@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { DisplaySingleParams, DisplaySingle as DisplaySingleGauge } from "steelseries";
-import { useDidUpdate } from "../hooks/useDidUpdate";
+import { useUpdateGaugeProp } from "../hooks/useUpdateGaugeProp";
 
 type ExcludedParams = "headerStringVisible" | "unitStringVisible" | "alwaysScroll";
 interface Props extends Omit<DisplaySingleParams, ExcludedParams> {
@@ -43,11 +43,11 @@ export function DisplaySingle (props: Props) {
 	}, [])
 
 	// Update gauge
-	useDidUpdate(() => {gauge.current && gauge.current.setLcdColor(props.lcdColor)}, [props.lcdColor])
-	useDidUpdate(() => {gauge.current && gauge.current.setSection(props.section)}, [props.section])
-	useDidUpdate(() => {gauge.current && gauge.current.setScrolling(props.infiniteScroll)}, [props.infiniteScroll])
+	useUpdateGaugeProp(gauge, "setLcdColor", props.lcdColor)
+	useUpdateGaugeProp(gauge, "setSection", props.section)
+	useUpdateGaugeProp(gauge, "setScrolling", props.infiniteScroll)
 
-	useDidUpdate(() => {gauge.current && gauge.current.setValue(props.value)}, [props.value])
+	useUpdateGaugeProp(gauge, "setValue", props.value)
 
 	return <canvas ref={canvas}></canvas>
 }

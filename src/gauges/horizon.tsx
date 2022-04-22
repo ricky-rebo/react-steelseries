@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { HorizonParams, Horizon as HorizonGauge } from "steelseries";
-import { useDidUpdate } from "../hooks/useDidUpdate";
+import { useInitUpdateGaugeProp } from "../hooks/useInitUpdateGaugeProp";
+import { useUpdateGaugeProp } from "../hooks/useUpdateGaugeProp";
 
 interface Props extends HorizonParams {
 	size: number;
@@ -33,10 +34,10 @@ export function Horizon (props: Props) {
 	}, [])
 
 	// Update gauge
-	useDidUpdate(() => {gauge.current && gauge.current.setFrameDesign(props.frameDesign)}, [props.frameDesign])
-	useDidUpdate(() => {gauge.current && gauge.current.setForegroundType(props.foregroundType)}, [props.foregroundType])
+	useUpdateGaugeProp(gauge, "setFrameDesign", props.frameDesign)
+	useUpdateGaugeProp(gauge, "setForegroundType", props.foregroundType)
 
-	useEffect(() => {gauge.current && gauge.current.setPitchOffset(props.pitchOffset)}, [props.pitchOffset])
+	useInitUpdateGaugeProp(gauge, "setPitchOffset", props.pitchOffset)
 	useEffect(() => {
 		if (gauge.current) {
 			props.animate

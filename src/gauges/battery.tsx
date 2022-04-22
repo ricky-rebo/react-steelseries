@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { BatteryParams, Battery as BatteryGauge } from "steelseries";
+import { useInitUpdateGaugeProp } from "../hooks/useInitUpdateGaugeProp";
 
 interface Props extends BatteryParams {
 	size: number;
@@ -19,7 +20,7 @@ export function Battery (props: Props) {
 	}, [])
 
 	// Update gauge
-	useEffect(() => {gauge.current && gauge.current.setValue(props.value)}, [props.value])
+	useInitUpdateGaugeProp(gauge, "setValue", props.value)
 
 	return <canvas ref={canvas}></canvas>
 }

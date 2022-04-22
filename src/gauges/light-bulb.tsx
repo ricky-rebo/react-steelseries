@@ -1,7 +1,8 @@
 import React, { useEffect, useRef } from "react";
 // @ts-ignore
 import { LightbulbParams, LightBulb as LightBulbGauge } from "steelseries";
-import { useDidUpdate } from "../hooks/useDidUpdate";
+import { useInitUpdateGaugeProp } from "../hooks/useInitUpdateGaugeProp";
+import { useUpdateGaugeProp } from "../hooks/useUpdateGaugeProp";
 
 interface Props extends Partial<LightbulbParams> {
 	width: number;
@@ -32,10 +33,10 @@ export function LightBulb (props: Props) {
 	}, [])
 
 	// Gauge update
-	useDidUpdate(() => {gauge.current && gauge.current.setGlowColor(props.glowColor)}, [props.glowColor])
+	useUpdateGaugeProp(gauge, "setGlowColor", props.glowColor)
 
-	useEffect(() => {gauge.current && gauge.current.setOn(props.on)}, [props.on])
-	useEffect(() => {gauge.current && gauge.current.setAlpha(props.alpha)}, [props.alpha])
+	useInitUpdateGaugeProp(gauge, "setOn", props.on)
+	useInitUpdateGaugeProp(gauge, "setAlpha", props.alpha)
 
 	return <canvas ref={canvas} id={ID}></canvas>
 }

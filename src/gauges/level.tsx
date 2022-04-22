@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { LevelParams, Level as LevelGauge } from "steelseries";
-import { useDidUpdate } from "../hooks/useDidUpdate";
+import { useUpdateGaugeProp } from "../hooks/useUpdateGaugeProp";
 
 interface Props extends LevelParams {
 	size: number;
@@ -34,11 +34,11 @@ export function Level (props: Props) {
 	}, [])
 
 	// Update gauge
-	useDidUpdate(() => {gauge.current && gauge.current.setFrameDesign(props.frameDesign)}, [props.frameDesign])
-	useDidUpdate(() => {gauge.current && gauge.current.setBackgroundColor(props.backgroundColor)}, [props.backgroundColor])
-	useDidUpdate(() => {gauge.current && gauge.current.setForegroundType(props.foregroundType)}, [props.foregroundType])
+	useUpdateGaugeProp(gauge, "setFrameDesign", props.frameDesign)
+	useUpdateGaugeProp(gauge, "setBackgroundColor", props.backgroundColor)
+	useUpdateGaugeProp(gauge, "setForegroundType", props.foregroundType)
 
-	useDidUpdate(() => {gauge.current && gauge.current.setPointerColor(props.pointerColor)}, [props.pointerColor])
+	useUpdateGaugeProp(gauge, "setPointerColor", props.pointerColor)
 
 	useEffect(() => {
 		if (gauge.current) {

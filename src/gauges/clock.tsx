@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { ClockParams, Clock as ClockGauge } from "steelseries";
 import { useDidUpdate } from "../hooks/useDidUpdate";
+import { useUpdateGaugeProp } from "../hooks/useUpdateGaugeProp";
 
 interface Props extends Partial<Omit<ClockParams, "hour"|"minute"|"second"|"secondMovesContinuous">> {
 	size: number;
@@ -51,18 +52,18 @@ export function Clock (props: Props) {
 	}, [])
 
 	// Gauge update
-	useDidUpdate(() => {gauge.current && gauge.current.setFrameDesign(props.frameDesign)}, [props.frameDesign])
-	useDidUpdate(() => {gauge.current && gauge.current.setBackgroundColor(props.backgroundColor)}, [props.backgroundColor])
-	useDidUpdate(() => {gauge.current && gauge.current.setForegroundType(props.foregroundType)}, [props.foregroundType])
+	useUpdateGaugeProp(gauge, "setFrameDesign", props.frameDesign)
+	useUpdateGaugeProp(gauge, "setBackgroundColor", props.backgroundColor)
+	useUpdateGaugeProp(gauge, "setForegroundType", props.foregroundType)
 
-	useDidUpdate(() => {gauge.current && gauge.current.setPointerType(props.pointerType)}, [props.pointerType])
-	useDidUpdate(() => {gauge.current && gauge.current.setPointerColor(props.pointerColor)}, [props.pointerColor])
+	useUpdateGaugeProp(gauge, "setPointerType", props.pointerType)
+	useUpdateGaugeProp(gauge, "setPointerColor", props.pointerColor)
 
-	useDidUpdate(() => {gauge.current && gauge.current.setAutomatic(props.isAutomatic)}, [props.isAutomatic])
-	useDidUpdate(() => {gauge.current && gauge.current.setTimeZoneOffsetHour(props.timeZoneOffsetHour)}, [props.timeZoneOffsetHour])
-	useDidUpdate(() => {gauge.current && gauge.current.setTimeZoneOffsetMinute(props.timeZoneOffsetHour)}, [props.timeZoneOffsetMinute])
+	useUpdateGaugeProp(gauge, "setAutomatic", props.isAutomatic)
+	useUpdateGaugeProp(gauge, "setTimeZoneOffsetHour", props.timeZoneOffsetHour)
+	useUpdateGaugeProp(gauge, "setTimeZoneOffsetMinute", props.timeZoneOffsetMinute)
 
-	useDidUpdate(() => {gauge.current && gauge.current.setSecondPointerVisible(props.secondPointerVisible)}, [props.secondPointerVisible])
+	useUpdateGaugeProp(gauge, "setSecondPointerVisible", props.secondPointerVisible)
 	useDidUpdate(() => {
 		if (gauge.current) {
 			if (props.isAutomatic) gauge.current.setAutomatic(false)

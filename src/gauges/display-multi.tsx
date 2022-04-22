@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { DisplayMultiParams, DisplayMulti as DisplayMultiGauge } from "steelseries";
-import { useDidUpdate } from "../hooks/useDidUpdate";
+import { useUpdateGaugeProp } from "../hooks/useUpdateGaugeProp";
 
 type ExcludedParams = "headerStringVisible" | "detailStringVisible" | "unitStringVisible";
 interface Props extends Omit<DisplayMultiParams, ExcludedParams> {
@@ -41,10 +41,10 @@ export function DisplayMulti (props: Props) {
 	}, [])
 
 	// Update gauge
-	useDidUpdate(() => {gauge.current && gauge.current.setLcdColor(props.lcdColor)}, [props.lcdColor])
+	useUpdateGaugeProp(gauge, "setLcdColor", props.lcdColor)
 
-	useDidUpdate(() => {gauge.current && gauge.current.setValue(props.value)}, [props.value])
-	useDidUpdate(() => {gauge.current && gauge.current.setAltValue(props.altValue)}, [props.altValue])
+	useUpdateGaugeProp(gauge, "setValue", props.value)
+	useUpdateGaugeProp(gauge, "setAltValue", props.altValue)
 
 	return <canvas ref={canvas}></canvas>
 }
