@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import { AltimeterParams, Altimeter as AltimeterGauge } from "steelseries";
-import { useInitUpdateGaugeProp, useUpdateGaugeProp } from "../hooks/gauge-update";
+import { useSetGaugeProp, useUpdateGaugeProp } from "../hooks/gauge-update";
 
 interface Props extends AltimeterParams {
 	size: number;
@@ -48,7 +48,7 @@ export function Altimeter (props: Props) {
 
 	useUpdateGaugeProp(gauge, "setLcdColor", props.lcdColor)
 
-	useInitUpdateGaugeProp(gauge, "setTitleString", props.titleString)
+	useSetGaugeProp(gauge, "setTitleString", props.titleString)
 	useEffect(() => {
 		if (gauge.current) {
 			if (props.resetValueOnUnitChange) gauge.current.setValue(0)

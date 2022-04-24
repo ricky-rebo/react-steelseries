@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { LinearParams, Linear as LinearGauge } from "steelseries";
 import { useDidUpdate } from "../hooks/common";
-import { useInitUpdateGaugeProp, useUpdateGaugeProp } from "../hooks/gauge-update";
+import { useSetGaugeProp, useUpdateGaugeProp } from "../hooks/gauge-update";
 
 type ExcludedParams = "ledVisible"
 	|"minMeasuredValueVisible"
@@ -116,8 +116,8 @@ export function Linear (props: Props) {
 	useUpdateGaugeProp(gauge, "setMinMeasuredValueVisible", props.showMinMeasuredValue)
 	useUpdateGaugeProp(gauge, "setMaxMeasuredValueVisible", props.showMaxMeasuredValue)
 
-	useInitUpdateGaugeProp(gauge, "setMinMeasuredValue", props.minMeasuredValue)
-	useInitUpdateGaugeProp(gauge, "setMaxMeasuredValue", props.maxMeasuredValue)
+	useSetGaugeProp(gauge, "setMinMeasuredValue", props.minMeasuredValue)
+	useSetGaugeProp(gauge, "setMaxMeasuredValue", props.maxMeasuredValue)
 	useEffect(() => {
 		if (gauge.current) {
 			props.animate

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { LedParams, Led as LedGauge } from "steelseries";
-import { useInitUpdateGaugeProp, useUpdateGaugeProp } from "../hooks/gauge-update";
+import { useSetGaugeProp, useUpdateGaugeProp } from "../hooks/gauge-update";
 
 interface Props extends LedParams {
 	size: number;
@@ -27,7 +27,7 @@ export function Led (props: Props) {
 	// Update gauge
 	useUpdateGaugeProp(gauge, "setLedColor", props.ledColor)
 
-	useInitUpdateGaugeProp(gauge, "setLedOnOff", props.on)
+	useSetGaugeProp(gauge, "setLedOnOff", props.on)
 	useEffect(() => {
 		if (gauge.current) {
 			gauge.current.blink(props.blink)
