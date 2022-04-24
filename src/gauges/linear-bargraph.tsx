@@ -1,8 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { LinearBargraphParams, LinearBargraph as LinearBargraphGauge, Section, gradientWrapper } from "steelseries";
-import { useDidUpdate } from "../hooks/useDidUpdate";
-import { useInitUpdateGaugeProp } from "../hooks/useInitUpdateGaugeProp";
-import { useUpdateGaugeProp } from "../hooks/useUpdateGaugeProp";
+import { useDidUpdate } from "../hooks/common";
+import { useInitUpdateGaugeProp, useUpdateGaugeProp } from "../hooks/gauge-update";
 
 type ExcludedParams = "section"
 	| "valueGradient"

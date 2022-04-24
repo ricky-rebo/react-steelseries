@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { ClockParams, Clock as ClockGauge } from "steelseries";
-import { useDidUpdate } from "../hooks/useDidUpdate";
-import { useUpdateGaugeProp } from "../hooks/useUpdateGaugeProp";
+import { useDidUpdate } from "../hooks/common";
+import { useUpdateGaugeProp } from "../hooks/gauge-update";
 
 interface Props extends Partial<Omit<ClockParams, "hour"|"minute"|"second"|"secondMovesContinuous">> {
 	size: number;

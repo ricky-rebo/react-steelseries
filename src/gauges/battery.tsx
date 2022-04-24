@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { BatteryParams, Battery as BatteryGauge } from "steelseries";
-import { useInitUpdateGaugeProp } from "../hooks/useInitUpdateGaugeProp";
+import { useInitUpdateGaugeProp } from "../hooks/gauge-update";
 
 interface Props extends BatteryParams {
 	size: number;

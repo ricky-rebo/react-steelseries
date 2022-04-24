@@ -1,8 +1,7 @@
 import React, { useEffect, useRef } from "react";
 // @ts-ignore
 import { LightbulbParams, LightBulb as LightBulbGauge } from "steelseries";
-import { useInitUpdateGaugeProp } from "../hooks/useInitUpdateGaugeProp";
-import { useUpdateGaugeProp } from "../hooks/useUpdateGaugeProp";
+import { useInitUpdateGaugeProp, useUpdateGaugeProp } from "../hooks/gauge-update";
 
 interface Props extends Partial<LightbulbParams> {
 	width: number;

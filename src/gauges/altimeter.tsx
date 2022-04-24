@@ -1,7 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import { AltimeterParams, Altimeter as AltimeterGauge } from "steelseries";
-import { useInitUpdateGaugeProp } from "../hooks/useInitUpdateGaugeProp";
-import { useUpdateGaugeProp } from "../hooks/useUpdateGaugeProp";
+import { useInitUpdateGaugeProp, useUpdateGaugeProp } from "../hooks/gauge-update";
 
 interface Props extends AltimeterParams {
 	size: number;

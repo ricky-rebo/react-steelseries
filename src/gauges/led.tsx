@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { LedParams, Led as LedGauge } from "steelseries";
-import { useInitUpdateGaugeProp } from "../hooks/useInitUpdateGaugeProp";
-import { useUpdateGaugeProp } from "../hooks/useUpdateGaugeProp";
+import { useInitUpdateGaugeProp, useUpdateGaugeProp } from "../hooks/gauge-update";
 
 interface Props extends LedParams {
 	size: number;

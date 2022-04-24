@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { LevelParams, Level as LevelGauge } from "steelseries";
-import { useUpdateGaugeProp } from "../hooks/useUpdateGaugeProp";
+import { useUpdateGaugeProp } from "../hooks/gauge-update";
 
 interface Props extends LevelParams {
 	size: number;

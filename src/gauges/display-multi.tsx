@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { DisplayMultiParams, DisplayMulti as DisplayMultiGauge } from "steelseries";
-import { useUpdateGaugeProp } from "../hooks/useUpdateGaugeProp";
+import { useUpdateGaugeProp } from "../hooks/gauge-update";
 
 type ExcludedParams = "headerStringVisible" | "detailStringVisible" | "unitStringVisible";
 interface Props extends Omit<DisplayMultiParams, ExcludedParams> {
