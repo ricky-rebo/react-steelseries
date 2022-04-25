@@ -1,11 +1,12 @@
-import { MutableRefObject, useEffect } from "react";
+import { MutableRefObject, DependencyList, useEffect } from "react";
 import { useDidUpdate } from "./common";
 
 type Ref<T> = MutableRefObject<T>
 
+type Callback = () => void
 type Getter = () => unknown
 type Setter<G, V> = (value: V) => G | void
-type SetterWithCallback<G, V> = (value: V, callback: () => {}) => G | void
+type SetterWithCallback<G, V> = (value: V, callback: Callback) => G | void
 
 /** Base Gauge with specific setter + generic setters and getters */
 type Gauge<G, SN extends keyof G, V> = {
@@ -29,7 +30,7 @@ export function useSetGaugeProp<V, G extends Gauge<G, SN, V>, SN extends keyof G
 }
 
 export function useSetGaugeValue<V, G extends AnimatableGauge<G, V>> (
-	gaugeRef: Ref<G>, value: V, animate: boolean, callback: () => {}
+	gaugeRef: Ref<G>, value: V, animate: boolean, callback: Callback, additionalDeps: DependencyList = [] 
 ) {
 	useEffect(() => {
 		if (gaugeRef.current) {
@@ -39,7 +40,7 @@ export function useSetGaugeValue<V, G extends AnimatableGauge<G, V>> (
 				gaugeRef.current.setValue(value)
 			}
 		}
-	}, [value])
+	}, [value, ...additionalDeps])
 }
 
 export function useUpdateGaugeProp<V, G extends Gauge<G, SN, V>, SN extends keyof G> (
