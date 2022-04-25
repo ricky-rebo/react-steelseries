@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { LinearBargraphParams, LinearBargraph as LinearBargraphGauge, Section, gradientWrapper } from "steelseries";
 import { useDidUpdate } from "../hooks/common";
-import { useSetGaugeProp, useUpdateGaugeProp } from "../hooks/gauge-update";
+import { useSetGaugeProp, useSetGaugeValue, useUpdateGaugeProp } from "../hooks/gauge-update";
 
 type ExcludedParams = "section"
 	| "valueGradient"
@@ -134,13 +134,7 @@ export function LinearBargraph (props: Props) {
 
 	useSetGaugeProp(gauge, "setMinMeasuredValue", props.minMeasuredValue)
 	useSetGaugeProp(gauge, "setMaxMeasuredValue", props.maxMeasuredValue)
-	useEffect(() => {
-		if (gauge.current) {
-			props.animate
-				? gauge.current.setValueAnimated(props.value, props.animationCallback)
-				: gauge.current.setValue(props.value)
-		}
-	}, [props.value, props.minValue, props.maxValue])
+	useSetGaugeValue(gauge, props.value, props.animate, props.animationCallback, [props.minValue, props.maxValue])
 
 	return <canvas ref={canvas}></canvas>
 }

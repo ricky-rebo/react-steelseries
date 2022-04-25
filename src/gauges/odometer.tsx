@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { OdometerParams, Odometer } from "steelseries";
+import { useSetGaugeValue } from "../hooks/gauge-update";
 
 interface Props extends Omit<OdometerParams, "_context"> {
 	height: number;
@@ -31,14 +32,7 @@ export function OdometerGauge (props: Props) {
 	}, [])
 
 	// Update gauge
-	useEffect(() => {
-		if (gauge.current) {
-			if (props.animate)
-				gauge.current.setValueAnimated(props.value, props.animationCallback)
-			else
-				gauge.current.setValue(props.value)
-		}
-	}, [props.value])
+	useSetGaugeValue(gauge, props.value, props.animate, props.animationCallback)
 
 	return <canvas ref={canvas}></canvas>
 }

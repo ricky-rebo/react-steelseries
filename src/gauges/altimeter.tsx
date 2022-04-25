@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import { AltimeterParams, Altimeter as AltimeterGauge } from "steelseries";
-import { useSetGaugeProp, useUpdateGaugeProp } from "../hooks/gauge-update";
+import { useSetGaugeProp, useSetGaugeValue, useUpdateGaugeProp } from "../hooks/gauge-update";
 
 interface Props extends AltimeterParams {
 	size: number;
@@ -56,14 +56,7 @@ export function Altimeter (props: Props) {
 		}
 	}, [props.unitString])
 
-	// TODO: custom hook per set value
-	useEffect(() => {
-		if (gauge.current) {
-			props.animate
-				? gauge.current.setValueAnimated(props.value, props.animationCallback)
-				: gauge.current.setValue(props.value)
-		}
-	}, [props.value])
+	useSetGaugeValue(gauge, props.value, props.animate, props.animationCallback)
 
 	return <canvas ref={canvas}></canvas>
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { LevelParams, Level as LevelGauge } from "steelseries";
-import { useUpdateGaugeProp } from "../hooks/gauge-update";
+import { useSetGaugeValue, useUpdateGaugeProp } from "../hooks/gauge-update";
 
 interface Props extends LevelParams {
 	size: number;
@@ -40,14 +40,7 @@ export function Level (props: Props) {
 
 	useUpdateGaugeProp(gauge, "setPointerColor", props.pointerColor)
 
-	useEffect(() => {
-		if (gauge.current) {
-			if (props.animate)
-				gauge.current.setValueAnimated(props.value, props.animationCallback)
-			else
-				gauge.current.setValue(props.value)
-		}
-	}, [props.value])
+	useSetGaugeValue(gauge, props.value, props.animate, props.animationCallback)
 
 	return <canvas ref={canvas}></canvas>
 }
