@@ -1,5 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { OdometerParams, RadialParams, Radial, Section, TrendState } from "steelseries";
+import { useDidUpdate } from "../hooks/common";
+import { useSetGaugeProp, useSetGaugeValue, useUpdateGaugeProp } from "../hooks/gauge-update";
 
 // BUG @types/steelseries
 // Define a subset of params for Radial Odometer
@@ -112,7 +114,72 @@ export function RadialGauge (props: Props) {
 	}, [])
 
 	// Update gauge
+	useUpdateGaugeProp(gauge, "setFrameDesign", props.frameDesign)
+	useUpdateGaugeProp(gauge, "setBackgroundColor", props.backgroundColor)
+	useUpdateGaugeProp(gauge, "setForegroundType", props.foregroundType)
+
+	useUpdateGaugeProp(gauge, "setPointerColor", props.pointerColor)
+	useUpdateGaugeProp(gauge, "setPointerType", props.pointerType)
+
+	useUpdateGaugeProp(gauge, "setLcdColor", props.lcdColor)
+	useUpdateGaugeProp(gauge, "setLcdDecimals", props.lcdDecimals)
+
+	useUpdateGaugeProp(gauge, "setLedColor", props.ledColor)
+	useUpdateGaugeProp(gauge, "setLedVisible", props.showLed)
+
+	useUpdateGaugeProp(gauge, "setLabelNumberFormat", props.labelNumberFormat)
+	useUpdateGaugeProp(gauge, "setFractionalScaleDecimals", props.fractionalScaleDecimals)
+
+	useUpdateGaugeProp(gauge, "setThreshold", props.threshold)
+	useUpdateGaugeProp(gauge, "setThresholdRising", props.thresholdRising)
+	// BUG in 'steelseries' library - setThresholdVisible not working
+	useUpdateGaugeProp(gauge, "setThresholdVisible", props.showThreshold)
+
+	useSetGaugeProp(gauge, "setUserLedOnOff", props.userLedOn)
+	useSetGaugeProp(gauge, "blinkUserLed", props.userLedBlink)
+	useUpdateGaugeProp(gauge, "setUserLedVisible", props.showUserLed)
+	useUpdateGaugeProp(gauge, "setUserLedColor", props.userLedColor)
+
+	useUpdateGaugeProp(gauge, "setSection", props.sections)
+	useUpdateGaugeProp(gauge, "setArea", props.sectors)
+
+	useSetGaugeProp(gauge, "setUserLedOnOff", props.userLedOn)
+	useSetGaugeProp(gauge, "blinkUserLed", props.userLedBlink)
+
+	useUpdateGaugeProp(gauge, "setTitleString", props.titleString)
+	useUpdateGaugeProp(gauge, "setUnitString", props.unitString)
 	
+	useUpdateGaugeProp(gauge, "setTrendVisible", props.showTrend)
+	useSetGaugeProp(gauge, "setTrend", props.trend)
+	
+	useUpdateGaugeProp(gauge, "setMinMeasuredValueVisible", props.showMinMeasuredValue)
+	useUpdateGaugeProp(gauge, "setMaxMeasuredValueVisible", props.showMaxMeasuredValue)
+	useSetGaugeProp(gauge, "setMinMeasuredValue", props.minMeasuredValue)
+	useSetGaugeProp(gauge, "setMaxMeasuredValue", props.maxMeasuredValue)
+
+	// Min Value
+	useDidUpdate(() => {
+		if (gauge.current) {
+			gauge.current.setMinValue(props.minValue)
+
+			if (props.resetValueOnBoundsChange && props.animate) {
+				gauge.current.setValue(gauge.current.getMinValue())
+			}
+		}
+	}, [props.minValue])
+	// Max Value
+	useDidUpdate(() => {
+		if (gauge.current) {
+			gauge.current.setMaxValue(props.maxValue)
+
+			if (props.resetValueOnBoundsChange && props.animate) {
+				gauge.current.setValue(gauge.current.getMinValue())
+			}
+		}
+	}, [props.maxValue])
+
+	useSetGaugeProp(gauge, "setOdoValue", props.odometerValue)
+	useSetGaugeValue(gauge, props.value, props.animate, props.animationCallback, [props.minValue, props.maxValue])
 
 	return <canvas ref={canvas}></canvas>
 }
