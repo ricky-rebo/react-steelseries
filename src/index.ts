@@ -1,24 +1,24 @@
 import "./fonts/index.css";
 
-export { Altimeter } from "./gauges/class-components/altimeter-class";
-export { Battery } from "./gauges/class-components/battery-class";
-export { Clock } from "./gauges/class-components/clock-class";
-export { Compass } from "./gauges/class-components/compass-class";
-export { DisplayMulti } from "./gauges/class-components/display-multi-class";
-export { DisplaySingle } from "./gauges/class-components/display-single-class";
-export { Horizon } from "./gauges/class-components/horizon-class";
-export { Led } from "./gauges/class-components/led-class";
-export { Level } from "./gauges/class-components/level-class";
+export { Altimeter } from "./components/class-components/altimeter-class";
+export { Battery } from "./components/class-components/battery-class";
+export { Clock } from "./components/class-components/clock-class";
+export { Compass } from "./components/class-components/compass-class";
+export { DisplayMulti } from "./components/class-components/display-multi-class";
+export { DisplaySingle } from "./components/class-components/display-single-class";
+export { Horizon } from "./components/class-components/horizon-class";
+export { Led } from "./components/class-components/led-class";
+export { Level } from "./components/class-components/level-class";
 
 // FIXME(ricky-rebo) TypeError: steelseries__WEBPACK_IMPORTED_MODULE_0__.Lightbulb is not a constructor
-export { Lightbulb } from "./gauges/class-components/light-bulb-class";
+export { Lightbulb } from "./components/class-components/light-bulb-class";
 
-export { Linear } from "./gauges/class-components/linear-class";
-export { LinearBargraph } from "./gauges/class-components/linear-bargraph-class";
-export { Odometer } from "./gauges/class-components/odometer-class";
-export { Radial } from "./gauges/class-components/radial-class";
-export { RadialBargraph } from "./gauges/class-components/radial-bargraph-class";
-export { RadialVertical } from "./gauges/class-components/radial-vertical-class";
+export { Linear } from "./components/class-components/linear-class";
+export { LinearBargraph } from "./components/class-components/linear-bargraph-class";
+export { Odometer } from "./components/class-components/odometer-class";
+export { Radial } from "./components/class-components/radial-class";
+export { RadialBargraph } from "./components/class-components/radial-bargraph-class";
+export { RadialVertical } from "./components/class-components/radial-vertical-class";
 
 // TODO(ricky-rebo) Finish the gauge
 // export { Stopwatch } from "./gauges/stopwatch";
@@ -26,27 +26,27 @@ export { RadialVertical } from "./gauges/class-components/radial-vertical-class"
 // FIXME(ricky-rebo) TypeError: steelseries__WEBPACK_IMPORTED_MODULE_0__.Trafficlight is not a constructor
 // export { Trafficlight } from "./gauges/traffic-light";
 
-export { WindDirection } from "./gauges/class-components/wind-direction-class";
-export { Rose } from "./gauges/class-components/wind-rose-class";
+export { WindDirection } from "./components/class-components/wind-direction-class";
+export { Rose } from "./components/class-components/wind-rose-class";
 
 // Functional Components
-export { Altimeter as AltimeterFunctional } from "./gauges/altimeter"
-export { Battery as BatteryFunctional } from "./gauges/battery"
-export { Clock as ClockFunctional } from "./gauges/clock"
-export { Compass as CompassFunctional } from "./gauges/compass"
-export { DisplayMulti as DisplayMultiFunctional } from "./gauges/display-multi"
-export { DisplaySingle as DisplaySingleFunctional } from "./gauges/display-single"
-export { Horizon as HorizonFunctional } from "./gauges/horizon"
-export { Led as LedFunctional } from "./gauges/led"
-export { Level as LevelFunctional } from "./gauges/level"
-export { LightBulb as LightBulbFunctional } from "./gauges/light-bulb"
-export { Linear as LinearFunctional } from "./gauges/linear"
-export { LinearBargraph as LinearBargraphFunctional } from "./gauges/linear-bargraph"
-export { OdometerGauge } from "./gauges/odometer"
-export { RadialBargraphGauge }  from "./gauges/radial-bargraph"
-export { RadialGauge } from "./gauges/radial"
-export { RadialVerticalGauge } from "./gauges/radial-vertical"
-export { StopwatchGauge } from "./gauges/stopwatch"
-export { TrafficLightGauge } from "./gauges/traffic-light"
-export { WindDirectionGauge } from "./gauges/wind-direction"
-export { RoseGauge } from "./gauges/wind-rose"
+export { Altimeter as AltimeterFunctional } from "./components/altimeter"
+export { Battery as BatteryFunctional } from "./components/battery"
+export { Clock as ClockFunctional } from "./components/clock"
+export { Compass as CompassFunctional } from "./components/compass"
+export { DisplayMulti as DisplayMultiFunctional } from "./components/display-multi"
+export { DisplaySingle as DisplaySingleFunctional } from "./components/display-single"
+export { Horizon as HorizonFunctional } from "./components/horizon"
+export { Led as LedFunctional } from "./components/led"
+export { Level as LevelFunctional } from "./components/level"
+export { LightBulb as LightBulbFunctional } from "./components/light-bulb"
+export { Linear as LinearFunctional } from "./components/linear"
+export { LinearBargraph as LinearBargraphFunctional } from "./components/linear-bargraph"
+export { OdometerGauge } from "./components/odometer"
+export { RadialBargraphGauge }  from "./components/radial-bargraph"
+export { RadialGauge } from "./components/radial"
+export { RadialVerticalGauge } from "./components/radial-vertical"
+export { StopwatchGauge } from "./components/stopwatch"
+export { TrafficLightGauge } from "./components/traffic-light"
+export { WindDirectionGauge } from "./components/wind-direction"
+export { RoseGauge } from "./components/wind-rose"
