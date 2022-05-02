@@ -46,5 +46,7 @@ export { OdometerGauge } from "./gauges/odometer"
 export { RadialBargraphGauge }  from "./gauges/radial-bargraph"
 export { RadialGauge } from "./gauges/radial"
 export { RadialVerticalGauge } from "./gauges/radial-vertical"
+// TODO StopWatchGauge
 export { TrafficLightGauge } from "./gauges/traffic-light"
 export { WindDirectionGauge } from "./gauges/wind-direction"
+export { RoseGauge } from "./gauges/wind-rose"
