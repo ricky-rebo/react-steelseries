@@ -30,7 +30,7 @@ export function useSetGaugeProp<V, G extends Gauge<G, SN, V>, SN extends keyof G
 }
 
 export function useSetGaugeValue<V, G extends AnimatableGauge<G, V>> (
-	gaugeRef: Ref<G>, value: V, animate: boolean, callback: Callback, additionalDeps: DependencyList = [] 
+	gaugeRef: Ref<G>, value: V, animate: boolean, callback: Callback, additionalDeps: DependencyList = []
 ) {
 	useEffect(() => {
 		if (gaugeRef.current) {

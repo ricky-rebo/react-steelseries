@@ -8,7 +8,7 @@ import { useSetGaugeProp, useSetGaugeValue, useUpdateGaugeProp } from "../hooks/
 
 type ExcludedParams = "section"
 	| "valueGradient"
-	| "userLedVisible" 
+	| "userLedVisible"
 	| "userLedState"
 	| "ledVisible"
 	| "trendVisible";
@@ -89,7 +89,7 @@ export function RadialBargraphGauge (props: Props) {
 			})
 
 		}
-		
+
 		return function () {
 			if (gauge.current) {
 				gauge.current.setThresholdRising(true)

@@ -148,10 +148,10 @@ export function RadialGauge (props: Props) {
 
 	useUpdateGaugeProp(gauge, "setTitleString", props.titleString)
 	useUpdateGaugeProp(gauge, "setUnitString", props.unitString)
-	
+
 	useUpdateGaugeProp(gauge, "setTrendVisible", props.showTrend)
 	useSetGaugeProp(gauge, "setTrend", props.trend)
-	
+
 	useUpdateGaugeProp(gauge, "setMinMeasuredValueVisible", props.showMinMeasuredValue)
 	useUpdateGaugeProp(gauge, "setMaxMeasuredValueVisible", props.showMaxMeasuredValue)
 	useSetGaugeProp(gauge, "setMinMeasuredValue", props.minMeasuredValue)
