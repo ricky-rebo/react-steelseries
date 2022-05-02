@@ -45,3 +45,4 @@ export { LinearBargraph as LinearBargraphFunctional } from "./gauges/linear-barg
 export { OdometerGauge } from "./gauges/odometer"
 export { RadialBargraphGauge }  from "./gauges/radial-bargraph"
 export { RadialGauge } from "./gauges/radial"
+export { RadialVerticalGauge } from "./gauges/radial-vertical"
