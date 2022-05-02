@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { LinearParams, Linear as LinearGauge } from "steelseries";
+import { LinearParams, Linear } from "steelseries";
 import { useDidUpdate } from "../hooks/common";
 import { useSetGaugeProp, useSetGaugeValue, useUpdateGaugeProp } from "../hooks/gauge-update";
 
@@ -26,14 +26,14 @@ interface Props extends Omit<LinearParams, ExcludedParams> {
 	resetValueOnBoundsChange?: boolean;
 }
 
-export function Linear (props: Props) {
-	const canvas = useRef<HTMLCanvasElement>()
-	const gauge = useRef<LinearGauge>()
+export function LinearGauge (props: Props) {
+	const canvas = useRef<HTMLCanvasElement>(null)
+	const gauge = useRef<Linear>(null)
 
 	// Init gauge
 	useEffect(() => {
 		if (canvas.current) {
-			gauge.current = new LinearGauge(canvas.current, {
+			gauge.current = new Linear(canvas.current, {
 				width: props.width,
 				height: props.height,
 

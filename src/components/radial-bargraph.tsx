@@ -35,8 +35,8 @@ interface Props extends Omit<RadialBargraphParams, ExcludedParams> {
 }
 
 export function RadialBargraphGauge (props: Props) {
-	const canvas = useRef<HTMLCanvasElement>()
-	const gauge = useRef<RadialBargraph>()
+	const canvas = useRef<HTMLCanvasElement>(null)
+	const gauge = useRef<RadialBargraph>(null)
 
 	// Init gauge
 	useEffect(() => {

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { LedParams, Led as LedGauge } from "steelseries";
+import { LedParams, Led } from "steelseries";
 import { useSetGaugeProp, useUpdateGaugeProp } from "../hooks/gauge-update";
 
 interface Props extends LedParams {
@@ -8,14 +8,14 @@ interface Props extends LedParams {
 	blink?: boolean;
 }
 
-export function Led (props: Props) {
-	const canvas = useRef<HTMLCanvasElement>()
-	const gauge = useRef<LedGauge>()
+export function LedGauge (props: Props) {
+	const canvas = useRef<HTMLCanvasElement>(null)
+	const gauge = useRef<Led>(null)
 
 	// Init gauge
 	useEffect(() => {
 		if (canvas.current) {
-			gauge.current = new LedGauge(canvas.current, {
+			gauge.current = new Led(canvas.current, {
 				size: props.size,
 				ledColor: props.ledColor
 			})

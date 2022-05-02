@@ -50,8 +50,8 @@ interface Props extends Omit<RadialParams, ExcludedParams> {
 }
 
 export function RadialGauge (props: Props) {
-	const canvas = useRef<HTMLCanvasElement>()
-	const gauge = useRef<Radial>()
+	const canvas = useRef<HTMLCanvasElement>(null)
+	const gauge = useRef<Radial>(null)
 
 	// Init gauge
 	useEffect(() => {

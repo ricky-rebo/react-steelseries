@@ -1,22 +1,23 @@
 import React, { useEffect, useRef } from "react";
-import { CompassParams, Compass as CompassGauge } from "steelseries";
+import { CompassParams, Compass } from "steelseries";
 import { useSetGaugeValue, useUpdateGaugeProp } from "../hooks/gauge-update";
 
 interface Props extends CompassParams {
-	size: number;
-	value?: number;
-	animate?: boolean;
-	animationCallback?: ()=> void;
+	size: number
+
+	value?: number
+	animate?: boolean
+	animationCallback?: ()=> void
 }
 
-export function Compass (props: Props) {
-	const canvas = useRef<HTMLCanvasElement>()
-	const gauge = useRef<CompassGauge>()
+export function CompassGauge (props: Props) {
+	const canvas = useRef<HTMLCanvasElement>(null)
+	const gauge = useRef<Compass>(null)
 
 	// Init gauge
 	useEffect(() => {
 		if (canvas.current) {
-			gauge.current = new CompassGauge(canvas.current, {
+			gauge.current = new Compass(canvas.current, {
 				frameDesign: props.frameDesign,
 				frameVisible: props.frameVisible,
 				backgroundColor: props.backgroundColor,

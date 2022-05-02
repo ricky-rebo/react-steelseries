@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { DisplayMultiParams, DisplayMulti as DisplayMultiGauge } from "steelseries";
+import { DisplayMultiParams, DisplayMulti } from "steelseries";
 import { useUpdateGaugeProp } from "../hooks/gauge-update";
 
 type ExcludedParams = "headerStringVisible" | "detailStringVisible" | "unitStringVisible";
@@ -12,14 +12,14 @@ interface Props extends Omit<DisplayMultiParams, ExcludedParams> {
 	showUnitString?: boolean;
 }
 
-export function DisplayMulti (props: Props) {
-	const canvas = useRef<HTMLCanvasElement>()
-	const gauge = useRef<DisplayMultiGauge>()
+export function DisplayMultiGauge (props: Props) {
+	const canvas = useRef<HTMLCanvasElement>(null)
+	const gauge = useRef<DisplayMulti>(null)
 
 	// Init gauge
 	useEffect(() => {
 		if (canvas.current) {
-			gauge.current = new DisplayMultiGauge(canvas.current, {
+			gauge.current = new DisplayMulti(canvas.current, {
 				width: props.width,
 				height: props.height,
 				headerString: props.headerString,

@@ -1,29 +1,29 @@
 import React, { useRef, useEffect } from "react";
-import { AltimeterParams, Altimeter as AltimeterGauge } from "steelseries";
+import { AltimeterParams, Altimeter } from "steelseries";
 import { useSetGaugeProp, useSetGaugeValue, useUpdateGaugeProp } from "../hooks/gauge-update";
 
 interface Props extends AltimeterParams {
-	size: number;
+	size: number
 
-	value?: number;
-	animate?: boolean;
-	animationCallback?: ()=> void;
+	value?: number
+	animate?: boolean
+	animationCallback?: ()=> void
 
 	// Missing in AltimeterParams!
 	// BUG fix in @types/steelseries
-	titleString?: string;
-	unitString?: string;
+	titleString?: string
+	unitString?: string
 
 	resetValueOnUnitChange?: boolean;
 }
 
-export function Altimeter (props: Props) {
-	const canvas = useRef<HTMLCanvasElement>()
-	const gauge = useRef<AltimeterGauge>()
+export function AltimeterGauge (props: Props) {
+	const canvas = useRef<HTMLCanvasElement>(null)
+	const gauge = useRef<Altimeter>(null)
 
 	// Gauge init
 	useEffect(() => {
-		gauge.current = new AltimeterGauge(canvas.current, {
+		gauge.current = new Altimeter(canvas.current, {
 			frameDesign: props.frameDesign,
 			frameVisible: props.frameVisible,
 			backgroundColor: props.backgroundColor,

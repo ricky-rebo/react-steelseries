@@ -10,8 +10,8 @@ interface Props extends Omit<OdometerParams, "_context"> {
 }
 
 export function OdometerGauge (props: Props) {
-	const canvas = useRef<HTMLCanvasElement>()
-	const gauge = useRef<Odometer>()
+	const canvas = useRef<HTMLCanvasElement>(null)
+	const gauge = useRef<Odometer>(null)
 
 	// Init gauge
 	useEffect(() => {

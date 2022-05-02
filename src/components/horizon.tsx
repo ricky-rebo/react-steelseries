@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { HorizonParams, Horizon as HorizonGauge } from "steelseries";
+import { HorizonParams, Horizon } from "steelseries";
 import { useSetGaugeProp, useUpdateGaugeProp } from "../hooks/gauge-update";
 
 interface Props extends HorizonParams {
@@ -14,14 +14,14 @@ interface Props extends HorizonParams {
 	pitchAnimationCallback?: () => void;
 }
 
-export function Horizon (props: Props) {
-	const canvas = useRef<HTMLCanvasElement>()
-	const gauge = useRef<HorizonGauge>()
+export function HorizonGauge (props: Props) {
+	const canvas = useRef<HTMLCanvasElement>(null)
+	const gauge = useRef<Horizon>(null)
 
 	// Init gauge
 	useEffect(() => {
 		if (canvas.current) {
-			gauge.current = new HorizonGauge(canvas.current, {
+			gauge.current = new Horizon(canvas.current, {
 				size: props.size,
 				pointerColor: props.pointerColor,
 				frameDesign: props.frameDesign,

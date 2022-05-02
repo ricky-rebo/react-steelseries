@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 // @ts-ignore
-import { LightbulbParams, LightBulb as LightBulbGauge } from "steelseries";
+import { LightbulbParams, LightBulb } from "steelseries";
 import { useSetGaugeProp, useUpdateGaugeProp } from "../hooks/gauge-update";
 
 interface Props extends Partial<LightbulbParams> {
@@ -10,16 +10,16 @@ interface Props extends Partial<LightbulbParams> {
 	alpha?: number;
 }
 
-export function LightBulb (props: Props) {
-	const canvas = useRef<HTMLCanvasElement>()
-	const gauge = useRef<LightBulbGauge>()
+export function LightBulbGauge (props: Props) {
+	const canvas = useRef<HTMLCanvasElement>(null)
+	const gauge = useRef<LightBulb>(null)
 
 	const ID = `lightbulb-${uid()}`
 
 	// Init gauge
 	useEffect(() => {
 		if (canvas.current) {
-			gauge.current = new LightBulbGauge(ID, {
+			gauge.current = new LightBulb(ID, {
 				width: props.width,
 				height: props.height,
 

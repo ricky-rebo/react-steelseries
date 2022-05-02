@@ -1,23 +1,24 @@
 import React, { useEffect, useRef } from "react";
-import { ClockParams, Clock as ClockGauge } from "steelseries";
+import { ClockParams, Clock } from "steelseries";
 import { useDidUpdate } from "../hooks/common";
 import { useUpdateGaugeProp } from "../hooks/gauge-update";
 
-interface Props extends Partial<Omit<ClockParams, "hour"|"minute"|"second"|"secondMovesContinuous">> {
+type ExcludeParams = "hour" | "minute" | "second" | "secondMovesContinuous"
+interface Props extends Partial<Omit<ClockParams, ExcludeParams>> {
 	size: number;
 	value: Date;
 
 	secondPointerTick?: boolean;
 }
 
-export function Clock (props: Props) {
-	const canvas = useRef<HTMLCanvasElement>()
-	const gauge = useRef<ClockGauge>()
+export function ClockGauge (props: Props) {
+	const canvas = useRef<HTMLCanvasElement>(null)
+	const gauge = useRef<Clock>(null)
 
 	// Init gauge
 	useEffect(() => {
 		if (canvas.current) {
-			gauge.current = new ClockGauge(canvas.current, {
+			gauge.current = new Clock(canvas.current, {
 				frameDesign: props.frameDesign,
 				frameVisible: props.frameVisible,
 				backgroundColor: props.backgroundColor,

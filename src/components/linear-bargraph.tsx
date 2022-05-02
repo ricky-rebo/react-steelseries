@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { LinearBargraphParams, LinearBargraph as LinearBargraphGauge, Section, gradientWrapper } from "steelseries";
+import { LinearBargraphParams, LinearBargraph, Section, gradientWrapper } from "steelseries";
 import { useDidUpdate } from "../hooks/common";
 import { useSetGaugeProp, useSetGaugeValue, useUpdateGaugeProp } from "../hooks/gauge-update";
 
@@ -32,14 +32,14 @@ interface Props extends Omit<LinearBargraphParams, ExcludedParams> {
 	resetValueOnBoundsChange?: boolean;
 }
 
-export function LinearBargraph (props: Props) {
-	const canvas = useRef<HTMLCanvasElement>()
-	const gauge = useRef<LinearBargraphGauge>()
+export function LinearBargraphGauge (props: Props) {
+	const canvas = useRef<HTMLCanvasElement>(null)
+	const gauge = useRef<LinearBargraph>(null)
 
 	// Init gauge
 	useEffect(() => {
 		if (canvas.current) {
-			gauge.current = new LinearBargraphGauge(canvas.current, {
+			gauge.current = new LinearBargraph(canvas.current, {
 				width: props.width,
 				height: props.height,
 

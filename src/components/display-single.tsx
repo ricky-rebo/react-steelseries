@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { DisplaySingleParams, DisplaySingle as DisplaySingleGauge } from "steelseries";
+import { DisplaySingleParams, DisplaySingle } from "steelseries";
 import { useUpdateGaugeProp } from "../hooks/gauge-update";
 
 type ExcludedParams = "headerStringVisible" | "unitStringVisible" | "alwaysScroll";
@@ -13,14 +13,14 @@ interface Props extends Omit<DisplaySingleParams, ExcludedParams> {
 	infiniteScroll?: boolean;
 }
 
-export function DisplaySingle (props: Props) {
-	const canvas = useRef<HTMLCanvasElement>()
-	const gauge = useRef<DisplaySingleGauge>()
+export function DisplaySingleGauge (props: Props) {
+	const canvas = useRef<HTMLCanvasElement>(null)
+	const gauge = useRef<DisplaySingle>(null)
 
 	// Init gauge
 	useEffect(() => {
 		if (canvas.current) {
-			gauge.current = new DisplaySingleGauge(canvas.current, {
+			gauge.current = new DisplaySingle(canvas.current, {
 				width: props.width,
 				height: props.height,
 				section: props.section,

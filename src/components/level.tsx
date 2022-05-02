@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { LevelParams, Level as LevelGauge } from "steelseries";
+import { LevelParams, Level } from "steelseries";
 import { useSetGaugeValue, useUpdateGaugeProp } from "../hooks/gauge-update";
 
 interface Props extends LevelParams {
@@ -10,14 +10,14 @@ interface Props extends LevelParams {
 	animationCallback?: ()=> void;
 }
 
-export function Level (props: Props) {
-	const canvas = useRef<HTMLCanvasElement>()
-	const gauge = useRef<LevelGauge>()
+export function LevelGauge (props: Props) {
+	const canvas = useRef<HTMLCanvasElement>(null)
+	const gauge = useRef<Level>(null)
 
 	// Init gauge
 	useEffect(() => {
 		if (canvas.current) {
-			gauge.current = new LevelGauge(canvas.current, {
+			gauge.current = new Level(canvas.current, {
 				size: props.size,
 				frameDesign: props.frameDesign,
 				frameVisible: props.frameVisible,
