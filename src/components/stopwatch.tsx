@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react"
-import { StopwatchParams, Stopwatch } from "steelseries"
+// @ts-ignore
+import { StopwatchParams, StopWatch } from "steelseries"
 import { useUpdateGaugeProp } from "../hooks/gauge-update"
 
 interface Props extends StopwatchParams {
@@ -16,7 +17,7 @@ interface Props extends StopwatchParams {
 
 export function StopwatchGauge(props: Props) {
   const canvas = useRef<HTMLCanvasElement>(null)
-  const gauge = useRef<Stopwatch>(null)
+  const gauge = useRef<StopWatch>(null)
 
   const startBtnRef = useRef<HTMLElement>(null)
   const lapBtnRef = useRef<HTMLElement>(null)
@@ -28,7 +29,7 @@ export function StopwatchGauge(props: Props) {
   // Init gauge
   useEffect(() => {
     if (canvas.current) {
-      gauge.current = new Stopwatch(canvas.current, {
+      gauge.current = new StopWatch(canvas.current, {
         size: props.size,
 
         frameDesign: props.frameDesign,
