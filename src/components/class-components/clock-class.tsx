@@ -1,104 +1,119 @@
-import { Clock as ssClock, ClockParams } from "steelseries";
-import GaugeComponent from "./gauge-component";
+import { Clock as ssClock, ClockParams } from "steelseries"
+import GaugeComponent from "./gauge-component"
 
+interface Props
+  extends Partial<
+    Omit<ClockParams, "hour" | "minute" | "second" | "secondMovesContinuous">
+  > {
+  size: number
+  value: Date
 
-interface Props extends Partial<Omit<ClockParams, "hour"|"minute"|"second"|"secondMovesContinuous">> {
-	size: number;
-	value: Date;
-
-	secondPointerTick?: boolean;
+  secondPointerTick?: boolean
 }
 
-
 export class Clock extends GaugeComponent<Props, ssClock, ClockParams> {
-	GaugeClass = ssClock;
+  GaugeClass = ssClock
 
-	getGaugeParams() {
-		return {
-			frameDesign: this.props.frameDesign,
-			frameVisible: this.props.frameVisible,
-			backgroundColor: this.props.backgroundColor,
-			backgroundVisible: this.props.backgroundVisible,
-			foregroundType: this.props.foregroundType,
-			foregroundVisible: this.props.foregroundVisible,
-			pointerType: this.props.pointerType,
-			pointerColor: this.props.pointerColor,
-			size: this.props.size,
+  getGaugeParams() {
+    return {
+      frameDesign: this.props.frameDesign,
+      frameVisible: this.props.frameVisible,
+      backgroundColor: this.props.backgroundColor,
+      backgroundVisible: this.props.backgroundVisible,
+      foregroundType: this.props.foregroundType,
+      foregroundVisible: this.props.foregroundVisible,
+      pointerType: this.props.pointerType,
+      pointerColor: this.props.pointerColor,
+      size: this.props.size,
 
-			hour: this.props.value.getHours(),
-			minute: this.props.value.getMinutes(),
-			second: this.props.value.getSeconds(),
+      hour: this.props.value.getHours(),
+      minute: this.props.value.getMinutes(),
+      second: this.props.value.getSeconds(),
 
-			/* Should be opional, but they're not... */
-			// BUG fix in @types/steelseries
-			timeZoneOffsetHour: this.props.timeZoneOffsetHour === undefined ? 0 : this.props.timeZoneOffsetHour,
-			timeZoneOffsetMinute: this.props.timeZoneOffsetMinute === undefined ? 0 : this.props.timeZoneOffsetMinute,
-			isAutomatic: this.props.isAutomatic === undefined ? true : this.props.isAutomatic,
-			
-			secondMovesContinuous: this.props.secondPointerTick === undefined ? true : !this.props.secondPointerTick,
-			secondPointerVisible: this.props.secondPointerVisible === undefined ? true : this.props.secondPointerVisible,
-	
-			customLayer: this.props.customLayer
-		}
-	}
+      /* Should be opional, but they're not... */
+      // BUG fix in @types/steelseries
+      timeZoneOffsetHour:
+        this.props.timeZoneOffsetHour === undefined
+          ? 0
+          : this.props.timeZoneOffsetHour,
+      timeZoneOffsetMinute:
+        this.props.timeZoneOffsetMinute === undefined
+          ? 0
+          : this.props.timeZoneOffsetMinute,
+      isAutomatic:
+        this.props.isAutomatic === undefined ? true : this.props.isAutomatic,
 
-	gaugePreInit() {
-		if(this.gauge && this.props.isAutomatic) {
-			this.gauge.setAutomatic(false);
-		}
-	}
+      secondMovesContinuous:
+        this.props.secondPointerTick === undefined
+          ? true
+          : !this.props.secondPointerTick,
+      secondPointerVisible:
+        this.props.secondPointerVisible === undefined
+          ? true
+          : this.props.secondPointerVisible,
 
-	setFrameDesign() {
-		this.gauge.setFrameDesign(this.props.frameDesign);
-	}
+      customLayer: this.props.customLayer,
+    }
+  }
 
-	setBackgroundColor() {
-		this.gauge.setBackgroundColor(this.props.backgroundColor);
-	}
+  gaugePreInit() {
+    if (this.gauge && this.props.isAutomatic) {
+      this.gauge.setAutomatic(false)
+    }
+  }
 
-	setForegroundType() {
-		this.gauge.setForegroundType(this.props.foregroundType);
-	}
+  setFrameDesign() {
+    this.gauge.setFrameDesign(this.props.frameDesign)
+  }
 
-	setPointerType() {
-		this.gauge.setPointerType(this.props.pointerType);
-	}
+  setBackgroundColor() {
+    this.gauge.setBackgroundColor(this.props.backgroundColor)
+  }
 
-	setPointerColor() {
-		this.gauge.setPointerColor(this.props.pointerColor);
-	}
+  setForegroundType() {
+    this.gauge.setForegroundType(this.props.foregroundType)
+  }
 
-	setIsAutomatic() {
-		this.gauge.setAutomatic(this.props.isAutomatic);
-	}
+  setPointerType() {
+    this.gauge.setPointerType(this.props.pointerType)
+  }
 
-	setTimeZoneOffsetHour() {
-		this.gauge.setTimeZoneOffsetHour(this.props.timeZoneOffsetHour);
-	}
+  setPointerColor() {
+    this.gauge.setPointerColor(this.props.pointerColor)
+  }
 
-	setTimeZoneOffsetMinute() {
-		this.gauge.setTimeZoneOffsetMinute(this.props.timeZoneOffsetMinute);
-	}
+  setIsAutomatic() {
+    this.gauge.setAutomatic(this.props.isAutomatic)
+  }
 
-	setSecondPointerVisible() {
-		this.gauge.setSecondPointerVisible(this.props.secondPointerVisible);
-	}
+  setTimeZoneOffsetHour() {
+    this.gauge.setTimeZoneOffsetHour(this.props.timeZoneOffsetHour)
+  }
 
-	setSecondPointerTick() {
-		if(this.props.isAutomatic) this.gauge.setAutomatic(false);
-		this.gauge.setSecondMovesContinuous(!this.props.secondPointerTick);
-		if(this.props.isAutomatic) this.gauge.setAutomatic(true);
-	}
+  setTimeZoneOffsetMinute() {
+    this.gauge.setTimeZoneOffsetMinute(this.props.timeZoneOffsetMinute)
+  }
 
-	setValue() {
-		this.gauge.setHour(this.props.value.getHours())
-			.setMinute(this.props.value.getMinutes())
-			.setSecond(this.props.value.getSeconds());
-	}
+  setSecondPointerVisible() {
+    this.gauge.setSecondPointerVisible(this.props.secondPointerVisible)
+  }
 
-	componentWillUnmount() {
-		if(this.gauge) {
-			this.gauge.setAutomatic(false);
-		}
-	}
+  setSecondPointerTick() {
+    if (this.props.isAutomatic) this.gauge.setAutomatic(false)
+    this.gauge.setSecondMovesContinuous(!this.props.secondPointerTick)
+    if (this.props.isAutomatic) this.gauge.setAutomatic(true)
+  }
+
+  setValue() {
+    this.gauge
+      .setHour(this.props.value.getHours())
+      .setMinute(this.props.value.getMinutes())
+      .setSecond(this.props.value.getSeconds())
+  }
+
+  componentWillUnmount() {
+    if (this.gauge) {
+      this.gauge.setAutomatic(false)
+    }
+  }
 }

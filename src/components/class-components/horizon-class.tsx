@@ -1,83 +1,91 @@
-import GaugeComponent from "./gauge-component";
-import { Horizon as ssHorizon, HorizonParams } from "steelseries";
-
+import GaugeComponent from "./gauge-component"
+import { Horizon as ssHorizon, HorizonParams } from "steelseries"
 
 interface Props extends HorizonParams {
-	size: number;
-	
-	roll?: number;
-	pitch?: number;
-	pitchOffset?: number;
-	
-	animate?: boolean;
-	rollAnimationCallback?: () => void;
-	pitchAnimationCallback?: () => void;
+  size: number
+
+  roll?: number
+  pitch?: number
+  pitchOffset?: number
+
+  animate?: boolean
+  rollAnimationCallback?: () => void
+  pitchAnimationCallback?: () => void
 }
 
-
 export class Horizon extends GaugeComponent<Props, ssHorizon, HorizonParams> {
-	GaugeClass = ssHorizon;
-	IgnoredProps = ["animate", "rollAnimationCallback", "pitchAnimationCallback"]
+  GaugeClass = ssHorizon
+  IgnoredProps = ["animate", "rollAnimationCallback", "pitchAnimationCallback"]
 
-	getGaugeParams = () => ({
-		size: this.props.size,
-		pointerColor: this.props.pointerColor,
-		frameDesign: this.props.frameDesign,
-		frameVisible: this.props.frameVisible,
-		foregroundType: this.props.foregroundType,
-		foregroundVisible: this.props.foregroundVisible
-	});
+  getGaugeParams = () => ({
+    size: this.props.size,
+    pointerColor: this.props.pointerColor,
+    frameDesign: this.props.frameDesign,
+    frameVisible: this.props.frameVisible,
+    foregroundType: this.props.foregroundType,
+    foregroundVisible: this.props.foregroundVisible,
+  })
 
-	gaugePostInit(animate = true) {
-		if(this.props.pitchOffset !== undefined) {
-			this.gauge.setPitchOffset(this.props.pitchOffset);
-		}
-	
-		if(this.props.roll !== undefined) {
-			this.props.animate && animate
-				? this.gauge.setRollAnimated(this.props.roll, this.props.rollAnimationCallback)
-				: this.gauge.setRoll(this.props.roll);
-		}
-	
-		if(this.props.pitch !== undefined) {
-			this.props.animate && animate
-				? this.gauge.setPitchAnimated(this.props.pitch, this.props.pitchAnimationCallback)
-				: this.gauge.setPitch(this.props.pitch);
-		}
-	}
+  gaugePostInit(animate = true) {
+    if (this.props.pitchOffset !== undefined) {
+      this.gauge.setPitchOffset(this.props.pitchOffset)
+    }
 
-	setFrameDesign() {
-		this.gauge.setFrameDesign(this.props.frameDesign);
-	}
+    if (this.props.roll !== undefined) {
+      this.props.animate && animate
+        ? this.gauge.setRollAnimated(
+            this.props.roll,
+            this.props.rollAnimationCallback
+          )
+        : this.gauge.setRoll(this.props.roll)
+    }
 
-	setForegroundType() {
-		this.gauge.setForegroundType(this.props.foregroundType);
-	}
+    if (this.props.pitch !== undefined) {
+      this.props.animate && animate
+        ? this.gauge.setPitchAnimated(
+            this.props.pitch,
+            this.props.pitchAnimationCallback
+          )
+        : this.gauge.setPitch(this.props.pitch)
+    }
+  }
 
-	setPitchOffset() {
-		this.gauge.setPitchOffset(this.props.pitchOffset);
+  setFrameDesign() {
+    this.gauge.setFrameDesign(this.props.frameDesign)
+  }
 
-		// BUG in 'steelseries'
-		// setPitchOffset() not working standalone
-		// possible solution: replace this.repaint() with this.setPitch(pitch) in library
-		this.gauge.setPitch(this.gauge.getPitch());
-	}
+  setForegroundType() {
+    this.gauge.setForegroundType(this.props.foregroundType)
+  }
 
-	setPitch() {
-		if(this.props.animate) {
-			this.gauge.setPitchAnimated(this.props.pitch, this.props.pitchAnimationCallback);
-		}
-		else {
-			this.gauge.setPitch(this.props.pitch);
-		}
-	}
+  setPitchOffset() {
+    this.gauge.setPitchOffset(this.props.pitchOffset)
 
-	setRoll() {
-		if(this.props.animate) {
-			this.gauge.setRollAnimated(this.props.roll, this.props.rollAnimationCallback);
-		}
-		else {
-			this.gauge.setRoll(this.props.roll);
-		}
-	}
+    // BUG in 'steelseries'
+    // setPitchOffset() not working standalone
+    // possible solution: replace this.repaint() with this.setPitch(pitch) in library
+    this.gauge.setPitch(this.gauge.getPitch())
+  }
+
+  setPitch() {
+    if (this.props.animate) {
+      this.gauge.setPitchAnimated(
+        this.props.pitch,
+        this.props.pitchAnimationCallback
+      )
+    } else {
+      this.gauge.setPitch(this.props.pitch)
+    }
+  }
+
+  setRoll() {
+    if (this.props.animate) {
+      this.gauge.setRollAnimated(
+        this.props.roll,
+        this.props.rollAnimationCallback
+      )
+    } else {
+      this.gauge.setRoll(this.props.roll)
+    }
+  }
 }

@@ -1,26 +1,24 @@
-import { Battery as ssBattery, BatteryParams } from "steelseries";
-import GaugeComponent from "./gauge-component";
-
+import { Battery as ssBattery, BatteryParams } from "steelseries"
+import GaugeComponent from "./gauge-component"
 
 interface Props extends BatteryParams {
-	size: number;
+  size: number
 }
 
-
 export class Battery extends GaugeComponent<Props, ssBattery, BatteryParams> {
-	GaugeClass = ssBattery;
-	
-	getGaugeParams() {
-		return { size: this.props.size }
-	}
+  GaugeClass = ssBattery
 
-	gaugePostInit() {
-		if(this.props.value) { 
-			this.gauge.setValue(this.props.value);
-		}
-	}
+  getGaugeParams() {
+    return { size: this.props.size }
+  }
 
-	setValue() {
-		this.gauge.setValue(this.props.value);
-	}
+  gaugePostInit() {
+    if (this.props.value) {
+      this.gauge.setValue(this.props.value)
+    }
+  }
+
+  setValue() {
+    this.gauge.setValue(this.props.value)
+  }
 }

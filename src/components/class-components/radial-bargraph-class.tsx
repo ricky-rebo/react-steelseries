@@ -1,237 +1,262 @@
-import { RadialBargraph as ssRadialBargraph, RadialBargraphParams, Section, gradientWrapper, TrendState } from "steelseries";
+import {
+  RadialBargraph as ssRadialBargraph,
+  RadialBargraphParams,
+  Section,
+  gradientWrapper,
+  TrendState,
+} from "steelseries"
 
-import GaugeComponent from "./gauge-component";
+import GaugeComponent from "./gauge-component"
 
-type ExcludedParams = "section"
-	| "valueGradient"
-	| "userLedVisible" 
-	| "userLedState"
-	| "ledVisible"
-	| "trendVisible";
+type ExcludedParams =
+  | "section"
+  | "valueGradient"
+  | "userLedVisible"
+  | "userLedState"
+  | "ledVisible"
+  | "trendVisible"
 interface Props extends Omit<RadialBargraphParams, ExcludedParams> {
-	size: number;
+  size: number
 
-	showLed?: boolean;
-	showUserLed?: boolean;
-	userLedOn?: boolean;
-	userLedBlink?: boolean;
+  showLed?: boolean
+  showUserLed?: boolean
+  userLedOn?: boolean
+  userLedBlink?: boolean
 
-	showTrend?: boolean;
+  showTrend?: boolean
 
-	valueColorSections?: Section[];
-	valueColorGradient?: gradientWrapper;
+  valueColorSections?: Section[]
+  valueColorGradient?: gradientWrapper
 
-	value?: number;
-	trend?: TrendState;
+  value?: number
+  trend?: TrendState
 
-	animate?: boolean;
-	animationCallback?: () => void;
+  animate?: boolean
+  animationCallback?: () => void
 
-	resetValueOnBoundsChange?: boolean;
+  resetValueOnBoundsChange?: boolean
 }
 
-export class RadialBargraph extends GaugeComponent<Props, ssRadialBargraph, RadialBargraphParams> {
-	GaugeClass = ssRadialBargraph;
-	IgnoredProps = ["animate", "animationCallback", "resetValueOnBoundsChange"];
+export class RadialBargraph extends GaugeComponent<
+  Props,
+  ssRadialBargraph,
+  RadialBargraphParams
+> {
+  GaugeClass = ssRadialBargraph
+  IgnoredProps = ["animate", "animationCallback", "resetValueOnBoundsChange"]
 
-	valueReset = false;
-	prevValue = 0;
+  valueReset = false
+  prevValue = 0
 
-	getGaugeParams = () => ({
-		size: this.props.size,
-		gaugeType: this.props.gaugeType,
+  getGaugeParams = () => ({
+    size: this.props.size,
+    gaugeType: this.props.gaugeType,
 
-		frameDesign: this.props.frameDesign,
-		frameVisible: this.props.frameVisible,
-		backgroundColor: this.props.backgroundColor,
-		backgroundVisible: this.props.backgroundVisible,
-		foregroundType: this.props.foregroundType,
-		foregroundVisible: this.props.foregroundVisible,
+    frameDesign: this.props.frameDesign,
+    frameVisible: this.props.frameVisible,
+    backgroundColor: this.props.backgroundColor,
+    backgroundVisible: this.props.backgroundVisible,
+    foregroundType: this.props.foregroundType,
+    foregroundVisible: this.props.foregroundVisible,
 
-		lcdColor: this.props.lcdColor,
-		digitalFont: this.props.digitalFont,
-		lcdDecimals: this.props.lcdDecimals,
-		lcdVisible: this.props.lcdVisible,
+    lcdColor: this.props.lcdColor,
+    digitalFont: this.props.digitalFont,
+    lcdDecimals: this.props.lcdDecimals,
+    lcdVisible: this.props.lcdVisible,
 
-		minValue: this.props.minValue,
-		maxValue: this.props.maxValue,
-		niceScale: this.props.niceScale,
-		labelNumberFormat: this.props.labelNumberFormat,
-		threshold: this.props.threshold,
-		thresholdRising: this.props.thresholdRising,
-		fullScaleDeflectionTime: this.props.fullScaleDeflectionTime,
-		playAlarm: this.props.playAlarm,
-		alarmSound: this.props.alarmSound,
+    minValue: this.props.minValue,
+    maxValue: this.props.maxValue,
+    niceScale: this.props.niceScale,
+    labelNumberFormat: this.props.labelNumberFormat,
+    threshold: this.props.threshold,
+    thresholdRising: this.props.thresholdRising,
+    fullScaleDeflectionTime: this.props.fullScaleDeflectionTime,
+    playAlarm: this.props.playAlarm,
+    alarmSound: this.props.alarmSound,
 
-		titleString: this.props.titleString,
-		unitString: this.props.unitString,
+    titleString: this.props.titleString,
+    unitString: this.props.unitString,
 
-		ledColor: this.props.ledColor,
-		ledVisible: (this.props.showLed === undefined) ? false : this.props.showLed,
+    ledColor: this.props.ledColor,
+    ledVisible: this.props.showLed === undefined ? false : this.props.showLed,
 
-		fractionalScaleDecimals: this.props.fractionalScaleDecimals,
-		tickLabelOrientation: this.props.tickLabelOrientation,
-		trendVisible: this.props.showTrend,
-		trendColors: this.props.trendColors,
-		userLedColor: this.props.userLedColor,
-		userLedVisible: this.props.showUserLed,
-		valueColor: this.props.valueColor,
-		section: this.props.valueColorSections,
-		useSectionColors: (this.props.valueColorSections !== undefined),
-		valueGradient: this.props.valueColorGradient,
-		useValueGradient: (this.props.valueColorGradient !== undefined),
+    fractionalScaleDecimals: this.props.fractionalScaleDecimals,
+    tickLabelOrientation: this.props.tickLabelOrientation,
+    trendVisible: this.props.showTrend,
+    trendColors: this.props.trendColors,
+    userLedColor: this.props.userLedColor,
+    userLedVisible: this.props.showUserLed,
+    valueColor: this.props.valueColor,
+    section: this.props.valueColorSections,
+    useSectionColors: this.props.valueColorSections !== undefined,
+    valueGradient: this.props.valueColorGradient,
+    useValueGradient: this.props.valueColorGradient !== undefined,
 
-		customLayer: this.props.customLayer,
-	});
+    customLayer: this.props.customLayer,
+  })
 
-	gaugePostInit(animate: boolean) {
-		if(this.props.value) {
-			(this.props.animate && animate)
-				? this.gauge.setValueAnimated(this.props.value, this.props.animationCallback)
-				: this.gauge.setValue(this.props.value);
-		}
+  gaugePostInit(animate: boolean) {
+    if (this.props.value) {
+      this.props.animate && animate
+        ? this.gauge.setValueAnimated(
+            this.props.value,
+            this.props.animationCallback
+          )
+        : this.gauge.setValue(this.props.value)
+    }
 
-		if(this.props.trend) {
-			this.gauge.setTrend(this.props.trend);
-		}
+    if (this.props.trend) {
+      this.gauge.setTrend(this.props.trend)
+    }
 
-		if(this.props.userLedOn !== undefined) {
-			this.gauge.setUserLedOnOff(this.props.userLedOn);
-		}
-		
-		if(this.props.userLedBlink !== undefined) {
-			this.gauge.blinkUserLed(this.props.userLedBlink);
-		}
-	}
+    if (this.props.userLedOn !== undefined) {
+      this.gauge.setUserLedOnOff(this.props.userLedOn)
+    }
 
-	gaugePreUpdate() {
-		if(this.valueReset)
-			this.valueReset = false;
-	}
+    if (this.props.userLedBlink !== undefined) {
+      this.gauge.blinkUserLed(this.props.userLedBlink)
+    }
+  }
 
-	setFrameDesign() {
-		this.gauge.setFrameDesign(this.props.frameDesign);
-	}
+  gaugePreUpdate() {
+    if (this.valueReset) this.valueReset = false
+  }
 
-	setBackgroundColor() {
-		this.gauge.setBackgroundColor(this.props.backgroundColor);
-	}
+  setFrameDesign() {
+    this.gauge.setFrameDesign(this.props.frameDesign)
+  }
 
-	setForegroundType() {
-		this.gauge.setForegroundType(this.props.foregroundType);
-	}
+  setBackgroundColor() {
+    this.gauge.setBackgroundColor(this.props.backgroundColor)
+  }
 
-	setLcdColor() {
-		this.gauge.setLcdColor(this.props.lcdColor);
-	}
+  setForegroundType() {
+    this.gauge.setForegroundType(this.props.foregroundType)
+  }
 
-	setLcdDecimals() {
-		this.gauge.setLcdDecimals(this.props.lcdDecimals);
-	}
+  setLcdColor() {
+    this.gauge.setLcdColor(this.props.lcdColor)
+  }
 
-	setMinValue() {
-		this.gauge.setMinValue(this.props.minValue);
+  setLcdDecimals() {
+    this.gauge.setLcdDecimals(this.props.lcdDecimals)
+  }
 
-		if(this.props.resetValueOnBoundsChange && !this.valueReset && this.props.animate) {
-			this.prevValue = this.gauge.getValue();
-			this.valueReset = true;
-			this.gauge.setValue(this.gauge.getMinValue());
-		}
-	}
+  setMinValue() {
+    this.gauge.setMinValue(this.props.minValue)
 
-	setMaxValue() {
-		this.gauge.setMaxValue(this.props.maxValue);
+    if (
+      this.props.resetValueOnBoundsChange &&
+      !this.valueReset &&
+      this.props.animate
+    ) {
+      this.prevValue = this.gauge.getValue()
+      this.valueReset = true
+      this.gauge.setValue(this.gauge.getMinValue())
+    }
+  }
 
-		if(this.props.resetValueOnBoundsChange && !this.valueReset && this.props.animate) {
-			this.prevValue = this.gauge.getValue();
-			this.valueReset = true;
-			this.gauge.setValue(this.gauge.getMinValue());
-		}
-	}
+  setMaxValue() {
+    this.gauge.setMaxValue(this.props.maxValue)
 
-	setLabelNumberFormat() {
-		this.gauge.setLabelNumberFormat(this.props.labelNumberFormat);
-	}
+    if (
+      this.props.resetValueOnBoundsChange &&
+      !this.valueReset &&
+      this.props.animate
+    ) {
+      this.prevValue = this.gauge.getValue()
+      this.valueReset = true
+      this.gauge.setValue(this.gauge.getMinValue())
+    }
+  }
 
-	setThreshold() {
-		this.gauge.setThreshold(this.props.threshold);
-	}
+  setLabelNumberFormat() {
+    this.gauge.setLabelNumberFormat(this.props.labelNumberFormat)
+  }
 
-	setThresholdRising() {
-		this.gauge.setThresholdRising(this.props.thresholdRising);
-	}
+  setThreshold() {
+    this.gauge.setThreshold(this.props.threshold)
+  }
 
-	setTitleString() {
-		this.gauge.setTitleString(this.props.titleString);
-	}
+  setThresholdRising() {
+    this.gauge.setThresholdRising(this.props.thresholdRising)
+  }
 
-	setUnitString() {
-		this.gauge.setUnitString(this.props.unitString);
-	}
+  setTitleString() {
+    this.gauge.setTitleString(this.props.titleString)
+  }
 
-	setShowLed() {
-		this.gauge.setLedVisible(this.props.showLed);
-	}
+  setUnitString() {
+    this.gauge.setUnitString(this.props.unitString)
+  }
 
-	setLedColor() {
-		this.gauge.setLedColor(this.props.ledColor);
-	}
+  setShowLed() {
+    this.gauge.setLedVisible(this.props.showLed)
+  }
 
-	setFractionalScaleDecimals() {
-		this.gauge.setFractionalScaleDecimals(this.props.fractionalScaleDecimals);
-	}
+  setLedColor() {
+    this.gauge.setLedColor(this.props.ledColor)
+  }
 
-	setShowTrend() {
-		this.gauge.setTrendVisible(this.props.showTrend);
-	}
+  setFractionalScaleDecimals() {
+    this.gauge.setFractionalScaleDecimals(this.props.fractionalScaleDecimals)
+  }
 
-	setShowUserLed() {
-		this.gauge.setUserLedVisible(this.props.showUserLed);
-	}
+  setShowTrend() {
+    this.gauge.setTrendVisible(this.props.showTrend)
+  }
 
-	setUserLedColor() {
-		this.gauge.setUserLedColor(this.props.userLedColor);
-	}
+  setShowUserLed() {
+    this.gauge.setUserLedVisible(this.props.showUserLed)
+  }
 
-	setValueColor() {
-		this.gauge.setValueColor(this.props.valueColor);
-	}
+  setUserLedColor() {
+    this.gauge.setUserLedColor(this.props.userLedColor)
+  }
 
-	setValueColorSections() {
-		this.gauge.setSectionActive(this.props.valueColorSections !== undefined)
-			.setSection(this.props.valueColorSections);
-	}
+  setValueColor() {
+    this.gauge.setValueColor(this.props.valueColor)
+  }
 
-	setValueColorGradient() {
-		this.gauge.setGradientActive(this.props.valueColorGradient !== undefined)
-			.setGradient(this.props.valueColorGradient);
-	}
+  setValueColorSections() {
+    this.gauge
+      .setSectionActive(this.props.valueColorSections !== undefined)
+      .setSection(this.props.valueColorSections)
+  }
 
-	setValue() {
-		if(this.props.animate) {
-			this.gauge.setValueAnimated(this.props.value, this.props.animationCallback);
-		}
-		else {
-			this.gauge.setValue(this.props.value);
-		}
-	}
+  setValueColorGradient() {
+    this.gauge
+      .setGradientActive(this.props.valueColorGradient !== undefined)
+      .setGradient(this.props.valueColorGradient)
+  }
 
-	setTrend() {
-		this.gauge.setTrend(this.props.trend);
-	}
+  setValue() {
+    if (this.props.animate) {
+      this.gauge.setValueAnimated(
+        this.props.value,
+        this.props.animationCallback
+      )
+    } else {
+      this.gauge.setValue(this.props.value)
+    }
+  }
 
-	setUserLedOn() {
-		this.gauge.setUserLedOnOff(this.props.userLedOn);
-	}
+  setTrend() {
+    this.gauge.setTrend(this.props.trend)
+  }
 
-	setUserLedBlink() {
-		this.gauge.blinkUserLed(this.props.userLedBlink);
-	}
+  setUserLedOn() {
+    this.gauge.setUserLedOnOff(this.props.userLedOn)
+  }
 
-	gaugePostUpdate() {
-		if(this.valueReset) {
-			this.gauge.setValueAnimated(this.prevValue, this.props.animationCallback);
-			this.valueReset = false;
-		}
-	}
+  setUserLedBlink() {
+    this.gauge.blinkUserLed(this.props.userLedBlink)
+  }
+
+  gaugePostUpdate() {
+    if (this.valueReset) {
+      this.gauge.setValueAnimated(this.prevValue, this.props.animationCallback)
+      this.valueReset = false
+    }
+  }
 }

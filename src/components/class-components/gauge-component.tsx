@@ -1,130 +1,140 @@
-import React from "react";
+import React from "react"
 
-
-declare var __DEV__: boolean;
-
+declare var __DEV__: boolean
 
 export function capitalize(str: string) {
-	return str.charAt(0).toUpperCase() + str.slice(1);
+  return str.charAt(0).toUpperCase() + str.slice(1)
 }
 
 export function getSetterName(prop: string) {
-	return `set${capitalize(prop)}`;
+  return `set${capitalize(prop)}`
 }
 
-
 interface IGaugeConstructor<GC, GP> {
-	new (canvas: HTMLCanvasElement | string, parameters?: GP): GC;
+  new (canvas: HTMLCanvasElement | string, parameters?: GP): GC
 }
 
 export default interface GaugeComponent<P, GC, GP> {
+  /**
+   * Additional code to be executed right before gauge init
+   */
+  gaugePreInit?(): void
 
-	/**
-	 * Additional code to be executed right before gauge init
-	 */
-	gaugePreInit?(): void;
+  /**
+   * Additional code to be execudet right after gauge init
+   *
+   * @param animate enable animation, if gauge supports it
+   */
+  gaugePostInit?(animate: boolean): void
 
-	/**
-	 * Additional code to be execudet right after gauge init
-	 * 
-	 * @param animate enable animation, if gauge supports it 
-	 */
-	gaugePostInit?(animate: boolean): void;
+  /**
+   * Execudet right before gauge update
+   */
+  gaugePreUpdate?(): void
 
-	/**
-	 * Execudet right before gauge update
-	 */
-	gaugePreUpdate?(): void;
-
-	/**
-	 * Executed right after gauge update
-	 */
-	gaugePostUpdate?(): void;
+  /**
+   * Executed right after gauge update
+   */
+  gaugePostUpdate?(): void
 }
-export default abstract class GaugeComponent<P, GC, GP> extends React.Component<P> {
-	/**
-	 * Steelseries Gauge Class
-	 */
-	abstract GaugeClass: IGaugeConstructor<GC, GP>;
+export default abstract class GaugeComponent<
+  P,
+  GC,
+  GP
+> extends React.Component<P> {
+  /**
+   * Steelseries Gauge Class
+   */
+  abstract GaugeClass: IGaugeConstructor<GC, GP>
 
-	/**
-	 * Props ignored in update watch
-	 */
-	IgnoredProps: string[] = [];
+  /**
+   * Props ignored in update watch
+   */
+  IgnoredProps: string[] = []
 
-	canvasRef: React.RefObject<HTMLCanvasElement>;
-	gauge: GC;
+  canvasRef: React.RefObject<HTMLCanvasElement>
+  gauge: GC
 
-	constructor(props: P) {
-		super(props);
-		this.canvasRef = React.createRef();
-	}
+  constructor(props: P) {
+    super(props)
+    this.canvasRef = React.createRef()
+  }
 
-	log(_msg?: string) {
-		if(__DEV__) { console.log(`[${this.constructor.name}] ${_msg || ""}`); }
-	}
+  log(_msg?: string) {
+    if (__DEV__) {
+      console.log(`[${this.constructor.name}] ${_msg || ""}`)
+    }
+  }
 
-	/**
-	 * Return Steelseries gauge params, based on this.props
-	 */
-	abstract getGaugeParams(): GP;
+  /**
+   * Return Steelseries gauge params, based on this.props
+   */
+  abstract getGaugeParams(): GP
 
-	componentDidMount(animate: boolean = true) {
-		if(this.canvasRef.current && this.GaugeClass) {
-			if(__DEV__) {
-				this.log("init");
-			}
+  componentDidMount(animate: boolean = true) {
+    if (this.canvasRef.current && this.GaugeClass) {
+      if (__DEV__) {
+        this.log("init")
+      }
 
-			if(this.gaugePreInit) {
-				this.gaugePreInit();
-			}
-			
-			this.gauge = new this.GaugeClass(this.canvasRef.current, this.getGaugeParams());
+      if (this.gaugePreInit) {
+        this.gaugePreInit()
+      }
 
-			if(this.gaugePostInit) {
-				this.gaugePostInit(animate);
-			}
-		}
-	}
+      this.gauge = new this.GaugeClass(
+        this.canvasRef.current,
+        this.getGaugeParams()
+      )
 
-	componentDidUpdate(prev: P) {
-		if(this.gauge) {
-			if(this.gaugePreUpdate) {
-				this.gaugePreUpdate();
-			}
+      if (this.gaugePostInit) {
+        this.gaugePostInit(animate)
+      }
+    }
+  }
 
-			let setter: string;
-			let setters: { () : void }[] = [];
-			for(let prop in this.props) {
-				if(this.props[prop] !== prev[prop] && !this.IgnoredProps.includes(prop)) {
-					setter = getSetterName(prop)
-					if(setter in this && typeof this[setter] === 'function') {
-						//this[setter]();
-						setters.push(this[setter].bind(this));
-					}
-					else {
-						if(__DEV__) { this.log("gauge re-init..."); }
-						
-						this.componentDidMount(false);
-						return;
-					}
-				}
-			}
+  componentDidUpdate(prev: P) {
+    if (this.gauge) {
+      if (this.gaugePreUpdate) {
+        this.gaugePreUpdate()
+      }
 
-			if(setters.length > 0) {
-				if(__DEV__) { this.log("calling setters..."); }
+      let setter: string
+      let setters: { (): void }[] = []
+      for (let prop in this.props) {
+        if (
+          this.props[prop] !== prev[prop] &&
+          !this.IgnoredProps.includes(prop)
+        ) {
+          setter = getSetterName(prop)
+          if (setter in this && typeof this[setter] === "function") {
+            //this[setter]();
+            setters.push(this[setter].bind(this))
+          } else {
+            if (__DEV__) {
+              this.log("gauge re-init...")
+            }
 
-				setters.forEach((fun) => fun());
-			}
-			
+            this.componentDidMount(false)
+            return
+          }
+        }
+      }
 
-			if(this.gaugePostUpdate) {
-				this.gaugePostUpdate();
-			}
-		}
-	}
+      if (setters.length > 0) {
+        if (__DEV__) {
+          this.log("calling setters...")
+        }
 
-	render() {
-		return <canvas ref={this.canvasRef}></canvas>
-	}
+        setters.forEach((fun) => fun())
+      }
+
+      if (this.gaugePostUpdate) {
+        this.gaugePostUpdate()
+      }
+    }
+  }
+
+  render() {
+    return <canvas ref={this.canvasRef}></canvas>
+  }
 }

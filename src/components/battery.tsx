@@ -3,24 +3,24 @@ import { BatteryParams, Battery } from "steelseries"
 import { useSetGaugeProp } from "../hooks/gauge-update"
 
 interface Props extends BatteryParams {
-	size: number
+  size: number
 }
 
-export function BatteryGauge (props: Props) {
-	const canvas = useRef<HTMLCanvasElement>(null)
-	const gauge = useRef<Battery>(null)
+export function BatteryGauge(props: Props) {
+  const canvas = useRef<HTMLCanvasElement>(null)
+  const gauge = useRef<Battery>(null)
 
-	// Init gauge
-	useEffect(() => {
-		if (canvas.current) {
-			gauge.current = new Battery(canvas.current, {
-				size: props.size
-			})
-		}
-	}, [])
+  // Init gauge
+  useEffect(() => {
+    if (canvas.current) {
+      gauge.current = new Battery(canvas.current, {
+        size: props.size,
+      })
+    }
+  }, [])
 
-	// Update gauge
-	useSetGaugeProp(gauge, "setValue", props.value)
+  // Update gauge
+  useSetGaugeProp(gauge, "setValue", props.value)
 
-	return <canvas ref={canvas}></canvas>
+  return <canvas ref={canvas}></canvas>
 }
