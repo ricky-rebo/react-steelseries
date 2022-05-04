@@ -1,35 +1,5 @@
 import "./fonts/index.css"
 
-export { Altimeter } from "./components/class-components/altimeter-class"
-export { Battery } from "./components/class-components/battery-class"
-export { Clock } from "./components/class-components/clock-class"
-export { Compass } from "./components/class-components/compass-class"
-export { DisplayMulti } from "./components/class-components/display-multi-class"
-export { DisplaySingle } from "./components/class-components/display-single-class"
-export { Horizon } from "./components/class-components/horizon-class"
-export { Led } from "./components/class-components/led-class"
-export { Level } from "./components/class-components/level-class"
-
-// FIXME(ricky-rebo) TypeError: steelseries__WEBPACK_IMPORTED_MODULE_0__.Lightbulb is not a constructor
-export { Lightbulb } from "./components/class-components/light-bulb-class"
-
-export { Linear } from "./components/class-components/linear-class"
-export { LinearBargraph } from "./components/class-components/linear-bargraph-class"
-export { Odometer } from "./components/class-components/odometer-class"
-export { Radial } from "./components/class-components/radial-class"
-export { RadialBargraph } from "./components/class-components/radial-bargraph-class"
-export { RadialVertical } from "./components/class-components/radial-vertical-class"
-
-// TODO(ricky-rebo) Finish the gauge
-// export { Stopwatch } from "./gauges/stopwatch";
-
-// FIXME(ricky-rebo) TypeError: steelseries__WEBPACK_IMPORTED_MODULE_0__.Trafficlight is not a constructor
-// export { Trafficlight } from "./gauges/traffic-light";
-
-export { WindDirection } from "./components/class-components/wind-direction-class"
-export { Rose } from "./components/class-components/wind-rose-class"
-
-// Functional Components
 export { AltimeterGauge } from "./components/altimeter"
 export { BatteryGauge } from "./components/battery"
 export { ClockGauge } from "./components/clock"
