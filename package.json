@@ -17,6 +17,7 @@
     "build": "tsdx build",
     "test": "tsdx test --passWithNoTests",
     "lint": "tsdx lint src",
+    "lint:report": "tsdx lint src --report-file reports/lint-report.json",
     "prepare": "tsdx build",
     "size": "size-limit",
     "analyze": "size-limit --why"
@@ -27,7 +28,7 @@
     }
   },
   "prettier": {
-    "printWidth": 80,
+    "printWidth": 120,
     "semi": false,
     "singleQuote": false,
     "trailingComma": "es5",
