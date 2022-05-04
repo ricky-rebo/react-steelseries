@@ -1,0 +1,45 @@
+name: SonarQube
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build_and_lint:
+    name: Build & lint project
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: npm install and lint
+        run: |
+          npm install
+          npm run lint:report
+      - name: Archive lint report
+        uses: actions/upload-artifact@v3
+        with:
+          name: lint-report
+          path: reports/lint-report.json
+  scan:
+    name: Scan project
+    needs: build_and_lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Download reports
+        uses: actions/download-artifact@v3
+        with:
+          path: reports
+      - name: Run sonar-scanner
+        uses: sonarsource/sonarqube-scan-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+      # If you wish to fail your job when the Quality Gate is red, uncomment the
+      # following lines. This would typically be used to fail a deployment.
+      # - uses: sonarsource/sonarqube-quality-gate-action@master
+      #   timeout-minutes: 5
+      #   env:
+      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
