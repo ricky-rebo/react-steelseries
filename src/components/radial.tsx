@@ -1,24 +1,11 @@
 import React, { useEffect, useRef } from "react"
-import {
-  OdometerParams,
-  RadialParams,
-  Radial,
-  Section,
-  TrendState,
-} from "steelseries"
+import { OdometerParams, RadialParams, Radial, Section, TrendState } from "steelseries"
 import { useDidUpdate } from "../hooks/common"
-import {
-  useSetGaugeProp,
-  useSetGaugeValue,
-  useUpdateGaugeProp,
-} from "../hooks/gauge-update"
+import { useSetGaugeProp, useSetGaugeValue, useUpdateGaugeProp } from "../hooks/gauge-update"
 
 // BUG @types/steelseries
 // Define a subset of params for Radial Odometer
-type RadialOdometerParams = Omit<
-  OdometerParams,
-  "_context" | "height" | "value" | "wobbleFactor"
->
+type RadialOdometerParams = Omit<OdometerParams, "_context" | "height" | "value" | "wobbleFactor">
 
 type ExcludedParams =
   | "odometerUseValue"
@@ -99,8 +86,7 @@ export function RadialGauge(props: Props) {
         labelNumberFormat: props.labelNumberFormat,
         threshold: props.threshold,
         thresholdRising: props.thresholdRising,
-        thresholdVisible:
-          props.showThreshold === undefined ? false : props.showThreshold,
+        thresholdVisible: props.showThreshold === undefined ? false : props.showThreshold,
         fullScaleDeflectionTime: props.fullScaleDeflectionTime,
         playAlarm: props.playAlarm,
         alarmSound: props.alarmSound,
@@ -143,11 +129,7 @@ export function RadialGauge(props: Props) {
   useUpdateGaugeProp(gauge, "setLedVisible", props.showLed)
 
   useUpdateGaugeProp(gauge, "setLabelNumberFormat", props.labelNumberFormat)
-  useUpdateGaugeProp(
-    gauge,
-    "setFractionalScaleDecimals",
-    props.fractionalScaleDecimals
-  )
+  useUpdateGaugeProp(gauge, "setFractionalScaleDecimals", props.fractionalScaleDecimals)
 
   useUpdateGaugeProp(gauge, "setThreshold", props.threshold)
   useUpdateGaugeProp(gauge, "setThresholdRising", props.thresholdRising)
@@ -171,16 +153,8 @@ export function RadialGauge(props: Props) {
   useUpdateGaugeProp(gauge, "setTrendVisible", props.showTrend)
   useSetGaugeProp(gauge, "setTrend", props.trend)
 
-  useUpdateGaugeProp(
-    gauge,
-    "setMinMeasuredValueVisible",
-    props.showMinMeasuredValue
-  )
-  useUpdateGaugeProp(
-    gauge,
-    "setMaxMeasuredValueVisible",
-    props.showMaxMeasuredValue
-  )
+  useUpdateGaugeProp(gauge, "setMinMeasuredValueVisible", props.showMinMeasuredValue)
+  useUpdateGaugeProp(gauge, "setMaxMeasuredValueVisible", props.showMaxMeasuredValue)
   useSetGaugeProp(gauge, "setMinMeasuredValue", props.minMeasuredValue)
   useSetGaugeProp(gauge, "setMaxMeasuredValue", props.maxMeasuredValue)
 
@@ -206,10 +180,7 @@ export function RadialGauge(props: Props) {
   }, [props.maxValue])
 
   useSetGaugeProp(gauge, "setOdoValue", props.odometerValue)
-  useSetGaugeValue(gauge, props.value, props.animate, props.animationCallback, [
-    props.minValue,
-    props.maxValue,
-  ])
+  useSetGaugeValue(gauge, props.value, props.animate, props.animationCallback, [props.minValue, props.maxValue])
 
   return <canvas ref={canvas}></canvas>
 }

@@ -35,22 +35,12 @@ export function ClockGauge(props: Props) {
 
         /* Should be opional, but they're not... */
         // BUG fix in @types/steelseries
-        timeZoneOffsetHour:
-          props.timeZoneOffsetHour === undefined ? 0 : props.timeZoneOffsetHour,
-        timeZoneOffsetMinute:
-          props.timeZoneOffsetMinute === undefined
-            ? 0
-            : props.timeZoneOffsetMinute,
-        isAutomatic: props.isAutomatic === undefined ? true : props.isAutomatic,
+        timeZoneOffsetHour: props.timeZoneOffsetHour ?? 0,
+        timeZoneOffsetMinute: props.timeZoneOffsetMinute ?? 0,
+        isAutomatic: props.isAutomatic ?? true,
 
-        secondMovesContinuous:
-          props.secondPointerTick === undefined
-            ? true
-            : !props.secondPointerTick,
-        secondPointerVisible:
-          props.secondPointerVisible === undefined
-            ? true
-            : props.secondPointerVisible,
+        secondMovesContinuous: !props.secondPointerTick ?? true,
+        secondPointerVisible: props.secondPointerVisible ?? true,
 
         customLayer: props.customLayer,
       })
@@ -72,17 +62,9 @@ export function ClockGauge(props: Props) {
 
   useUpdateGaugeProp(gauge, "setAutomatic", props.isAutomatic)
   useUpdateGaugeProp(gauge, "setTimeZoneOffsetHour", props.timeZoneOffsetHour)
-  useUpdateGaugeProp(
-    gauge,
-    "setTimeZoneOffsetMinute",
-    props.timeZoneOffsetMinute
-  )
+  useUpdateGaugeProp(gauge, "setTimeZoneOffsetMinute", props.timeZoneOffsetMinute)
 
-  useUpdateGaugeProp(
-    gauge,
-    "setSecondPointerVisible",
-    props.secondPointerVisible
-  )
+  useUpdateGaugeProp(gauge, "setSecondPointerVisible", props.secondPointerVisible)
   useDidUpdate(() => {
     if (gauge.current) {
       if (props.isAutomatic) gauge.current.setAutomatic(false)

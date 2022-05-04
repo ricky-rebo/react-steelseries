@@ -2,10 +2,7 @@ import React, { useEffect, useRef } from "react"
 import { DisplayMultiParams, DisplayMulti } from "steelseries"
 import { useUpdateGaugeProp } from "../hooks/gauge-update"
 
-type ExcludedParams =
-  | "headerStringVisible"
-  | "detailStringVisible"
-  | "unitStringVisible"
+type ExcludedParams = "headerStringVisible" | "detailStringVisible" | "unitStringVisible"
 interface Props extends Omit<DisplayMultiParams, ExcludedParams> {
   width: number
   height: number
@@ -31,8 +28,7 @@ export function DisplayMultiGauge(props: Props) {
         detailStringVisible: props.showDetailString,
         unitString: props.unitString,
         unitStringVisible: props.showUnitString,
-        linkAltValue:
-          props.linkAltValue === undefined ? false : props.linkAltValue,
+        linkAltValue: props.linkAltValue ?? false,
         valuesNumeric: props.valuesNumeric,
         value: props.value,
         altValue: props.altValue,

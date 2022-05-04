@@ -2,10 +2,7 @@ import React, { useEffect, useRef } from "react"
 import { DisplaySingleParams, DisplaySingle } from "steelseries"
 import { useUpdateGaugeProp } from "../hooks/gauge-update"
 
-type ExcludedParams =
-  | "headerStringVisible"
-  | "unitStringVisible"
-  | "alwaysScroll"
+type ExcludedParams = "headerStringVisible" | "unitStringVisible" | "alwaysScroll"
 interface Props extends Omit<DisplaySingleParams, ExcludedParams> {
   width: number
   height: number

@@ -6,10 +6,7 @@ import { RoseParams, Rose } from "steelseries-rose-gauge"
 import { useSetGaugeProp, useUpdateGaugeProp } from "../hooks/gauge-update"
 
 // Define a subset of params for Radial/Rose Odometer
-type RoseOdometerParams = Omit<
-  OdometerParams,
-  "_context" | "height" | "value" | "wobbleFactor"
->
+type RoseOdometerParams = Omit<OdometerParams, "_context" | "height" | "value" | "wobbleFactor">
 
 interface Props extends RoseParams {
   size: number
@@ -61,10 +58,7 @@ export function RoseGauge(props: Props) {
   useEffect(() => {
     if (gauge.current) {
       if (props.animate) {
-        gauge.current.setOdoValueAnimated(
-          props.odometerValue,
-          props.animationCallback
-        )
+        gauge.current.setOdoValueAnimated(props.odometerValue, props.animationCallback)
       } else {
         gauge.current.setOdoValue(props.odometerValue)
       }

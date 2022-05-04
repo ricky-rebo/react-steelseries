@@ -1,17 +1,9 @@
 import React, { useEffect, useRef } from "react"
 import { LinearParams, Linear } from "steelseries"
 import { useDidUpdate } from "../hooks/common"
-import {
-  useSetGaugeProp,
-  useSetGaugeValue,
-  useUpdateGaugeProp,
-} from "../hooks/gauge-update"
+import { useSetGaugeProp, useSetGaugeValue, useUpdateGaugeProp } from "../hooks/gauge-update"
 
-type ExcludedParams =
-  | "ledVisible"
-  | "minMeasuredValueVisible"
-  | "maxMeasuredValueVisible"
-  | "thresholdVisible"
+type ExcludedParams = "ledVisible" | "minMeasuredValueVisible" | "maxMeasuredValueVisible" | "thresholdVisible"
 interface Props extends Omit<LinearParams, ExcludedParams> {
   width: number
   height: number
@@ -66,8 +58,7 @@ export function LinearGauge(props: Props) {
         labelNumberFormat: props.labelNumberFormat,
         threshold: props.threshold,
         thresholdRising: props.thresholdRising,
-        thresholdVisible:
-          props.showThreshold === undefined ? false : props.showThreshold,
+        thresholdVisible: props.showThreshold === undefined ? false : props.showThreshold,
         fullScaleDeflectionTime: props.fullScaleDeflectionTime,
         playAlarm: props.playAlarm,
         alarmSound: props.alarmSound,
@@ -119,23 +110,12 @@ export function LinearGauge(props: Props) {
     }
   }, [props.maxValue])
 
-  useUpdateGaugeProp(
-    gauge,
-    "setMinMeasuredValueVisible",
-    props.showMinMeasuredValue
-  )
-  useUpdateGaugeProp(
-    gauge,
-    "setMaxMeasuredValueVisible",
-    props.showMaxMeasuredValue
-  )
+  useUpdateGaugeProp(gauge, "setMinMeasuredValueVisible", props.showMinMeasuredValue)
+  useUpdateGaugeProp(gauge, "setMaxMeasuredValueVisible", props.showMaxMeasuredValue)
 
   useSetGaugeProp(gauge, "setMinMeasuredValue", props.minMeasuredValue)
   useSetGaugeProp(gauge, "setMaxMeasuredValue", props.maxMeasuredValue)
-  useSetGaugeValue(gauge, props.value, props.animate, props.animationCallback, [
-    props.minValue,
-    props.maxValue,
-  ])
+  useSetGaugeValue(gauge, props.value, props.animate, props.animationCallback, [props.minValue, props.maxValue])
 
   return <canvas ref={canvas}></canvas>
 }

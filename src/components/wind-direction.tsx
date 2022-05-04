@@ -1,11 +1,5 @@
 import React, { useEffect, useRef } from "react"
-import {
-  WindDirectionParams,
-  WindDirection,
-  ColorDef,
-  PointerType,
-  Section,
-} from "steelseries"
+import { WindDirectionParams, WindDirection, ColorDef, PointerType, Section } from "steelseries"
 import { useUpdateGaugeProp } from "../hooks/gauge-update"
 
 type ExcludedParams =
@@ -104,10 +98,7 @@ export function WindDirectionGauge(props: Props) {
   useEffect(() => {
     if (gauge.current) {
       if (props.animate) {
-        gauge.current.setValueAnimatedLatest(
-          props.valueLatest,
-          props.lstAnimationCallback
-        )
+        gauge.current.setValueAnimatedLatest(props.valueLatest, props.lstAnimationCallback)
       } else {
         gauge.current.setValueLatest(props.valueLatest)
       }
@@ -116,10 +107,7 @@ export function WindDirectionGauge(props: Props) {
   useEffect(() => {
     if (gauge.current) {
       if (props.animate) {
-        gauge.current.setValueAnimatedAverage(
-          props.valueAverage,
-          props.avgAnimationCallback
-        )
+        gauge.current.setValueAnimatedAverage(props.valueAverage, props.avgAnimationCallback)
       } else {
         gauge.current.setValueAverage(props.valueAverage)
       }

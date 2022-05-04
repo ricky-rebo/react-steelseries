@@ -40,10 +40,7 @@ export function HorizonGauge(props: Props) {
   useEffect(() => {
     if (gauge.current) {
       props.animate
-        ? gauge.current.setPitchAnimated(
-            props.pitch,
-            props.pitchAnimationCallback
-          )
+        ? gauge.current.setPitchAnimated(props.pitch, props.pitchAnimationCallback)
         : gauge.current.setPitch(props.pitch)
     }
   }, [props.pitch])

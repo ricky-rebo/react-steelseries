@@ -1,25 +1,9 @@
 import React, { useEffect, useRef } from "react"
-import {
-  Section,
-  gradientWrapper,
-  TrendState,
-  RadialBargraphParams,
-  RadialBargraph,
-} from "steelseries"
+import { Section, gradientWrapper, TrendState, RadialBargraphParams, RadialBargraph } from "steelseries"
 import { useDidUpdate } from "../hooks/common"
-import {
-  useSetGaugeProp,
-  useSetGaugeValue,
-  useUpdateGaugeProp,
-} from "../hooks/gauge-update"
+import { useSetGaugeProp, useSetGaugeValue, useUpdateGaugeProp } from "../hooks/gauge-update"
 
-type ExcludedParams =
-  | "section"
-  | "valueGradient"
-  | "userLedVisible"
-  | "userLedState"
-  | "ledVisible"
-  | "trendVisible"
+type ExcludedParams = "section" | "valueGradient" | "userLedVisible" | "userLedState" | "ledVisible" | "trendVisible"
 interface Props extends Omit<RadialBargraphParams, ExcludedParams> {
   size: number
 
@@ -99,9 +83,7 @@ export function RadialBargraphGauge(props: Props) {
 
     return function () {
       if (gauge.current) {
-        gauge.current
-          .setThresholdRising(true)
-          .setThreshold(gauge.current.getMaxValue())
+        gauge.current.setThresholdRising(true).setThreshold(gauge.current.getMaxValue())
       }
     }
   }, [])
@@ -118,11 +100,7 @@ export function RadialBargraphGauge(props: Props) {
   useUpdateGaugeProp(gauge, "setLedVisible", props.showLed)
 
   useUpdateGaugeProp(gauge, "setLabelNumberFormat", props.labelNumberFormat)
-  useUpdateGaugeProp(
-    gauge,
-    "setFractionalScaleDecimals",
-    props.fractionalScaleDecimals
-  )
+  useUpdateGaugeProp(gauge, "setFractionalScaleDecimals", props.fractionalScaleDecimals)
 
   useUpdateGaugeProp(gauge, "setThreshold", props.threshold)
   useUpdateGaugeProp(gauge, "setThresholdRising", props.thresholdRising)
@@ -163,10 +141,7 @@ export function RadialBargraphGauge(props: Props) {
     }
   }, [props.maxValue])
 
-  useSetGaugeValue(gauge, props.value, props.animate, props.animationCallback, [
-    props.minValue,
-    props.maxValue,
-  ])
+  useSetGaugeValue(gauge, props.value, props.animate, props.animationCallback, [props.minValue, props.maxValue])
 
   return <canvas ref={canvas}></canvas>
 }

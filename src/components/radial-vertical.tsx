@@ -1,11 +1,7 @@
 import React, { useEffect, useRef } from "react"
 import { RadialVerticalParams, RadialVertical, Section } from "steelseries"
 import { useDidUpdate } from "../hooks/common"
-import {
-  useSetGaugeProp,
-  useSetGaugeValue,
-  useUpdateGaugeProp,
-} from "../hooks/gauge-update"
+import { useSetGaugeProp, useSetGaugeValue, useUpdateGaugeProp } from "../hooks/gauge-update"
 
 type ExcludedParams =
   | "area"
@@ -67,8 +63,7 @@ export function RadialVerticalGauge(props: Props) {
         labelNumberFormat: props.labelNumberFormat,
         threshold: props.threshold,
         thresholdRising: props.thresholdRising,
-        thresholdVisible:
-          props.showThreshold === undefined ? false : props.showThreshold,
+        thresholdVisible: props.showThreshold === undefined ? false : props.showThreshold,
         fullScaleDeflectionTime: props.fullScaleDeflectionTime,
         playAlarm: props.playAlarm,
         alarmSound: props.alarmSound,
@@ -100,16 +95,8 @@ export function RadialVerticalGauge(props: Props) {
   // BUG in 'steelseries' library - setThresholdVisible not working
   useUpdateGaugeProp(gauge, "setThresholdVisible", props.showThreshold)
 
-  useUpdateGaugeProp(
-    gauge,
-    "setMinMeasuredValueVisible",
-    props.showMinMeasuredValue
-  )
-  useUpdateGaugeProp(
-    gauge,
-    "setMaxMeasuredValueVisible",
-    props.showMaxMeasuredValue
-  )
+  useUpdateGaugeProp(gauge, "setMinMeasuredValueVisible", props.showMinMeasuredValue)
+  useUpdateGaugeProp(gauge, "setMaxMeasuredValueVisible", props.showMaxMeasuredValue)
   useSetGaugeProp(gauge, "setMinMeasuredValue", props.minMeasuredValue)
   useSetGaugeProp(gauge, "setMaxMeasuredValue", props.maxMeasuredValue)
 
@@ -134,10 +121,7 @@ export function RadialVerticalGauge(props: Props) {
     }
   }, [props.maxValue])
 
-  useSetGaugeValue(gauge, props.value, props.animate, props.animationCallback, [
-    props.minValue,
-    props.maxValue,
-  ])
+  useSetGaugeValue(gauge, props.value, props.animate, props.animationCallback, [props.minValue, props.maxValue])
 
   return <canvas ref={canvas}></canvas>
 }
