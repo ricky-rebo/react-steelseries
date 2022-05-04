@@ -1,30 +1,22 @@
-import "./fonts/index.css";
+import "./fonts/index.css"
 
-export { Altimeter } from "./gauges/altimeter";
-export { Battery } from "./gauges/battery";
-export { Clock } from "./gauges/clock";
-export { Compass } from "./gauges/compass";
-export { DisplayMulti } from "./gauges/display-multi";
-export { DisplaySingle } from "./gauges/display-single";
-export { Horizon } from "./gauges/horizon";
-export { Led } from "./gauges/led";
-export { Level } from "./gauges/level";
-
-// FIXME(ricky-rebo) TypeError: steelseries__WEBPACK_IMPORTED_MODULE_0__.Lightbulb is not a constructor
-// export { Lightbulb } from "./gauges/light-bulb"; 
-
-export { Linear } from "./gauges/linear";
-export { LinearBargraph } from "./gauges/linear-bargraph";
-export { Odometer } from "./gauges/odometer";
-export { Radial } from "./gauges/radial";
-export { RadialBargraph } from "./gauges/radial-bargraph";
-export { RadialVertical } from "./gauges/radial-vertical";
-
-// FIXME(ricky-rebo) Finish the gauge
-// export { Stopwatch } from "./gauges/stopwatch";
-
-// FIXME(ricky-rebo) TypeError: steelseries__WEBPACK_IMPORTED_MODULE_0__.Trafficlight is not a constructor
-// export { Trafficlight } from "./gauges/traffic-light";
-
-export { WindDirection } from "./gauges/wind-direction";
-export { Rose } from "./gauges/wind-rose";
+export { AltimeterGauge } from "./components/altimeter"
+export { BatteryGauge } from "./components/battery"
+export { ClockGauge } from "./components/clock"
+export { CompassGauge } from "./components/compass"
+export { DisplayMultiGauge } from "./components/display-multi"
+export { DisplaySingleGauge } from "./components/display-single"
+export { HorizonGauge } from "./components/horizon"
+export { LedGauge } from "./components/led"
+export { LevelGauge } from "./components/level"
+export { LightBulbGauge } from "./components/light-bulb"
+export { LinearGauge } from "./components/linear"
+export { LinearBargraphGauge } from "./components/linear-bargraph"
+export { OdometerGauge } from "./components/odometer"
+export { RadialBargraphGauge } from "./components/radial-bargraph"
+export { RadialGauge } from "./components/radial"
+export { RadialVerticalGauge } from "./components/radial-vertical"
+export { StopwatchGauge } from "./components/stopwatch"
+export { TrafficLightGauge } from "./components/traffic-light"
+export { WindDirectionGauge } from "./components/wind-direction"
+export { RoseGauge } from "./components/wind-rose"
