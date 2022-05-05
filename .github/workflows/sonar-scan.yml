@@ -14,6 +14,7 @@ jobs:
         run: |
           npm install
           npm run lint:report
+        continue-on-error: true
       - name: Archive lint report
         uses: actions/upload-artifact@v3
         with:
