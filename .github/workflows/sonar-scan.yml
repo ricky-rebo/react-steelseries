@@ -10,16 +10,21 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+      - name: Check work directory structure
+        run: |
+          pwd
+          ls -R
       - name: npm install and lint
         run: |
           npm install
           npm run lint:report
         continue-on-error: true
-      - name: Archive lint report
+      - name: Archive reports
         uses: actions/upload-artifact@v3
         with:
-          name: lint-report
-          path: reports/lint-report.json
+          name: reports
+          path: reports/
+
   scan:
     name: Scan project
     needs: build_and_lint
@@ -32,7 +37,11 @@ jobs:
       - name: Download reports
         uses: actions/download-artifact@v3
         with:
-          path: reports
+          name: reports
+      - name: Check work directory structure
+        run: |
+          pwd
+          ls -R
       - name: Run sonar-scanner
         uses: sonarsource/sonarqube-scan-action@master
         env:
