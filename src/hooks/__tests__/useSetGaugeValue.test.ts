@@ -1,10 +1,10 @@
 import { renderHook } from "@testing-library/react-hooks"
 import { MutableRefObject } from "react"
 import { useSetGaugeValue } from "../gauge-update"
-import { MockGaugeAnimatable, mockRef } from "./mocks"
+import { MockGaugeAnimatable, mockRef, TMockGaugeAnimatable } from "./__mocks__/mocks"
 
 describe("useSetGaugeValue hook tests", () => {
-  let gaugeRef: MutableRefObject<MockGaugeAnimatable>
+  let gaugeRef: MutableRefObject<TMockGaugeAnimatable>
 
   beforeEach(() => {
     gaugeRef = mockRef(new MockGaugeAnimatable())

@@ -1,6 +1,6 @@
 import { renderHook } from "@testing-library/react-hooks"
 import { useUpdateGaugeProp } from "../gauge-update"
-import { MockGauge, mockRef } from "./mocks"
+import { MockGauge, mockRef } from "./__mocks__/mocks"
 
 describe("useUpdateGaugeProp hook tests", () => {
   it("should update a gauge prop whenever it changes", () => {

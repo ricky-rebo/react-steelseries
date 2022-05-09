@@ -1,14 +1,10 @@
 import { MutableRefObject } from "react";
 
-export function mockRef<T>(refValue: T) {
-  return <MutableRefObject<T>>{ current: refValue }
-}
+export const mockRef = jest.fn(<T>(refValue: T) => (<MutableRefObject<T>>{ current: refValue }))
 
-export class MockGauge {
-  setAttr: (newAttr: number) => void;
-  getAttr: () => number;
-
-  constructor(_canvas: string | HTMLCanvasElement, _params: { attr?: number; }) {
+export type TMockGauge = { setAttr: (newAttr: number) => TMockGauge, getAttr: () => number}
+export const MockGauge = jest.fn<TMockGauge, [_canvas: string | HTMLCanvasElement, _params: { attr?: number; }]> (
+  function (_canvas: string | HTMLCanvasElement, _params: { attr?: number; }) {
     let attr = _params.attr ?? 0;
 
     this.setAttr = function (newAttr: number) {
@@ -18,16 +14,19 @@ export class MockGauge {
     this.getAttr = function () {
       return attr;
     };
-  }
-}
 
-export class MockGaugeAnimatable {
-  setValue: (newValue: number) => void
-  setValueAnimated: (newValue: number, callback?: () => void) => void
+    return this
+  }
+)
+
+export type TMockGaugeAnimatable = {
+  setValue: (newValue: number) => TMockGaugeAnimatable
+  setValueAnimated: (newValue: number, callback?: () => void) => TMockGaugeAnimatable
   getValue: () => number
   getAnimated: () => boolean
-
-  constructor() {
+}
+export const MockGaugeAnimatable = jest.fn<TMockGaugeAnimatable, []>(
+  function () {
     let value = 0
     let animated = false
 
@@ -51,5 +50,7 @@ export class MockGaugeAnimatable {
     this.getAnimated = function () {
       return animated
     }
+
+    return this
   }
-}
+)
