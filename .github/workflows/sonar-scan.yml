@@ -5,16 +5,18 @@ on:
       - main
 jobs:
   build_and_lint:
-    name: Build & lint project
+    name: Build, lint and test project
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-      - name: npm install and lint
+      - name: Install deps and run lint
         run: |
           npm install
           npm run lint:report
         continue-on-error: true
+      - name: Run tests
+        run: npm run test:report
       - name: Archive reports
         uses: actions/upload-artifact@v3
         with:
