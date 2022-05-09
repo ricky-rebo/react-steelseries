@@ -16,6 +16,7 @@
     "start": "tsdx watch",
     "build": "tsdx build",
     "test": "tsdx test --passWithNoTests",
+    "test:coverage": "tsdx test --passWithNoTests --coverage",
     "lint": "tsdx lint src",
     "lint:report": "tsdx lint src --report-file reports/lint-report.json",
     "prepare": "tsdx build",
@@ -49,6 +50,7 @@
   },
   "devDependencies": {
     "@size-limit/preset-small-lib": "^7.0.8",
+    "@testing-library/react-hooks": "^8.0.0",
     "@types/react": "^17.0.5",
     "@types/react-dom": "^17.0.5",
     "@types/steelseries": "^1.0.1",
