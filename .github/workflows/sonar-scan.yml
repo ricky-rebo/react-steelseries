@@ -16,7 +16,7 @@ jobs:
           npm run lint:report
         continue-on-error: true
       - name: Run tests
-        run: npm run test:report
+        run: npm run test:coverage
       - name: Archive reports
         uses: actions/upload-artifact@v3
         with:
