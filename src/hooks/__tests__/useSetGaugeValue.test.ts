@@ -15,34 +15,25 @@ describe("useSetGaugeValue hook tests", () => {
   })
 
   it("should set gauge value", () => {
-    renderHook(
-      ({ value, animate }) => useSetGaugeValue(gaugeRef, value, animate, null),
-      {
-        initialProps: { value: 22, animate: false }
-      }
-    )
+    renderHook(({ value, animate }) => useSetGaugeValue(gaugeRef, value, animate, null), {
+      initialProps: { value: 22, animate: false },
+    })
     expect(gaugeRef.current.getValue()).toBe(22)
     expect(gaugeRef.current.getAnimated()).toBeFalsy()
   })
 
   it("should set gauge value with animation", () => {
-    renderHook(
-      ({ value, animate }) => useSetGaugeValue(gaugeRef, value, animate, null),
-      {
-        initialProps: { value: 44, animate: true }
-      }
-    )
+    renderHook(({ value, animate }) => useSetGaugeValue(gaugeRef, value, animate, null), {
+      initialProps: { value: 44, animate: true },
+    })
     expect(gaugeRef.current.getValue()).toBe(44)
     expect(gaugeRef.current.getAnimated()).toBeTruthy()
   })
 
   it("should update gauge only if change 'value' prop", () => {
-    const { rerender } = renderHook(
-      ({ value, animate }) => useSetGaugeValue(gaugeRef, value, animate, null),
-      {
-        initialProps: { value: 22, animate: false }
-      }
-    )
+    const { rerender } = renderHook(({ value, animate }) => useSetGaugeValue(gaugeRef, value, animate, null), {
+      initialProps: { value: 22, animate: false },
+    })
     expect(gaugeRef.current.getValue()).toBe(22)
     expect(gaugeRef.current.getAnimated()).toBeFalsy()
 
@@ -52,7 +43,7 @@ describe("useSetGaugeValue hook tests", () => {
     expect(gaugeRef.current.getAnimated()).toBeFalsy()
 
     // Update value prop, changes expected
-    rerender({ animate: true, value: 119})
+    rerender({ animate: true, value: 119 })
     expect(gaugeRef.current.getValue()).toBe(119)
     expect(gaugeRef.current.getAnimated()).toBeTruthy()
   })

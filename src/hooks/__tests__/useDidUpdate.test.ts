@@ -4,8 +4,10 @@ import { useDidUpdate } from "../common"
 describe("useDidUpdate hook test", () => {
   it("should not execute effect on first render", () => {
     let counter = 0
-    const { rerender } = renderHook(
-      () => useDidUpdate(() => { counter += 1 })
+    const { rerender } = renderHook(() =>
+      useDidUpdate(() => {
+        counter += 1
+      })
     )
 
     expect(counter).toBe(0)

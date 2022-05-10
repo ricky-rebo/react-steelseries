@@ -15,22 +15,16 @@ describe("useSetGaugeProp hook tests", () => {
   })
 
   it("should set a gauge prop on first render", () => {
-    renderHook(
-      ({ attr }) => useSetGaugeProp(gaugeRef, "setAttr", attr),
-      {
-        initialProps: { attr: 22 }
-      }
-    )
+    renderHook(({ attr }) => useSetGaugeProp(gaugeRef, "setAttr", attr), {
+      initialProps: { attr: 22 },
+    })
     expect(gaugeRef.current.getAttr()).toBe(22)
   })
 
   it("should update a gauge prop whenever it changes", () => {
-    const { rerender } = renderHook(
-      ({ attr }) => useSetGaugeProp(gaugeRef, "setAttr", attr),
-      {
-        initialProps: { attr: 879 }
-      }
-    )
+    const { rerender } = renderHook(({ attr }) => useSetGaugeProp(gaugeRef, "setAttr", attr), {
+      initialProps: { attr: 879 },
+    })
 
     // Not changed
     rerender()
